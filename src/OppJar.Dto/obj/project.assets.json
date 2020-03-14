@@ -374,11 +374,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.Dto\\OppJar.Dto.csproj",
+      "projectUniqueName": "D:\\ProjectSS\\Fund\\FundOpJ\\src\\OppJar.Dto\\OppJar.Dto.csproj",
       "projectName": "OppJar.Dto",
-      "projectPath": "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.Dto\\OppJar.Dto.csproj",
+      "projectPath": "D:\\ProjectSS\\Fund\\FundOpJ\\src\\OppJar.Dto\\OppJar.Dto.csproj",
       "packagesPath": "C:\\Users\\VANNL\\.nuget\\packages\\",
-      "outputPath": "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.Dto\\obj\\",
+      "outputPath": "D:\\ProjectSS\\Fund\\FundOpJ\\src\\OppJar.Dto\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -397,8 +397,8 @@
       "frameworks": {
         "netcoreapp3.1": {
           "projectReferences": {
-            "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.Common\\OppJar.Common.csproj": {
-              "projectPath": "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.Common\\OppJar.Common.csproj"
+            "D:\\ProjectSS\\Fund\\FundOpJ\\src\\OppJar.Common\\OppJar.Common.csproj": {
+              "projectPath": "D:\\ProjectSS\\Fund\\FundOpJ\\src\\OppJar.Common\\OppJar.Common.csproj"
             }
           }
         }

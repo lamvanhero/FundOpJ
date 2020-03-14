@@ -1375,7 +1375,10 @@
         },
         "runtime": {
           "bin/placeholder/OppJar.Common.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       },
       "OppJar.Domain/1.0.0": {
         "type": "project",
@@ -1392,7 +1395,10 @@
         },
         "runtime": {
           "bin/placeholder/OppJar.Domain.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       },
       "OppJar.Dto/1.0.0": {
         "type": "project",
@@ -1406,7 +1412,10 @@
         },
         "runtime": {
           "bin/placeholder/OppJar.Dto.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       }
     }
   },
@@ -5224,11 +5233,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.AutoMapper\\OppJar.AutoMapper.csproj",
+      "projectUniqueName": "D:\\ProjectSS\\Fund\\FundOpJ\\src\\OppJar.AutoMapper\\OppJar.AutoMapper.csproj",
       "projectName": "OppJar.AutoMapper",
-      "projectPath": "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.AutoMapper\\OppJar.AutoMapper.csproj",
+      "projectPath": "D:\\ProjectSS\\Fund\\FundOpJ\\src\\OppJar.AutoMapper\\OppJar.AutoMapper.csproj",
       "packagesPath": "C:\\Users\\VANNL\\.nuget\\packages\\",
-      "outputPath": "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.AutoMapper\\obj\\",
+      "outputPath": "D:\\ProjectSS\\Fund\\FundOpJ\\src\\OppJar.AutoMapper\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -5247,14 +5256,14 @@
       "frameworks": {
         "netcoreapp3.1": {
           "projectReferences": {
-            "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.Common\\OppJar.Common.csproj": {
-              "projectPath": "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.Common\\OppJar.Common.csproj"
+            "D:\\ProjectSS\\Fund\\FundOpJ\\src\\OppJar.Common\\OppJar.Common.csproj": {
+              "projectPath": "D:\\ProjectSS\\Fund\\FundOpJ\\src\\OppJar.Common\\OppJar.Common.csproj"
             },
-            "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.Domain\\OppJar.Domain.csproj": {
-              "projectPath": "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.Domain\\OppJar.Domain.csproj"
+            "D:\\ProjectSS\\Fund\\FundOpJ\\src\\OppJar.Domain\\OppJar.Domain.csproj": {
+              "projectPath": "D:\\ProjectSS\\Fund\\FundOpJ\\src\\OppJar.Domain\\OppJar.Domain.csproj"
             },
-            "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.Dto\\OppJar.Dto.csproj": {
-              "projectPath": "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.Dto\\OppJar.Dto.csproj"
+            "D:\\ProjectSS\\Fund\\FundOpJ\\src\\OppJar.Dto\\OppJar.Dto.csproj": {
+              "projectPath": "D:\\ProjectSS\\Fund\\FundOpJ\\src\\OppJar.Dto\\OppJar.Dto.csproj"
             }
           }
         }

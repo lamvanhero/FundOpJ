@@ -226,11 +226,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.Common\\OppJar.Common.csproj",
+      "projectUniqueName": "D:\\ProjectSS\\Fund\\FundOpJ\\src\\OppJar.Common\\OppJar.Common.csproj",
       "projectName": "OppJar.Common",
-      "projectPath": "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.Common\\OppJar.Common.csproj",
+      "projectPath": "D:\\ProjectSS\\Fund\\FundOpJ\\src\\OppJar.Common\\OppJar.Common.csproj",
       "packagesPath": "C:\\Users\\VANNL\\.nuget\\packages\\",
-      "outputPath": "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.Common\\obj\\",
+      "outputPath": "D:\\ProjectSS\\Fund\\FundOpJ\\src\\OppJar.Common\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

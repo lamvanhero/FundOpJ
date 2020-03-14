@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.Mongo\\OppJar.Mongo.csproj": {}
+    "D:\\ProjectSS\\Fund\\FundOpJ\\src\\OppJar.Mongo\\OppJar.Mongo.csproj": {}
   },
   "projects": {
-    "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.Mongo\\OppJar.Mongo.csproj": {
+    "D:\\ProjectSS\\Fund\\FundOpJ\\src\\OppJar.Mongo\\OppJar.Mongo.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.Mongo\\OppJar.Mongo.csproj",
+        "projectUniqueName": "D:\\ProjectSS\\Fund\\FundOpJ\\src\\OppJar.Mongo\\OppJar.Mongo.csproj",
         "projectName": "OppJar.Mongo",
-        "projectPath": "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.Mongo\\OppJar.Mongo.csproj",
+        "projectPath": "D:\\ProjectSS\\Fund\\FundOpJ\\src\\OppJar.Mongo\\OppJar.Mongo.csproj",
         "packagesPath": "C:\\Users\\VANNL\\.nuget\\packages\\",
-        "outputPath": "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.Mongo\\obj\\",
+        "outputPath": "D:\\ProjectSS\\Fund\\FundOpJ\\src\\OppJar.Mongo\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
