@@ -1,0 +1,152 @@
+@model GroupViewModel
+
+@{
+    try
+    {
+        foreach (var feed in Model.Feeds)
+        {
+            if (Model.Users.ContainsKey(feed.poster_id))
+            {
+                var user = Model.Users[feed.poster_id];
+                <div id="post-@feed.id" class="sl-item">
+                    <div class="sl-left">
+                        @if (feed.post_type == "TEXT")
+                        {
+                            <i class="fa fa-calendar-o text-md text-muted"></i>
+                        }
+                        else if (feed.post_type == "IMAGE")
+                        {
+                            <i class="fa fa-picture-o text-md text-muted"></i>
+                        }
+                        else if (feed.post_type == "VIDEO")
+                        {
+                            <i class="fa fa-video-camera text-md text-muted"></i>
+                        }
+                    </div>
+                    <div class="sl-content">
+                        <div class="row list">
+                            <div class="col">
+                                <img class="w-24 img-circle" style="margin-right: 5px" src="@user.PictureUrl">
+                                @if (String.IsNullOrEmpty(user.FirstName) && String.IsNullOrEmpty(user.LastName))
+                                {
+                                    <span style="color:#4f87b8">@user.UserName</span>
+                                }
+                                else
+                                {
+                                    <span style="color:#4f87b8">@(user.FirstName + " ")@user.LastName</span>
+                                }
+                                @if (Model.TopCorporateSponsors.SingleOrDefault(x => x.SponsorId.Equals(user.Id)) != null)
+                                {
+                                    <span class="fa-stack">
+                                        <i class="fa fa-circle fa-stack-2x" style="color:#62B8CC"></i>
+                                        <i class="fa fa-trophy fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                }
+                                else if (Model.Sponsors.SingleOrDefault(x => x.SponsorId.Equals(user.Id)) != null)
+                                {
+                                    <i class="fa fa-certificate" style="color: orange"></i>
+                                }
+                                <input class="feed-dates" type="hidden" name="@feed.id" value="@feed.date_posted" />
+                                <span class="pull-right" id="feed-date-@feed.id" style="padding-right: 10px"></span>
+                            </div>
+                        </div>
+                        <div>
+                            @*<h4>@feed.Title</h4>*@
+                            <p>@feed.body</p>
+                            @if (feed.post_type == "IMAGE")
+                            {
+                                <p>
+                                    <div class="inline b dark-white" style="display: block; margin: 0 auto; vertical-align: middle;">
+                                        <img src="@feed.file_urls.FirstOrDefault()" class="w-full">
+                                    </div>
+                                </p>
+                            }
+                            else if (feed.post_type == "VIDEO")
+                            {
+                                var mediaFileUrl = @feed.file_urls.FirstOrDefault();
+                                <video style="width: 100%;" controls>
+                                    <source src="@mediaFileUrl" type="video/mp4" autostart="false" />
+                                    <source src="@mediaFileUrl" type="video/ogg" autostart="false" />
+                                    <source src="@mediaFileUrl" type="video/webm" autostart="false" />
+                                    Unsupported video type
+                                </video>
+                            }
+                            <div style="display: flex; justify-content: space-between; margin-top: 7px" class="text-muted">
+                                <!-- Likes -->
+                                <span><a onclick="feedLikeClicked('@feed.id')" id="feed-like-@feed.id"><i class="fa fa-thumbs-o-up" style="margin-right: 5px"></i> @feed.Reactions.Likes.Count() Likes </a></span>
+                                <!-- Comment dropdown -->
+                                <a role="button" data-toggle="collapse" href="#ID@(feed.id)" aria-expanded="false" aria-controls="ID@(feed.id)" class="collapsed">
+                                    <ul class="list-inline">
+                                        <li class="list-inline-item">Comments (<span id="feed-comment-count-@feed.id">@feed.comments.Count()</span>)</li>
+                                        <li class="list-inline-item"><i class="fa fa-angle-down text-lg _700"></i></li>
+                                        @if (user.UserName == User.Identity.Name)
+                                        {
+                                            <a class="fa fa-trash" onclick="DeletePost('@feed.id', '@feed.slug')" style="color: black"></a>
+                                        }
+                                    </ul>
+                                </a>
+                                <!-- End Comment dropdown -->
+                            </div>
+                            <!-- Hidden comments -->
+                            <div class="collapse" id="ID@(feed.id)" aria-expanded="false" style="height: 0px;">
+                                <div class="box no-shadow m-b-0 autosharing">
+                                    <textarea id="comment-text-area-@feed.id" class="form-control" rows="3" placeholder="Comment..."></textarea>
+                                    <div class="box-body hidden-xs-down clearfix" id="autosharing-body" ui-class="show">
+                                        <button id="comment-button-@feed.id" class="btn btn-sm rounded w-xs pull-right" style="background-color:#62B8CC;  color:white" onclick="commentPosted('@feed.id');">
+                                            Post
+                                        </button>
+                                    </div>
+                                    <div id="comment-area-@feed.id">
+                                        @if (feed.comments != null)
+                                        {
+                                            foreach (var comment in feed.comments.OrderByDescending(x => x.DatePosted))
+                                            {
+                                                if (Model.Users.ContainsKey(new Guid(comment.AuthorID)))
+                                                {
+                                                    var commentUser = Model.Users[new Guid(comment.AuthorID)];
+                                                    <div class="row list" style="margin-bottom: 20px; margin-left: 5px;">
+                                                        <img class="w-20 img-circle" style="margin-right: 5px;" src="@commentUser.PictureUrl">
+                                                        @if (String.IsNullOrEmpty(user.FirstName) && String.IsNullOrEmpty(user.LastName))
+                                                        {
+                                                            <span>@commentUser.UserName</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span>@(commentUser.FirstName + " ")@commentUser.LastName</span>
+                                                        }
+                                                        <input class="comment-dates" type="hidden" name="@comment.CommentID" value="@comment.DatePosted" />
+                                                        <span class="pull-right" id="comment-date-@comment.CommentID" style="padding-right: 10px"></span>
+                                                        <p>
+                                                            @comment.Body
+                                                        </p>
+                                                    </div>
+                                                }
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Hidden comments -->
+                        </div>
+                        <div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    }
+    catch (Exception Ex)
+    {
+
+    }
+    if (Model.Feeds != null)
+    {
+        int c = Model.Feeds.Count();
+        if (c > 0 && (c % 20) == 0)
+        {
+            <div style="text-align:center">
+                <a onclick="LoadMorePosts(index+=20)" style="color:dodgerblue"> Load More... </a>
+            </div>
+        }
+    }
+}

@@ -1,0 +1,609 @@
+{
+  "format": 1,
+  "restore": {
+    "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.WebApi\\OppJar.WebApi.csproj": {}
+  },
+  "projects": {
+    "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.AutoMapper\\OppJar.AutoMapper.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.AutoMapper\\OppJar.AutoMapper.csproj",
+        "projectName": "OppJar.AutoMapper",
+        "projectPath": "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.AutoMapper\\OppJar.AutoMapper.csproj",
+        "packagesPath": "C:\\Users\\VANNL\\.nuget\\packages\\",
+        "outputPath": "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.AutoMapper\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\VANNL\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.Common\\OppJar.Common.csproj": {
+                "projectPath": "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.Common\\OppJar.Common.csproj"
+              },
+              "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.Domain\\OppJar.Domain.csproj": {
+                "projectPath": "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.Domain\\OppJar.Domain.csproj"
+              },
+              "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.Dto\\OppJar.Dto.csproj": {
+                "projectPath": "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.Dto\\OppJar.Dto.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "AutoMapper": {
+              "target": "Package",
+              "version": "[9.0.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.Common\\OppJar.Common.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.Common\\OppJar.Common.csproj",
+        "projectName": "OppJar.Common",
+        "projectPath": "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.Common\\OppJar.Common.csproj",
+        "packagesPath": "C:\\Users\\VANNL\\.nuget\\packages\\",
+        "outputPath": "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.Common\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\VANNL\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "Microsoft.AspNetCore.Mvc.NewtonsoftJson": {
+              "target": "Package",
+              "version": "[3.1.2, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.Core\\OppJar.Core.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.Core\\OppJar.Core.csproj",
+        "projectName": "OppJar.Core",
+        "projectPath": "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.Core\\OppJar.Core.csproj",
+        "packagesPath": "C:\\Users\\VANNL\\.nuget\\packages\\",
+        "outputPath": "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.Core\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\VANNL\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.AutoMapper\\OppJar.AutoMapper.csproj": {
+                "projectPath": "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.AutoMapper\\OppJar.AutoMapper.csproj"
+              },
+              "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.Common\\OppJar.Common.csproj": {
+                "projectPath": "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.Common\\OppJar.Common.csproj"
+              },
+              "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.Domain\\OppJar.Domain.csproj": {
+                "projectPath": "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.Domain\\OppJar.Domain.csproj"
+              },
+              "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.Dto\\OppJar.Dto.csproj": {
+                "projectPath": "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.Dto\\OppJar.Dto.csproj"
+              },
+              "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.Mongo\\OppJar.Mongo.csproj": {
+                "projectPath": "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.Mongo\\OppJar.Mongo.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "AutoMapper": {
+              "target": "Package",
+              "version": "[9.0.0, )"
+            },
+            "AutoMapper.Extensions.Microsoft.DependencyInjection": {
+              "target": "Package",
+              "version": "[7.0.0, )"
+            },
+            "CSharpEmail": {
+              "target": "Package",
+              "version": "[3.1.0, )"
+            },
+            "JwtTokenServer": {
+              "target": "Package",
+              "version": "[3.1.0, )"
+            },
+            "Microsoft.AspNetCore.Http.Abstractions": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[3.1.2, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[3.1.2, )"
+            },
+            "MimeTypes": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[1.1.0, )"
+            },
+            "Scrutor": {
+              "target": "Package",
+              "version": "[3.2.0, )"
+            },
+            "ServiceStack.Stripe.Core": {
+              "target": "Package",
+              "version": "[5.8.0, )"
+            },
+            "Swashbuckle.AspNetCore.Swagger": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
+            "Swashbuckle.AspNetCore.SwaggerGen": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
+            "Swashbuckle.AspNetCore.SwaggerUi": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
+            "stream-net": {
+              "target": "Package",
+              "version": "[2.11.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.Domain\\OppJar.Domain.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.Domain\\OppJar.Domain.csproj",
+        "projectName": "OppJar.Domain",
+        "projectPath": "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.Domain\\OppJar.Domain.csproj",
+        "packagesPath": "C:\\Users\\VANNL\\.nuget\\packages\\",
+        "outputPath": "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.Domain\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\VANNL\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.Common\\OppJar.Common.csproj": {
+                "projectPath": "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.Common\\OppJar.Common.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[3.1.2, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.1.2, )"
+            },
+            "Microsoft.EntityFrameworkCore.Relational": {
+              "target": "Package",
+              "version": "[3.1.2, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[3.1.2, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.1.2, )"
+            },
+            "Microsoft.Extensions.Identity.Core": {
+              "target": "Package",
+              "version": "[3.1.2, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.Dto\\OppJar.Dto.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.Dto\\OppJar.Dto.csproj",
+        "projectName": "OppJar.Dto",
+        "projectPath": "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.Dto\\OppJar.Dto.csproj",
+        "packagesPath": "C:\\Users\\VANNL\\.nuget\\packages\\",
+        "outputPath": "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.Dto\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\VANNL\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.Common\\OppJar.Common.csproj": {
+                "projectPath": "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.Common\\OppJar.Common.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "FluentValidation": {
+              "target": "Package",
+              "version": "[8.6.2, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.Mongo\\OppJar.Mongo.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.Mongo\\OppJar.Mongo.csproj",
+        "projectName": "OppJar.Mongo",
+        "projectPath": "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.Mongo\\OppJar.Mongo.csproj",
+        "packagesPath": "C:\\Users\\VANNL\\.nuget\\packages\\",
+        "outputPath": "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.Mongo\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\VANNL\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "MongoDB.Driver": {
+              "target": "Package",
+              "version": "[2.10.2, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.WebApi\\OppJar.WebApi.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.WebApi\\OppJar.WebApi.csproj",
+        "projectName": "OppJar.WebApi",
+        "projectPath": "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.WebApi\\OppJar.WebApi.csproj",
+        "packagesPath": "C:\\Users\\VANNL\\.nuget\\packages\\",
+        "outputPath": "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.WebApi\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\VANNL\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.Core\\OppJar.Core.csproj": {
+                "projectPath": "D:\\ProjectSS\\OppJar\\oppjar\\src\\OppJar.Core\\OppJar.Core.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "FluentValidation.AspNetCore": {
+              "target": "Package",
+              "version": "[8.6.2, )"
+            },
+            "JwtTokenServer": {
+              "target": "Package",
+              "version": "[3.1.0, )"
+            },
+            "Microsoft.AspNetCore.Mvc.NewtonsoftJson": {
+              "target": "Package",
+              "version": "[3.1.2, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.1.2, )"
+            },
+            "Microsoft.EntityFrameworkCore.Relational": {
+              "target": "Package",
+              "version": "[3.1.2, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.1.2, )"
+            },
+            "Serilog.AspNetCore": {
+              "target": "Package",
+              "version": "[3.2.0, )"
+            },
+            "Serilog.Extensions.Logging.File": {
+              "target": "Package",
+              "version": "[2.0.0, )"
+            },
+            "Serilog.Sinks.SQLite": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
+            "Stripe.net": {
+              "target": "Package",
+              "version": "[34.26.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

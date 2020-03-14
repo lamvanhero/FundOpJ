@@ -1,0 +1,17 @@
+﻿@model CommentViewModel
+
+<div class="comment-item d-flex">
+    <img src="@Model.ProfilePictureUrl"
+         alt=""
+         class="us-avatar mr-2" />
+    <div class="comment-item-right-side">
+        <div class="comment-item-content">
+            <p>
+                @Model.Content
+            </p>
+        </div>
+        <div class="meta">
+            <span class="time">@Model.TimeAgo</span>
+        </div>
+    </div>
+</div>

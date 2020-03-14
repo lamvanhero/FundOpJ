@@ -1,0 +1,474 @@
+﻿@*@inject SignInManager<User> SignInManager
+    @inject UserManager<User> UserManager
+    @model RecipientViewModel*@
+@{
+    var isAuthen = User.Identity.IsAuthenticated;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>OppJar</title>
+    <meta name="description" content="Crowdfunding Savings Accounts for Every Child" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimal-ui" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- for ios 7 style, multi-resolution icon of 152x152 -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-barstyle" content="black-translucent">
+    <link rel="apple-touch-icon" href="~/assets/images/logo.svg">
+    <meta name="apple-mobile-web-app-title" content="Zeus">
+    <!-- for Chrome on Android, multi-resolution icon of 196x196 -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="shortcut icon" sizes="196x196" href="/favicon.ico">
+
+    <!-- style -->
+    <link rel="stylesheet" href="/css/animate.min.css" type="text/css" />
+    <link rel="stylesheet" href="/assets/glyphicons/glyphicons.css" type="text/css" />
+    <link rel="stylesheet" href="/assets/font-awesome/css/font-awesome.min.css" type="text/css" />
+    <link rel="stylesheet" href="/assets/material-design-icons/material-design-icons.css" type="text/css" />
+
+    <link rel="stylesheet" href="/assets/bootstrap/dist/css/bootstrap.min.css" type="text/css" />
+    <!-- build:css /assets/styles/app.min.css -->
+    <link rel="stylesheet" href="/assets/styles/app.css" type="text/css" />
+    <!-- endbuild -->
+    <link rel="stylesheet" href="/assets/styles/font.css" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,500,600,700,700i,900" rel="stylesheet">
+    <!-- jQuery -->
+    <script src="/libs/jquery/jquery/dist/jquery.js" type="text/javascript"></script>
+    <!-- Bootstrap -->
+    <script src="/libs/jquery/tether/dist/js/tether.min.js" type="text/javascript"></script>
+    <script src="/libs/jquery/bootstrap/dist/js/bootstrap.js" type="text/javascript"></script>
+    <!-- core -->
+    <script src="/libs/jquery/underscore/underscore-min.js" type="text/javascript"></script>
+    <script src="/libs/jquery/jQuery-Storage-API/jquery.storageapi.min.js" type="text/javascript"></script>
+    <script src="/libs/jquery/PACE/pace.min.js" type="text/javascript"></script>
+
+    <script src="/libs/jquery/jquery-match-height/jquery.matchHeight.js" type="text/javascript"></script>
+    <style>
+        .search-box {
+            position: relative;
+            transition: all ease 300ms;
+        }
+
+        .search-form {
+            position: absolute;
+            top: 13px;
+            right: 20px;
+            opacity: 0;
+            transition: all ease 300ms;
+        }
+
+            .search-form input {
+                border: none;
+                height: 30px;
+                min-width: 250px;
+                background: rgba(98,184,204, 0.85);
+                border-radius: 5px;
+                padding: 5px 10px;
+            }
+
+        .showsearch {
+            opacity: 1;
+            transition: all ease 300ms;
+        }
+
+        @@media(max-width:480px) {
+            .search-form input {
+                width: 150px;
+                min-width: inherit;
+            }
+        }
+
+        @@media(max-width:543px) {
+            /*#hero-bg {
+                margin-top: -160px !important;
+            }
+
+            #hero-image {
+                height: 330px !important;
+            }*/
+            .search-form {
+                top: -4px;
+            }
+
+            .search-box {
+                float: right;
+                display: block;
+                text-align: right;
+                right: 0;
+                position: relative;
+                width: 100%;
+                height: 36px;
+            }
+
+            .hidden-xs-up {
+                display: block !important;
+            }
+        }
+    </style>
+</head>
+<body style=" margin:0 auto">
+    <div class="app center" id="app">
+        <!-- content -->
+        <div id="content" class="app-content box-shadow-z0 tansparent" role="main">
+            <!--Welcome Header -->
+            <div id="vueWelcomeHeader" class="app-header no-border" style="background:#4F87B8 ">
+                <div class="navbar no-border">
+                    <a data-toggle="collapse" data-target="#navbar-1" class="navbar-item pull-right hidden-md-up m-a-0 m-l">
+
+                    </a>
+                    <div>
+                        <a href="/" class="navbar-brand">
+                            <img src="~/assets/images/oppjar-logo.png" class="m-t-sm" style="max-height: 80px; vertical-align: middle;max-width: 180px;position: relative;top: -6px;">
+                        </a>
+                    </div>
+                    <!-- navbar right -->
+                    <ul class="nav navbar-nav pull-right ">
+                        <li class="nav-item search-box hidden-xs-down" id="search-icon">
+                            <a class="nav-link" href="javascript:;">
+                                <i class="material-icons" style="color:white">&#xe8b6;</i>
+                            </a>
+                            <div class="search-form">
+                                <input type="text" name="txtSearch" id="txtSearch" value="" />
+                            </div>
+                        </li>
+                        @if (isAuthen)
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false" style="color:white">
+                                    <span class="hidden-md-down nav-text m-r-sm text-right text-white">
+                                        <span>@ViewBag.DisplayName</span>
+                                    </span>
+                                    <span class="avatar w-30 white">
+                                        @if (string.IsNullOrEmpty(ViewBag.Avatar))
+                                        {
+                                            <img src="/assets/images/user.svg" alt="" />
+                                        }
+                                        else
+                                        {
+                                            <img src="@ViewBag.Avatar" alt="" />
+                                        }
+                                    </span>
+                                </a>
+                                <div class="dropdown-menu pull-right dropdown-menu-scale" style="border-bottom-left-radius: 10px; border-bottom-right-radius: 10px">
+                                    <form class="navbar-right">
+                                        <a class="dropdown-item p-y-sm" href="/account/update?id=@ViewBag.UserId">My Account</a>
+                                        <a class="dropdown-item p-y-sm b-b" style="pointer-events:none">My Pages</a>
+                                        <div v-for="page in pages" class="pageListItem">
+                                            <a class="dropdown-item p-y-sm" v-bind:href='"/"+page.urlName+"/"+page.slug'>
+                                                <div v-if="page.pageType == 0" class="letterBadge"><span>R</span></div>
+                                                <div v-if="page.pageType == 1" class="letterBadge"><span>S</span></div>
+                                                <div v-if="page.pageType == 2" class="letterBadge"><span>C</span></div>
+                                                <div v-if="page.pageType == 3" class="letterBadge"><span>G</span></div>
+                                                <img class="avatar  m-r" v-bind:src="page.imageUrl" style="width: 30px; height: 30px" alt="">
+                                                {{page.name}}
+                                            </a>
+                                        </div>
+                                        <a href="/Account/Register" class="dropdown-item p-y-sm b-t">Create Page</a>
+                                        <a href="/Account/ChangePassword" class="dropdown-item p-y-sm">Change Password</a>
+
+                                        <a class="dropdown-item p-y-sm" onclick="$('#logoutForm').submit()" href="#">Sign Out</a>
+                                    </form>
+                                </div>
+                            </li>
+
+                            <!--Logout Form-->
+                            @*<form asp-area="" asp-controller="Account" asp-action="LogOff" method="post" id="logoutForm" class="navbar-right"></form>*@
+                            <form asp-area="" asp-controller="Account" asp-action="SignOut" method="post" id="logoutForm" class="navbar-right"></form>
+                            <!--/Logout Form-->
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" href="/Account/Signin">
+                                    <span class="btn rounded btn-outline text-sm _600" style="border:1px solid white; color:white; background-color:#4f87b8">
+                                        Login
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/Account/Register">
+                                    <span class="btn rounded btn-outline text-sm _600" style="border:1px solid white; color:white; background-color:#4f87b8">
+                                        Sign Up
+                                    </span>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                    <div class="nav-item search-box hidden-xs-up" id="search-icon">
+                        <a class="nav-link" href="javascript:;">
+                            <i class="material-icons" style="color:white">&#xe8b6;</i>
+                        </a>
+                        <div class="search-form">
+                            <input type="text" name="txtSearch_xs" id="txtSearch_xs" value="" />
+                        </div>
+                    </div>
+                    <!-- / navbar right -->
+                    <!-- navbar collapse -->
+                    <div class="collapse navbar-toggleable-sm" id="navbar-1">
+                    </div>
+                    <!-- / navbar collapse -->
+                </div>
+            </div>
+        </div>
+
+        @RenderBody()
+
+
+        <!-- ############ FOOTER-->
+    </div>
+
+    <style>
+
+        .app {
+            background: url('/assets/images/welcomeKids.jpg') no-repeat fixed;
+            background-size: auto 620px;
+            background-position: right 0px top -100px;
+        }
+
+        @@media (min-width: 1500px) {
+            .app {
+                background-size: cover;
+            }
+        }
+
+        @@media (max-width: 768px) {
+            .app {
+                background-size: cover;
+                background-size: auto 400px;
+                background-position: left -50px top -100px;
+            }
+        }
+
+        h4 {
+            font-size: 14pt;
+        }
+
+        p {
+            color: inherit;
+            opacity: 0.6;
+        }
+
+        .list-item {
+            margin-bottom: 3px;
+        }
+
+        #sponsor-col .list-left {
+            padding-right: 10px;
+        }
+
+        img {
+            object-fit: cover;
+        }
+
+        .rt-list > li {
+            margin-top: 20px;
+        }
+
+        #details * {
+            line-height: 28px;
+        }
+
+        .pagination li * {
+            margin: 0 10px;
+        }
+
+        .pagination a {
+            width: 34px;
+        }
+
+        .sponsor-grid div {
+            margin-bottom: 20px;
+        }
+
+        #sponsorModal {
+            font-family: "nunito-regular";
+        }
+
+        @@media only screen and (max-width : 768px) {
+            .navbar {
+                margin-left: 0px;
+                margin-right: 0px;
+            }
+            /*.app-header {
+                background: transparent;
+                height: 0px;
+            }*/
+        }
+
+        /*@@media only screen and (min-width : 768px) {
+            .navbar {
+                margin-left: 3rem;
+                margin-right: 3rem;
+            }
+        }*/
+
+        @@media only screen and (max-width : 992px) {
+            .app-header {
+                position: relative;
+            }
+
+            .m-x-lg {
+                margin-right: 15px !important;
+                margin-left: 15px !important;
+            }
+        }
+
+        @@media only screen and (min-width : 993px) {
+            .app-header {
+                position: fixed;
+            }
+        }
+
+        .letterBadge {
+            border-radius: 50%;
+            width: 15px !important;
+            height: 15px;
+            font-size: 8px;
+            border: 2px solid #666 !important;
+            position: absolute;
+            margin-left: 20px;
+            margin-top: 13px;
+            z-index: 999;
+            background-color: white;
+        }
+
+            .letterBadge span {
+                text-align: center;
+                line-height: 12px !important;
+                display: block;
+            }
+
+        .pageListItem > .dropdown-item {
+            display: flex;
+        }
+    </style>
+    <link href="~/js/Toastr/toaster.min.css" rel="stylesheet" />
+    <script src="~/js/Toastr/toastr.min.js"></script>
+    <!-- build:js scripts/app.html.js -->
+    <script src="/scripts/config.lazyload.js" type="text/javascript"></script>
+    <script src="/scripts/palette.js" type="text/javascript"></script>
+    <script src="/scripts/ui-load.js" type="text/javascript"></script>
+    <script src="/scripts/ui-jp.js" type="text/javascript"></script>
+    <script src="/scripts/ui-include.js" type="text/javascript"></script>
+    <script src="/scripts/ui-device.js" type="text/javascript"></script>
+    <script src="/scripts/ui-form.js" type="text/javascript"></script>
+    <script src="/scripts/ui-nav.js" type="text/javascript"></script>
+    <script src="/scripts/ui-screenfull.js" type="text/javascript"></script>
+    <script src="/scripts/ui-scroll-to.js" type="text/javascript"></script>
+    <script src="/scripts/ui-toggle-class.js" type="text/javascript"></script>
+
+    <script src="/scripts/app.js" type="text/javascript"></script>
+
+    <!-- ajax -->
+    <script src="/libs/jquery/jquery-pjax/jquery.pjax.js" type="text/javascript"></script>
+    <script src="/scripts/ajax.js" type="text/javascript"></script>
+    <script src="/libs/vue/vue.js" type="text/javascript"></script>
+
+    <script>
+    $('#footer').on('click', function(){
+      console.log('clicked footer')
+      $('#coming-soon').css('visibility', 'visible');
+      setTimeout(function(){
+        $('#coming-soon').css('visibility', 'hidden');
+      }, 1500)
+    })
+    @*var user = @Json.Serialize(await UserManager.GetUserAsync(User));*@
+    console.log(user)
+    var vueWelcomeHeader = new Vue({
+        el: "#vueWelcomeHeader",
+        data: {
+            pages: [],
+            ownSettingsUrl: "",
+            ownUrl:""
+        },
+        created: function(){
+            console.log("vueWelcomeHeader")
+            $.ajax({
+                method: "GET",
+                url: "/page/all",
+                success: function (res) {
+                    var flag = false;
+                    vueWelcomeHeader._data.pages = res
+                    for(var i = 0; i < vueWelcomeHeader._data.pages.length; i++){
+                        switch (vueWelcomeHeader._data.pages[i].pageType){
+                            case 0:
+                                vueWelcomeHeader._data.pages[i].urlName = "user"; //url path for recipient...
+                                if (flag == false) {
+                                    vueWelcomeHeader._data.ownSettingsUrl = "/user/settings/" + vueWelcomeHeader._data.pages[i].slug;
+                                    //vueWelcomeHeader._data.ownUrl = "/user/" + vueWelcomeHeader._data.pages[i].slug;
+
+                                }
+                            break;
+                            case 1:
+                                vueWelcomeHeader._data.pages[i].urlName = "sponsor";
+                                if (flag == false) {
+                                    flag = true;
+                                    vueWelcomeHeader._data.ownSettingsUrl = "/sponsor/settings/" + vueWelcomeHeader._data.pages[i].slug;
+                                    //vueWelcomeHeader._data.ownUrl = "/sponsor/" + vueWelcomeHeader._data.pages[i].slug;
+                                }
+                            break;
+                            case 2:
+                                vueWelcomeHeader._data.pages[i].urlName = "sponsor";
+                                if (flag == false) {
+                                    flag = true;
+                                    vueWelcomeHeader._data.ownSettingsUrl = "/sponsor/settings/" + vueWelcomeHeader._data.pages[i].slug;
+                                   // vueWelcomeHeader._data.ownUrl = "/sponsor/" + vueWelcomeHeader._data.pages[i].slug;
+                                }
+                            break;
+                            case 3:
+                                vueWelcomeHeader._data.pages[i].urlName = "group";
+                            break;
+                        }
+                        if(vueWelcomeHeader._data.pages[i].isIndividual){
+                            console.log("indiv")
+                            vueWelcomeHeader._data.ownSettingsUrl = "/sponsor/settings/"+vueWelcomeHeader._data.pages[i].slug;
+                        }
+                    }
+                },
+                error: function(err){
+                    console.log("error getting pages: ", err)
+                }
+            })
+        }
+      })
+      $("#search-icon a").click(function () {
+          if ($("#txtSearch").val() == "" && $("#txtSearch_xs").val() == "") {
+              $(".search-form").toggleClass('showsearch');
+              $("#txtSearch").focus()
+              $("#txtSearch_xs").focus()
+          } else {
+              if ($("#txtSearch").val() != "")
+              location.href = "/Search?searchtxt=" + $("#txtSearch").val();
+              if ($("#txtSearch_xs").val() != "")
+                  location.href = "/Search?searchtxt=" + $("#txtSearch_xs").val();
+          }
+      });
+      $('#txtSearch,#txtSearch_xs').keypress(function (event) {
+
+          var keycode = (event.keyCode ? event.keyCode : event.which);
+          if ($("#txtSearch").val() != "" || $("#txtSearch_xs").val() != "") {
+              if (keycode == '13') {
+                  if ($("#txtSearch").val() != "")
+                      location.href = "/Search?searchtxt=" + $("#txtSearch").val();
+                  if ($("#txtSearch_xs").val() != "")
+                      location.href = "/Search?searchtxt=" + $("#txtSearch_xs").val();
+              }
+          }
+
+      });
+    </script>
+    @if (TempData["Success"] != null)
+    {
+        <script>
+            $(document).ready(function () {
+                toastr.success('@TempData["Success"]')
+            })
+        </script>
+
+    }
+    <!-- endbuild -->
+</body>
+</html>

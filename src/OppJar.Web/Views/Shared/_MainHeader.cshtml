@@ -1,0 +1,17 @@
+<div class="header">
+    <div class="right-section">
+        <div class="btn-group">
+            <button type="button"
+                    class="btn account-section dropdown-toggle"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false">
+                <img src="@ViewBag.AvatarUrl" alt="@ViewBag.DisplayName" />
+                <span>@ViewBag.DisplayName</span>
+            </button>
+            <div class="dropdown-menu dropdown-menu-right">
+                <a href="@Url.Action("SignOut","Account")" class="dropdown-item btn">Log Out</a>
+            </div>
+        </div>
+    </div>
+</div>

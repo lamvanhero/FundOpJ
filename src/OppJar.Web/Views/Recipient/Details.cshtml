@@ -1,0 +1,126 @@
+@model Leeto.Common.ViewModels.RecipientViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Recipient</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CurrentSavings)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CurrentSavings)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Affiliations)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Affiliations)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Bio)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Bio)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.College)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.College)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DateOfBirth)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DateOfBirth)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.GPA)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.GPA)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Gender)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Gender)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Interests)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Interests)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Middlename)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Middlename)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Parent1)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Parent1)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Parent1Note)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Parent1Note)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Parent2)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Parent2)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Parent2Note)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Parent2Note)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Photos)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Photos)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.School)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.School)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Videos)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Videos)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.RecipientId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

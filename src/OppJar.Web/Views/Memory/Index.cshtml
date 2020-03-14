@@ -1,0 +1,109 @@
+﻿@model ProfileViewModel
+@{
+    Layout = "_MemoryLayout";
+    ViewData["Title"] = "Memories";
+}
+
+<div class="child-timeline-page">
+    <div class="cover-section">
+        <img src="@Model.Banner"
+             alt=""
+             class="cover-photo"
+             id="cover_photo" />
+        <div class="profile-section">
+            <div class="photo-upload position-relative overflow-hidden">
+                <img src="@Model.Avatar"
+                     alt=""
+                     id="avatar_photo"
+                     class="profile-photo" />
+            </div>
+        </div>
+        <div class="profile-info">
+            <input type="hidden" id="user-id" value="@Model.Id" />
+            <input type="hidden" id="user-slug" value="@Model.Slug" />
+            <input type="hidden" id="total-page" value="@Model.TotalPage" />
+            <div class="username">@Model.FirstName @Model.LastName</div>
+            <div class="d-flex align-items-center">
+                <p class="d-inline-block slug mr-2 mb-0">SLUG: @Model.Slug</p>
+                <p class="d-inline-block mb-0 mr-2">
+                    <span class="icon icon-calendar"></span><span class="slug"> @Model.DOB.ToString("MM/dd/yyyy")</span>
+                </p>
+                <p class="d-inline-block mb-0 mr-2">
+                    <span class="icon icon-book"></span><span class="slug"> @Model.School</span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="timeline-section">
+        <div class="left-side">
+            <div class="create-post-block d-flex flex-column">
+                @await Html.PartialAsync("_Memories", Model.Memories)
+            </div>
+        </div>
+
+        <div class="right-side d-none">
+            <div class="balancer">
+                <h2 class="balancer__title">Total Balance</h2>
+                <span class="balancer__content">$380</span>
+            </div>
+            <div class="child-info">
+                <div class="child-info__header d-flex justify-content-between align-items-center">
+                    <h2 class="info__title">Child Information</h2>
+                    <a href="setting.html">
+                        <span class="icon icon-edit"></span>
+                    </a>
+                </div>
+                <div class="child-info__content">
+                    <table class="table table-borderless">
+                        <tr>
+                            <th>First Name</th>
+                            <td>Maria</td>
+                        </tr>
+                        <tr>
+                            <th>Last Name</th>
+                            <td>Doe</td>
+                        </tr>
+                        <tr>
+                            <th>Birthday</th>
+                            <td>01/01/2011</td>
+                        </tr>
+                        <tr>
+                            <th>School</th>
+                            <td>AAA School</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        function toggleComment(cls) {
+            if ($(cls).hasClass("font-weight-bold")) {
+                $(cls).removeClass("font-weight-bold");
+            } else {
+                $(cls).addClass("font-weight-bold");
+            }
+        }
+
+        function readURL(input, id) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $(id).attr("src", e.target.result);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
+    <script src="~/js/app/file-manage.js" asp-append-version="true"></script>
+    <script src="~/js/app/memories-manage.js" asp-append-version="true"></script>
+    <script>
+        memoriesManage.init();
+    </script>
+}

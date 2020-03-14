@@ -1,0 +1,738 @@
+@*@inject UserManager<User> UserManager
+@model SponsorViewModel*@
+
+@{
+    Layout = "_MainLayout";
+}
+<style>
+    @@media only screen and (max-width : 767px) {
+         .about {
+             top:-90px;
+         }
+         .group-item {
+             padding-left:0px;
+         }
+         #sponsor-col {
+             height: 540px;
+         }
+         .list-item {
+             margin-top:5px !important;
+         }
+         .w-56-resp {
+             width: 36px ;
+             height:36px ;
+         }
+         #share-facebook-button, #add-photo-btn {
+             font-size: 0.75rem;
+         }
+         .sponsor-grid img{
+            max-height: 50px !important;
+            max-width: 50px !important;
+         }
+         .modal-dialog {
+             margin-top: 50px !important;
+         }
+         .rt-list {
+             padding-bottom:0px !important;
+         }
+         .sponsor-info, .sponsor-info > h6 {
+             font-size: 0.8rem !important;
+             font-weight: bolder;
+         }
+    }
+    .circlePic {
+        background: white;
+        background-image: url("/assets/images/no_image.png");
+        border: 3px solid white;
+        position: relative;
+        text-align: center;
+        width: 70%;
+        
+    }
+
+    .circlePic:after {
+        content: "";
+        display: block;
+        padding-bottom: 100%;
+        background-image: url("@Model.ImageUrl");
+        background-size: cover;
+        background-position: center;
+        border-radius: 50%;
+    }
+
+</style>
+
+<div id="vue">
+    <div class="row-col">
+        <div class="col-md-4 col-lg-3 m-b-0" id="sponsor-col" style="position: relative; padding-top: 70px;">
+
+            <!--Responsive Sm > -->
+            <div class="box white m-x-auto hidden-md-up" style="top:-70px">
+                <div style="max-width:460px; margin: 0 auto" class="b-b" style="border: gray">
+                    <div class="row p-x p-t">
+                        <div class="col-xs-4 text-center">
+                            <img src="@Model.ImageUrl" class="img-circle avatar white" style="width: 100px; height: 100px; object-fit: contain; border: 3px solid white">
+                            
+                        </div>
+                        <div class="col-xs-8 text-center text-xs text-left m-t">
+                            <div><h4> @Model.BusinessName</h4></div>
+                            <div class="p-t-xs">
+                                <a href="">
+                                    <div class="btn btn-sm text-xs rounded btn-outline  _600" style="background-color:#62B8CC  ; color:white">
+                                        Apply for Sponsorship
+                                    </div>
+                                </a> 
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="row p-x p-y-sm">
+
+                        <div class="col-xs-4 text-center m-t-sm">
+                            <button class="btn btn-sm circle blue-800 m-r-sm" v-on:click="FBPostTextClick()">
+                                <i class="fa fa-facebook-f"></i><span class="hidden-sm-down">Share</span>
+                            </button>
+                            <button class="btn btn-sm circle blue w-32 h-32 p-a-0" >
+                                <i class="fa fa-twitter p-l-0 m-l-0"></i><span class="hidden-sm-down">Share</span>
+                            </button>
+                        </div>
+                        <a class="col-xs-4 text-xs">
+                            <div class="text-muted">Activity</div>
+                            <img src="/assets/icons/graph.png" class="m-t-xs">
+                        </a>
+                        <div class="col-xs-4 text-center">
+                            <a>
+                                <div class="text-muted text-xs">Total Raised</div>
+                                <div style="font-weight: 900 !important; font-family: roboto; font-size:18px">$3750</div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/Responsive Sm-->
+
+            <!--<img src="@Model.ImageUrl" class="img-circle avatar white hidden-sm-down" style="z-index:500; width: 70%; height: auto; margin-top: -160px; margin-left: 15%; object-fit: contain; border: 3px solid white">-->
+            <div class="circlePic circle hidden-sm-down" style="z-index:500; margin-top: -160px; margin-left: 15%">
+            </div>
+
+            <div class="about padding pos-rlt" style="padding-left: 30px">
+                <div class="hidden-sm-down p-t-sm" style="display:flex; justify-content: center">
+                    <button class="btn btn-sm circle blue-800 m-r">
+                    <i class="fa fa-facebook-f p-r-sm"></i><span class="hidden-sm-down">Share</span>
+                    </button>
+                    <button class="btn btn-sm circle blue" href="">
+                        <i class="fa fa-twitter p-r-sm"></i><span class="hidden-sm-down">Share</span>
+                    </button>
+                </div>
+            
+                <p></p>
+                <div id="details">
+                <h6 class="pull-left">About Us</h6>
+                <div class="list-left _500 b-b p-b-sm" style="border-bottom: solid 1px lightgrey"><div>
+                    
+                    <p class="text-muted">@Model.Bio</p>
+                
+                    
+                </div>
+                </div>
+                <!--<br/><br/>-->        
+
+            </div>
+            
+        </div>
+    </div>
+    <div class="col-md-4 col-lg-7 white" id="timeline-feed" style="border-right: 1px solid lightgrey; border-left: 1px solid lightgrey">
+        <!--Timeline-->
+
+        <div class="padding">
+            <div class="box box-body m-t-0 m-l-2 m-r-2" id="postChatBox" >
+                <div style="border-width: 2px; border-style: solid; border-color: lightgray; border-radius: 5px;">
+                    <textarea id="post-text-area" class="form-control" rows="3" placeholder="Write post..."></textarea>
+                    <div id="dropzone-preview-container">
+                        <div id="dropzone-preview-template">
+                            <img id="dropzone-thumbnail-image" data-dz-thumbnail alt="No Preview" style="display:none" />
+                            <video id="dropzone-thumbnail-video" style="display:none" width="150" height="150" controls>
+                                <source id='dropzone-video-mp4' src="" type="video/mp4" autostart="false" />
+                                <source id='dropzone-video-ogg' src="" type="video/ogg" autostart="false" />
+                                <source id='dropzone-video-webm' src="" type="video/webm" autostart="false" />
+                                Unsupported video type
+                            </video>
+                            <div id="dropzone-progress-bar" class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" style="display:none">
+                                <div class="progress-bar progress-bar-success" style="width:0%;" data-dz-uploadprogress></div>
+                            </div>
+                            <div class="text-success"><i id="dropzone-success-status" class="fa fa-check-circle" style="display:none"></i></div>
+                            <div class="text-danger"><i id="dropzone-fail-status" class="fa fa-times-circle" style="display:none"></i></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="box-footer clearfix">
+                    <button id="post-button" class="btn btn-sm rounded w-xs pull-right" style="background-color:#6DBF13; color:white">
+                        <i id="post-load-spinner" class="fa fa-spinner fa-spin hide"></i>
+                        Post
+                    </button>
+                    <ul class="nav nav-pills nav-sm text-grey input-group" style="font-weight: normal">
+                        <li class="nav-item dz-clickable dz-upload-btn btn" id="add-photo-btn">
+                            <i class="fa fa-camera text-muted"></i><span class="hidden-sm-down p-l-sm text-xs">Add a photo or video</span>
+                        </li>
+                        <li class="nav-item btn" id="share-facebook-button">
+                            <input type="checkbox" hidden id="share-facebook-checkbox" name="share-facebook"/><i class="fa fa-facebook text-muted"></i><span class="hidden-sm-down p-l-sm text-xs">Share to Facebook</span><span class="text-muted"> ?</span>                </li>
+                    </ul>
+                </div>
+                <div id="status"></div>
+            </div>
+            <div id="feed" class="streamline b-l m-b m-l">
+                
+                    
+                        <div v-for="feed in feeds">
+                        
+                            
+                            <div v-bind:id="'post-'+feed.id" class="sl-item">
+                                <div class="sl-left">
+                                    
+                                        <i v-if="feed.post_type == 'TEXT'" class="fa fa-calendar-o text-md text-muted"></i>
+                                    
+                                        <i v-if="feed.post_type == 'IMAGE'" class="fa fa-picture-o text-md text-muted"></i>
+                                    
+                                        <i v-if='feed.post_type == "VIDEO"' class="fa fa-video-camera text-md text-muted"></i>
+                        
+                                </div>
+                                <div class="sl-content">
+                                    <div class="row list">
+                                        <div class="col">
+                                            <img class="w-24 img-circle" style="margin-right: 5px" v-bind:src="users[feed.poster_id].pictureUrl">
+                                            
+                                                <span v-if="users[feed.poster_id].firstName && users[feed.poster_id].firstName.length > 0" style="color:#4f87b8">{{users[feed.poster_id].userName}}</span>
+                                            
+                                        
+                                                <span style="color:#4f87b8">{{users[feed.poster_id].firstName + " " + users[feed.poster_id].lastName}}</span>
+                                            
+                                    <!--  if (Model.TopSponsors.SingleOrDefault(x => x.SponsorId.Equals(Guid.Parse(User.Id))) != null)
+                                            {
+                                                <span class="fa-stack">
+                                                    <i class="fa fa-circle fa-stack-2x" style="color:#6DBF13"></i>
+                                                    <i class="fa fa-trophy fa-stack-1x fa-inverse"></i>
+                                                </span>
+                                            }
+                                    
+                                            else if (Model.Sponsors.SingleOrDefault(x => x.SponsorId.Equals(Guid.Parse(User.Id))) != null)
+                                            {
+                                                <i class="fa fa-certificate" style="color: orange"></i>
+                                            }
+                                    -->
+                                            <input class="feed-dates" type="hidden" v-bind:name="feed.id" v-bind:value="feed.date_posted.toString()" />
+                                            <span class="pull-right" v-bind:id="'feed-date-'+feed.id" style="padding-right: 10px"></span>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        @*<h4>@feed.Title</h4>*@
+                                        <p>{{feed.body}}</p>
+                                        
+                                            <p v-if='feed.post_type == "IMAGE"'>
+                                                <div class="inline b dark-white" style="display: block; margin: 0 auto; vertical-align: middle;">
+                                                    <img v-bind:src="feed.file_urls.find(function(e){return e})" class="w-full">
+                                                </div>
+                                            </p>
+                                        
+                                        
+                                            <video v-if='feed.post_type == "VIDEO"' style="width: 100%;" controls>
+                                                <source v-bind:src="feed.file_urls.find(function(){return e})" type="video/mp4" autostart="false" />
+                                                <source v-bind:src="feed.file_urls.find(function(){return e})" type="video/ogg" autostart="false" />
+                                                <source v-bind:src="feed.file_urls.find(function(){return e})" type="video/webm" autostart="false" />
+                                                Unsupported video type
+                                            </video>
+                                    
+                                        <div style="display: flex; justify-content: space-between; margin-top: 7px" class="text-muted">
+                                            <!-- Likes -->
+                                            <span><a v-on:click="feedLikeClicked(feed.id)"><i class="fa fa-thumbs-o-up" style="margin-right: 5px" v-bind:id="'feed-like-'+feed.id"> {{feed.reactions.likes.length}} Likes </i></a></span>
+                                            <!-- Comment dropdown -->
+                                            <a role="button" data-toggle="collapse" v-bind:href="'#ID'+feed.id" aria-expanded="false" v-bind:aria-controls="'ID'+feed.id" class="collapsed">
+                                                <ul class="list-inline">
+                                                    <li class="list-inline-item">Comments (<span v-bind:id="'feed-comment-count-'+feed.id">{{feed.comments.length}}</span>)</li>
+                                                    <li class="list-inline-item"><i class="fa fa-angle-down text-lg _700"></i></li>
+                                                        <a v-if="users[feed.poster_id].userName == currentUser.userName" class="fa fa-trash" v-on:click="DeletePost(feed.id, feed.slug)" style="color: black"></a>
+                                                </ul>
+                                            </a>
+                                            <!-- End Comment dropdown -->
+                                        </div>
+                                        <!-- Hidden comments -->
+                                        <div class="collapse" v-bind:id="'ID'+feed.id" aria-expanded="false" style="height: 0px;">
+                                            <div class="box no-shadow m-b-0 autosharing">
+                                                <textarea id="'comment-text-area-'+feed.id" class="form-control" rows="3" placeholder="Comment..."></textarea>
+                                                <div class="box-body hidden-xs-down clearfix" id="autosharing-body" ui-class="show">
+                                                    <button v-bind:id="'comment-button-'+feed.id" class="btn btn-sm rounded w-xs pull-right" style="background-color:#6DBF13;  color:white" v-on:click="commentPosted(feed.id);">
+                                                        Post
+                                                    </button>
+                                                </div>
+                                                <div v-bind:id="'comment-area-'+feed.id">
+                                                    
+                                                        <div v-for="comment in feed.comments.sort(function(a,b){return b-a})" class="row list" style="margin-bottom: 20px; margin-left: 5px;">
+                                                            <img class="w-20 img-circle" style="margin-right: 5px;" v-bind:src="users[comment.authorID].pictureUrl">
+                                                                <span v-if="users[feed.poster_id].firstName && users[feed.poster_id].LastName">{{users[comment.authorID].userName}}</span>
+                                                                <span v-else>{{users[comment.authorID].firstName + " " + users[comment.authorID].LastName}}</span>
+                                                            <input class="comment-dates" type="hidden" v-bind:name="comment.CommentID" v-bind:value="comment.DatePosted" />
+                                                            <span class="pull-right" v-bind:id="'comment-date-'+comment.CommentID" style="padding-right: 10px"></span>
+                                                            <p>
+                                                                {{comment.Body}}
+                                                            </p>
+                                                        </div>
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- End Hidden comments -->
+                                    </div>
+                                    <div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        
+                        </div>
+                
+            </div>
+
+            <div style="text-align:center">
+                    <a v-on:click="LoadMorePosts(index)" style="color:dodgerblue"> Load More... </a>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="col-md-4 col-lg-3">
+        <div class="hidden-sm-down">
+            <div class="p-a-lg pos-rlt" style="padding:0 !important; height: 0; text-align: center">
+                <a href="">
+                <span class="btn btn-sm rounded btn-outline  _600" style="margin-top: -1.3rem; padding-left: 25px; padding-right:25px; background-color:#6DBF13; color:white">
+                    Apply for Sponsorship
+                </span>
+                </a> 
+            </div>
+            <br/><p></p>   
+            <li class="list-group-item no-b-t b-b">
+                <div style="display:flex; justify-content: space-between;" >
+                <a>
+                    <h6 class="text-muted">Activity</h6>
+                    <img src="/assets/icons/graph.png" style="margin-top: 4px">
+                </a>
+                <a>
+                    <h6 class="text-muted" style="text-align:right">Total Raised</h6>
+                    <div style="font-weight: 900 !important; font-family: roboto; font-size:24px; margin-top:-5px">$312,780</div>
+                </a>
+                </div>
+            </li>
+        </div>  
+        
+        <!--Affiliated Groups-->
+        <div>
+            <ul class="list no-border p-b b-t b-t-2x rt-list">
+                <li class="list-item"> 
+                    <h4>Affiliated Groups
+                    </h4>
+                </li>
+
+                <div class="col-xs-6 col-sm-12 m-t">
+                    <div class="list-left">
+                        <img src="/assets/images/google.png" class="w-56 w-56-resp circle" data-pin-nopin="true">
+                    </div>
+                    <h6 class="m-y m-l-sm"><a>Company Name</a></h6>
+                </div>
+                <div class="col-xs-6 col-sm-12 m-t">
+                    <div class="list-left">
+                        <img src="/assets/images/google.png" class="w-56 w-56-resp circle" data-pin-nopin="true">
+                    </div>
+                    <h6 class="m-y m-l-sm"><a>Company Name</a></h6>
+                </div>
+                <div class="col-xs-6 col-sm-12 m-t">
+                    <div class="list-left">
+                        <img src="/assets/images/google.png" class="w-56 w-56-resp circle" data-pin-nopin="true">
+                    </div>
+                    <h6 class="m-y m-l-sm"><a>Company Name</a></h6>
+                </div>
+            </ul>
+            
+        </div>
+        <!--Affiliated Students-->
+        
+        
+        <ul class="list no-border p-b rt-list">
+            <li class="list-item col-xs-12 p-t b-t b-t-2x"> 
+            <h4>Affiliated Students</h4>
+            </li>
+            <div class="col-xs-6 col-sm-12 m-t">
+                <div class="list-left">
+                    <img src="/assets/images/a6.jpg" class="w-56 w-56-resp circle" data-pin-nopin="true">
+                </div>
+                <h6 class="m-y m-l-sm"><a>Student Name</a></h6>
+            </div>
+            <div class="col-xs-6 col-sm-12 m-t">
+                <div class="list-left">
+                    <img src="/assets/images/a5.jpg" class="w-56 w-56-resp circle" data-pin-nopin="true">
+                </div>
+                <h6 class="m-y m-l-sm"><a>Student Name</a></h6>
+            </div>
+            <div class="col-xs-6 col-sm-12 m-t">
+                <div class="list-left">
+                    <img src="/assets/images/a4.jpg" class="w-56 w-56-resp circle" data-pin-nopin="true">
+                </div>
+                <h6 class="m-y m-l-sm"><a>Student Name</a></h6>
+            </div>
+            <div class="col-xs-6 col-sm-12 m-t">
+                <div class="list-left">
+                    <img src="/assets/images/b5.jpg" class="w-56 w-56-resp circle" data-pin-nopin="true">
+                </div>
+                <h6 class="m-y m-l-sm"><a>Student Name</a></h6>
+            </div>
+        </ul>
+
+        
+
+    </div>
+
+    <div class="m-y"></div>
+</div>
+</div>
+<script type="text/javascript">
+    // Global variables
+   
+
+    $(document).ready(function () {
+        
+    });
+
+
+    
+
+   function formatDate(date) {
+        var monthNames = [
+            "January", "February", "March",
+            "April", "May", "June", "July",
+            "August", "September", "October",
+            "November", "December"
+        ];
+
+        var day = date.getDate();
+        var monthIndex = date.getMonth();
+        var year = date.getFullYear();
+
+       return parseInt(monthIndex + 1) + '/' + day + '/' + year;
+       // return day + ' ' + monthNames[monthIndex] + ' ' + year;
+    }
+
+    
+
+    var vueModel = @Json.Serialize(Model)
+    @*vueModel.currentUser = @Json.Serialize(await UserManager.GetUserAsync(User)) || {}*@
+    console.log("currentUser: ", vueModel.currentUser)
+    vueModel.postType = "TEXT";
+    vueModel.fileUrls = [];
+    vueModel.fileIds = [];
+    vueModel.contentType = ""; // Mime type of the media file.
+    vueModel.height = 0;
+    vueModel.width = 0;
+    vueModel.index = 0;
+    var vue = new Vue({
+        el: "#vue",
+        data : vueModel,
+        methods: {
+            DeletePost: function (id, slug) {
+                var jsonObject = JSON.stringify({
+                    ActivityId: id,
+                    Slug: slug,
+                });
+
+                        $.ajax({
+                    type: 'POST',
+                    @*url: '@Url.Action("DeletePost", "Test")',*@
+                    data: jsonObject,
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (result) {
+                        console.log('SUCCESS ajax:');
+                        $('#post-' + id).remove();
+                    },
+                    error: function (result) {
+                        console.log('ERROR ajax: ' + result.errorMessage);
+                    },
+                    complete: function () {
+
+                    }
+                });
+
+            },
+
+            LoadMorePosts: function (index) {
+                        $.ajax({
+                    type: 'POST',
+                    @*url: '@Url.Action("LoadMorePosts", "Test")' + '/' +index,*@
+                    data: JSON.stringify(@Json.Serialize(Model)),
+                    datatype: 'html',
+                    contentType: "application/json; charset=UTF-8",
+                    success: function (result) {
+                        $('#feed').html(result);
+                        console.log("LoadMorePosts this: ", this)
+                        vue.loadDates();
+                        vue.index += 20;
+                    },
+                    error: function (result) {
+                        console.log('ERROR ajax: ' + result.errorMessage);
+                    }
+                });
+            },
+
+            loadDates: function () {
+                console.log('loadDates this: ', this)
+                $('.feed-dates').each(function (index, element) {
+                    var date = new Date(element.value + ' UTC');
+                    $('#feed-date-' + element.name).text(formatDate(date));
+                    //$('#feed-date-' + element.name).text(moment.utc(element.value, 'MM/DD/YYYY hh:mm:ss A').local().format('hh:mm D MMMM YYYY'));
+                });
+                $('.comment-dates').each(function (index, element) {
+                    var date = new Date(element.value + ' UTC');
+                    $('#comment-date-' + element.name).text(formatDate(date));
+                });
+            },
+
+            commentPosted: function (id) {
+                var jsonObject = JSON.stringify({
+                    ActivityId: id,
+                    Slug: '@Model.Slug', 
+                    Body: $('#comment-text-area-' + id).val(),
+                });
+
+                $.ajax({
+                    type: 'POST',
+                    @*url: '@Url.Action("AddComment", "Test")',*@
+                    data: jsonObject,
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (result) {
+                        console.log('SUCCESS ajax:');
+                        var utcDate1 = new Date(result.comment.datePosted);
+                        var localDate = formatDate(utcDate1);
+                        var name = '';
+                        if (result.user.firstName == null && result.user.lastName == null)
+                            name = result.user.userName;
+                        else
+                            name = result.user.firstName + ' ' + result.user.lastName;
+                        $('#comment-area-' + id).prepend('<div class="row list" style="margin-bottom: 20px; margin-left: 5px;">\
+                                                        <img class="w-20 img-circle" style="margin-right: 5px;" src="' + result.user.pictureUrl + '">\
+                                                        <span>' + name + '</span>\
+                                                        <span class="pull-right" id="comment-date-' + result.comment.commentId + '" style="padding-right: 10px">' + localDate + '</span>\
+                                                        <p>'+ result.comment.body + '</p>\
+                                                    </div>')
+                        $('#comment-text-area-' + id).val('');
+
+                        var commentCount = parseInt($('#feed-comment-count-' + id).html());
+                        if (commentCount !== NaN) {
+                            $('#feed-comment-count-' + id).html(commentCount + 1);
+                        }
+                    },
+                    error: function (result) {
+                        console.log('ERROR ajax: ' + result.errorMessage);
+                    },
+                    complete: function () {
+
+                    }
+                });
+            },
+
+            feedLikeClicked: function (id) {
+                var jsonObject = JSON.stringify({
+                    ActivityId: id,
+                    Slug: '@Model.Slug',
+                });
+
+                $.ajax({
+                    type: 'POST',
+                    @*url: '@Url.Action("AddReaction", "Test")',*@
+                    data: jsonObject,
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (result) {
+                        console.log('SUCCESS ajax:');
+                        $('#feed-like-' + id).html('<i class="fa fa-thumbs-o-up" style="margin-right: 5px" ></i> ' + result.reactions.likes.length + " Likes")
+                    },
+                    error: function (result) {
+                        console.log('ERROR ajax: ' + result.errorMessage);
+                    },
+                    complete: function () {
+
+                    }
+                });
+            },
+            
+            UpdateFeed: function (data) {
+                $.ajax({
+                    type: 'POST',
+                    @*url: '@Url.Action("UpdateFeed", "Test")',*@
+                    data: data,
+                    contentType: "application/json; charset=utf-8",
+                    success: function (result) {
+                        console.log('SUCCESS ajax:');
+                        $('#timeline-feed').html(result);
+                    },
+                    error: function (result) {
+                        console.log('ERROR ajax: ' + result.errorMessage);
+                        $('#status').text(result.errorMessage);
+                    }
+                });
+
+            },
+
+            loadDropzone: function () {
+                Dropzone.autoDiscover = false;
+                var previewNode = document.querySelector('#dropzone-preview-template');
+                previewNode.id = "";
+                var previewTemplate = previewNode.parentNode.innerHTML;
+                previewNode.parentNode.removeChild(previewNode);
+
+                myDropzone = new Dropzone(document.getElementById('postChatBox'), {
+                    @*url: '@Url.Action("UploadFileSingle","FileApi")',*@
+                    acceptedFiles: 'image/jpeg,image/jpg,image/png,image/bmp,image/x-bmp,image/gif,image/tiff,image/tiff-fx,video/mp4,video/mpeg,video/x-m4v,video/quicktime,video/ogg',
+                    autoProcessQueue: true,
+                    uploadMultiple: false,
+                    previewsContainer: "#dropzone-preview-container",
+                    previewTemplate: previewTemplate,
+                    uploadMultiple: false,
+                    maxFiles: 1,
+                    maxFilesize: 2000,
+                    maxThumbnailFilesize: 100,
+                    thumbnailWidth: 200,
+                    thumbnailHeight: 120,
+                    clickable: ".dz-upload-btn",
+                    addRemoveLinks: true,
+                    init: function () {
+                        // If adding more than 1 file, remove the old file and add the new one. So max 1 file.
+                        this.on('addedfile', function (file) {
+                            if (this.files[1] != null) {
+                                this.removeFile(this.files[0]);
+                            }
+
+                            if (isImage(file.type)) {
+                                $(file.previewTemplate.querySelector('#dropzone-thumbnail-image')).show();
+                                vue._data.postType = "IMAGE";
+                            } else if (isVideo(file.type)) {
+                                $(file.previewTemplate.querySelector('#dropzone-thumbnail-video')).show();
+                                vue._data.postType = "VIDEO";
+                            }
+                        });
+
+                        this.on('sending', function (file, xhr, formData) {
+                            $('#post-button').prop('disabled', true);
+                            $(file.previewTemplate.querySelector('#dropzone-progress-bar')).show();
+                        });
+
+                        this.on('success', function (file, result) {
+                            if (result.success == false) {
+                                console.log('ERROR dropzone: ' + result.errorMessage);
+                            } else {
+                                if (isVideo(file.type)) {
+                                    var player = file.previewTemplate.querySelector('#dropzone-thumbnail-video');
+                                    player.pause();
+                                    file.previewTemplate.querySelector('#dropzone-video-mp4').src = result.fileUrl;
+                                    file.previewTemplate.querySelector('#dropzone-video-ogg').src = result.fileUrl;
+                                    player.load();
+                                }
+                                $(file.previewTemplate.querySelector('#dropzone-success-status')).append('Successfully uploaded').show();
+                                vue._data.fileUrls.push(result.fileUrl);
+                                vue._data.fileIds.push(result.id);
+                                vue._data.contentType = result.contentType;
+                                vue._data.height = file.height;
+                                vue._data.width = file.width;
+                            }
+                        });
+
+                        this.on('error', function (file, result) {
+                            var error = 'Server error: ' + result.errorMessage;
+                            console.log(error);
+                            $(file.previewTemplate.querySelector('#dropzone-fail-status')).append(error).show();
+                        });
+
+                        this.on('complete', function (file) {
+                            $('#post-button').prop('disabled', false);
+                            $(file.previewTemplate.querySelector('#dropzone-progress-bar')).hide();
+                        });
+
+                        this.on('removedfile', function () {
+                            vue._data.postType = "TEXT";
+                            vue._data.fileUrls.pop();
+                            vue._data.fileIds.pop();
+                            vue._data.contentType = "";
+                            vue._data.width = 0;
+                            vue._data.height = 0;
+                        });
+                    }
+                });
+            }
+
+            
+        },
+        updated: function(){
+            console.log("vue loaded, data: " , this._data);
+            this.loadDates();
+            this.loadDropzone();
+            $('#share-facebook-button').click(function () {
+                if ($('#share-facebook-checkbox').is(':checked')) {
+                    $('#share-facebook-checkbox').prop('checked', false);
+                    $('#share-facebook-button').removeClass('blue-800');
+                } else {
+                    $('#share-facebook-checkbox').prop('checked', true);
+                    $('#share-facebook-button').addClass('blue-800');
+                }
+            });
+            $('#post-button').click(function () {
+                $('#post-button').prop('disabled', true);
+                $('#post-load-spinner').removeClass('hide');
+                $('#status').text('');
+
+                var jsonObject = JSON.stringify({
+                    body: $('#post-text-area').val(),
+                    file_urls: vue._data.fileUrls,
+                    file_ids: vue._data.fileIds,
+                    slug: '@Model.Slug',
+                    post_type: vue._data.postType,
+                    post_to_facebook: $('#share-facebook-checkbox').is(':checked'),
+                    content_type: vue._data.contentType,
+                    height: vue._data.height,
+                    width: vue._data.width,
+                });
+
+                $.ajax({
+                        type: 'POST',
+                    @*url: '@Url.Action("PostCreate", "Test")',*@
+                    data: jsonObject,
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (result) {
+                        console.log('SUCCESS ajax:');
+                        if (result.success == true) {
+                            $('#status').text('Successfully posted!');
+                            var postViewModel = JSON.stringify({
+                                post: result.post,
+                                model: @Json.Serialize(Model)
+                            });
+                            vue.UpdateFeed(postViewModel);
+                            myDropzone.removeAllFiles();
+                            $('#post-text-area').val('');
+                            $('#share-facebook-button').removeClass('blue-800');
+                            $('#share-facebook-checkbox').prop('checked', false);
+                        }
+                        else {
+                            $('#status').text(result.errorMessage);
+                        }
+                    },
+                    error: function (result) {
+                        if (result.status == "401")
+                            $('#status').text('You must be logged in to post!');
+                        console.log('ERROR ajax: ' + result.errorMessage);
+                        $('#status').text(result.errorMessage);
+                    },
+                    complete: function () {
+                        $('#post-load-spinner').addClass('hide');
+                        $('#post-button').prop('disabled', false);
+                    }
+                });
+            });
+        }
+    })
+</script>

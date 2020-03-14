@@ -1,0 +1,8 @@
+D:\ProjectSS\OppJar\oppjar\src\OppJar.Mongo\bin\Debug\netcoreapp3.1\OppJar.Mongo.deps.json
+D:\ProjectSS\OppJar\oppjar\src\OppJar.Mongo\bin\Debug\netcoreapp3.1\OppJar.Mongo.dll
+D:\ProjectSS\OppJar\oppjar\src\OppJar.Mongo\bin\Debug\netcoreapp3.1\OppJar.Mongo.pdb
+D:\ProjectSS\OppJar\oppjar\src\OppJar.Mongo\obj\Debug\netcoreapp3.1\OppJar.Mongo.csprojAssemblyReference.cache
+D:\ProjectSS\OppJar\oppjar\src\OppJar.Mongo\obj\Debug\netcoreapp3.1\OppJar.Mongo.AssemblyInfoInputs.cache
+D:\ProjectSS\OppJar\oppjar\src\OppJar.Mongo\obj\Debug\netcoreapp3.1\OppJar.Mongo.AssemblyInfo.cs
+D:\ProjectSS\OppJar\oppjar\src\OppJar.Mongo\obj\Debug\netcoreapp3.1\OppJar.Mongo.dll
+D:\ProjectSS\OppJar\oppjar\src\OppJar.Mongo\obj\Debug\netcoreapp3.1\OppJar.Mongo.pdb

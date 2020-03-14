@@ -1,0 +1,73 @@
+﻿@{
+    ViewData["Title"] = "Give";
+}
+
+<link href="~/lib/datatables/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="~/lib/datatables/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+
+<div class="give-page">
+    <div class="content-section">
+        <div class="children-page">
+            <div class="children-page-header">
+                <div>
+                    <h3 class="title">Give</h3>
+                </div>
+                <div>
+                    <div class="input-group search-field">
+                        <div class="input-group-prepend">
+                            <span class="icon icon-search"></span>
+                        </div>
+                        <input type="text" class="form-control search-input" placeholder="Search child name" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="children-page-body">
+                <div class="children-info">
+                    @(Html.Ext().Grid<UserDetailDto>().Name("children").RowId("id")
+                        .ClassName("table")
+                        .PagingType(PagingType.Full_numbers)
+                        .AutoWidth(true)
+                        .Ordering(false)
+                        .Processing(true)
+                        .Dom("<'top'>tp")
+                        .Columns(cols =>
+                        {
+                            cols.Add(c => c.Avatar).Width("30%").Title("").Render(() => "onRenderChild");
+                            cols.Add(c => c.FirstName).Width("30%").Data("slug").Title("Slug");
+                            cols.Add(c => c.LastName).Width("10%").Data("dob").Title("Age").Render(() => "onRenderAge");
+                            cols.Add(c => c.Email).Width("20%").Data("school").Title("School");
+                            cols.Add(c => c.Id).Width("10%").Title("Give").Render(() => "onRenderAction");
+                        })
+                        .ServerSide(true)
+                        .DataSource(c =>
+                            c.Ajax().Url($"/children/search").Method("GET")
+                        )
+                    )
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/lib/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="~/js/app/give-manage.js" type="text/javascript"></script>
+    <script>
+        function onRenderChild(data, type, row, meta) {
+            return '<a href="javascript:void(0);">' +
+                '<img src="' + row.avatar + '" alt="oppjar" class="avatar-icon" />' +
+                '<span class="username">' + row.firstName + ' ' + row.lastName + '</span></a>';
+        }
+
+        function onRenderAction(data, type, row, meta) {
+            return '<span style="cursor:pointer;" data-id="' + row.id + '" onclick="giveManage.give()"><i class="fa fa-gift fa-2x" style="color:#e68722;" aria-hidden="true"></i></span></td>';
+        }
+
+        function onRenderAge(data, type, row, meta) {
+            return _calculateAge(new Date(data));
+        }
+
+        giveManage.int({ tableId: '#children' });
+    </script>
+}

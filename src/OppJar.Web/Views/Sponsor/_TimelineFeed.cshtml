@@ -1,0 +1,464 @@
+@*@model SponsorViewModel*@
+
+<script>
+    var index = 0
+</script>
+
+@if (Model.CanViewProfile)
+{
+    <div class="padding">
+        <div class="box box-body m-t-0 m-l-2 m-r-2" id="postChatBox">
+            <div style="border-width: 2px; border-style: solid; border-color: lightgray; border-radius: 5px;">
+                <textarea id="post-text-area" class="form-control" rows="3" placeholder="Write post..."></textarea>
+                <div id="dropzone-preview-container">
+                    <div id="dropzone-preview-template">
+                        <img id="dropzone-thumbnail-image" data-dz-thumbnail alt="No Preview" style="display:none" />
+                        <video id="dropzone-thumbnail-video" class="azuremediaplayer amp-default-skin amp-big-play-centered" tabindex="0" >
+                            
+                        </video>
+                        <div id="dropzone-progress-bar" class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" style="display:none">
+                            <div class="progress-bar progress-bar-success" style="width:0%;" data-dz-uploadprogress></div>
+                        </div>
+                        <div class="text-success"><i id="dropzone-success-status" class="fa fa-check-circle" style="display:none"></i></div>
+                        <div class="text-danger"><i id="dropzone-fail-status" class="fa fa-times-circle" style="display:none"></i></div>
+                    </div>
+                </div>
+            </div>
+            <div class="box-footer clearfix">
+                <button id="post-button" class="btn btn-sm rounded w-xs pull-right" style="background-color:#62B8CC  ; color:white">
+                    <i id="post-load-spinner" class="fa fa-spinner fa-spin hide"></i>
+                    Post
+                </button>
+                <ul class="nav nav-pills nav-sm text-grey input-group" style="font-weight: normal">
+                    <li class="nav-item dz-clickable dz-upload-btn btn" id="add-photo-btn">
+                        <i class="fa fa-camera text-muted"></i><span class="hidden-sm-down p-l-sm text-xs">Add a photo or video</span>
+                    </li>
+                    @*<li class="nav-item btn" id="share-facebook-button">
+                            <input type="checkbox" hidden id="share-facebook-checkbox" name="share-facebook" /><i class="fa fa-facebook text-muted"></i><span class="hidden-sm-down p-l-sm text-xs">Share to Facebook</span><span class="text-muted"> ?</span>
+                        </li>*@
+                </ul>
+            </div>
+            <div id="status"></div>
+        </div>
+        <div id="feed" class="streamline b-l m-b m-l">
+            @*@Html.Partial("_TimelineFeedUpdate", Model)*@
+            @Html.Partial("_TimelineFeedUpdate")
+        </div>
+
+
+    </div>
+
+}
+else
+{
+    if (!Model.IsRequistedForFriend)
+    {
+        <h4 class="p-a text-center">Apply Friend request to see full profile.</h4>
+    }
+    else
+    {
+        <h4 class="p-a text-center">Friend request sent to the sponsor.</h4>
+    }
+}
+
+<script type="text/javascript">
+    // Global variables
+    var postType = "TEXT";
+    var fileUrls = [];
+    var fileIds = [];
+    var contentType = ""; // Mime type of the media file.
+    var height = 0;
+    var width = 0;
+
+    $(document).ready(function () {
+        loadDates();
+        loadDropzone();
+        loadVideos();
+    });
+
+
+
+    function DeletePost(id, slug) {
+        var jsonObject = JSON.stringify({
+            ActivityId: id,
+            Slug: slug,
+         });
+
+                $.ajax({
+            type: 'POST',
+            @*url: '@Url.Action("DeletePost", "Sponsor")',*@
+            data: jsonObject,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (result) {
+                console.log('SUCCESS ajax:');
+                $('#post-' + id).remove();
+            },
+            error: function (result) {
+                console.log('ERROR ajax: ' + result.errorMessage);
+            },
+            complete: function () {
+
+            }
+        });
+
+    }
+
+
+    function LoadMorePosts(index) {
+       // $('#feed').empty();
+                $.ajax({
+            type: 'POST',
+            @*url: '@Url.Action("LoadMorePosts", "Sponsor")' + '/' +index,*@
+            data: JSON.stringify(@Json.Serialize(Model)),
+            datatype: 'html',
+            contentType: "application/json; charset=UTF-8",
+                    success: function (result) {
+
+                $('#feed').html(result);
+                loadDates();
+                loadVideos();
+            },
+            error: function (result) {
+                console.log('ERROR ajax: ' + result.errorMessage);
+            }
+        });
+    }
+
+    function loadVideos() {
+
+        
+            var list = $(".azuremediaplayer");
+            for (var i = 0; i < list.length; i++) {
+                var id = list[i].id;
+                var path = $("#" + id).attr("data-path");
+
+                var myPlayer = amp(document.getElementById(id), { /* Options */
+                    techOrder: ["azureHtml5JS", "flashSS", "html5FairPlayHLS", "silverlightSS", "html5"],
+                    "nativeControlsForTouch": false,
+                    autoplay: false,
+                    controls: true,
+                    //width: "",
+                    //height: "20%",
+                    poster: "",
+                    plugins: {
+                        ga: {
+                            'eventsToTrack': ['playerConfig', 'loaded', 'playTime', 'percentsPlayed', 'start', 'end', 'play', 'pause', 'error', 'buffering', 'fullscreen', 'seek', 'bitrate'],
+                            'debug': false
+                        }
+                    }
+                }, function ()
+                    {
+                    console.log('Good to go!');
+                    this.addEventListener('ended', function () {console.log('Finished!');})
+                    }
+                );
+
+                myPlayer.src([
+                    {
+                        "src": path,
+                        "type": "video/mp4"
+                    }
+                ]);
+            }
+    }
+    function loadDates() {
+        $('.feed-dates').each(function (index, element) {
+            var date = new Date(element.value + ' UTC');
+            $('#feed-date-' + element.name).text(formatDate(date));
+            //$('#feed-date-' + element.name).text(moment.utc(element.value, 'MM/DD/YYYY hh:mm:ss A').local().format('hh:mm D MMMM YYYY'));
+        });
+        $('.comment-dates').each(function (index, element) {
+            var date = new Date(element.value + ' UTC');
+            $('#comment-date-' + element.name).text(formatDate(date));
+        });
+    }
+
+    function commentPosted(id) {
+        var body = $('#comment-text-area-' + id).val();
+        if (body != "") {
+            var jsonObject = JSON.stringify({
+                ActivityId: id,
+                Slug: '@Model.Slug',
+                Body: body,
+            });
+
+            $.ajax({
+                type: 'POST',
+                @*url: '@Url.Action("AddComment", "Sponsor")',*@
+                data: jsonObject,
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (result) {
+                    console.log('SUCCESS ajax:');
+                    var utcDate1 = new Date(result.comment.datePosted);
+                    var localDate = formatDate(utcDate1);
+                    var name = '';
+                    if (result.user.firstName == null && result.user.lastName == null)
+                        name = result.user.userName;
+                    else
+                        name = result.user.firstName + ' ' + result.user.lastName;
+                    $('#comment-area-' + id).prepend('<div class="row list" style="margin-bottom: 20px; margin-left: 5px;">\
+                                                <img class="w-20 img-circle" style="margin-right: 5px;" src="' + result.user.pictureUrl + '">\
+                                                <span>' + name + '</span>\
+                                                <span class="pull-right" id="comment-date-' + result.comment.commentId + '" style="padding-right: 10px">' + localDate + '</span>\
+                                                <p>'+ result.comment.body + '</p>\
+                                            </div>')
+                    $('#comment-text-area-' + id).val('');
+
+                    var commentCount = parseInt($('#feed-comment-count-' + id).html());
+                    if (commentCount !== NaN) {
+                        $('#feed-comment-count-' + id).html(commentCount + 1);
+                    }
+                },
+                error: function (result) {
+                    console.log('ERROR ajax: ' + result.errorMessage);
+                },
+                complete: function () {
+
+                }
+            });
+        }
+    }
+
+
+    function feedLikeClicked(id) {
+         var jsonObject = JSON.stringify({
+             ActivityId: id,
+             Slug: '@Model.Slug',
+         });
+
+        $.ajax({
+            type: 'POST',
+            @*url: '@Url.Action("AddReaction", "Sponsor")',*@
+            data: jsonObject,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (result) {
+                console.log('SUCCESS ajax:');
+                $('#feed-like-' + id).html('<i class="fa fa-thumbs-o-up" style="margin-right: 5px" ></i> ' + result.reactions.likes.length + " Likes")
+            },
+            error: function (result) {
+                console.log('ERROR ajax: ' + result.errorMessage);
+            },
+            complete: function () {
+
+            }
+        });
+    }
+
+    $('#share-facebook-button').click(function () {
+        if ($('#share-facebook-checkbox').is(':checked')) {
+            $('#share-facebook-checkbox').prop('checked', false);
+            $('#share-facebook-button').removeClass('blue-800');
+        } else {
+            $('#share-facebook-checkbox').prop('checked', true);
+            $('#share-facebook-button').addClass('blue-800');
+        }
+    });
+
+    $('#post-button').click(function () {
+        $('#post-button').prop('disabled', true);
+        $('#post-load-spinner').removeClass('hide');
+        $('#status').text('');
+
+        var jsonObject = JSON.stringify({
+            body: $('#post-text-area').val(),
+            file_urls: fileUrls,
+            file_ids: fileIds,
+            slug: '@Model.Slug',
+            post_type: postType,
+            post_to_facebook: $('#share-facebook-checkbox').is(':checked'),
+            content_type: contentType,
+            height: height,
+            width: width,
+        });
+
+        $.ajax({
+                type: 'POST',
+            @*url: '@Url.Action("PostCreate", "Sponsor")',*@
+            data: jsonObject,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (result) {
+                console.log('SUCCESS ajax:');
+                if (result.success == true) {
+                    $('#status').text('Successfully posted!');
+                    var postViewModel = JSON.stringify({
+                        post: result.post,
+                        model: @Json.Serialize(Model)
+                    });
+                    UpdateFeed(postViewModel);
+                    myDropzone.removeAllFiles();
+                    $('#post-text-area').val('');
+                    $('#share-facebook-button').removeClass('blue-800');
+                    $('#share-facebook-checkbox').prop('checked', false);
+                }
+                else {
+                    $('#status').text(result.errorMessage);
+                }
+            },
+            error: function (result) {
+                if (result.status == "401")
+                    $('#status').text('You must be logged in to post!');
+                console.log('ERROR ajax: ' + result.errorMessage);
+                $('#status').text(result.errorMessage);
+            },
+            complete: function () {
+                $('#post-load-spinner').addClass('hide');
+                $('#post-button').prop('disabled', false);
+            }
+        });
+    });
+
+    function UpdateFeed(data) {
+                $.ajax({
+            type: 'POST',
+            @*url: '@Url.Action("UpdateFeed", "Sponsor")',*@
+            data: data,
+            contentType: "application/json; charset=utf-8",
+            success: function (result) {
+                console.log('SUCCESS ajax:');
+                $('#timeline-feed').html(result);
+            },
+            error: function (result) {
+                console.log('ERROR ajax: ' + result.errorMessage);
+                $('#status').text(result.errorMessage);
+            }
+        });
+
+    }
+
+    function loadDropzone() {
+        Dropzone.autoDiscover = false;
+        var previewNode = document.querySelector('#dropzone-preview-template');
+        previewNode.id = "";
+        var previewTemplate = previewNode.parentNode.innerHTML;
+        previewNode.parentNode.removeChild(previewNode);
+
+        myDropzone = new Dropzone(document.getElementById('postChatBox'), {
+            @*url: '@Url.Action("UploadFileSingle","FileApi")',*@
+            acceptedFiles: 'image/jpeg,image/jpg,image/png,image/bmp,image/x-bmp,image/gif,image/tiff,image/tiff-fx,video/mp4,video/mpeg,video/x-m4v,video/quicktime,video/ogg,video/webm',
+            autoProcessQueue: true,
+            uploadMultiple: false,
+            previewsContainer: "#dropzone-preview-container",
+            previewTemplate: previewTemplate,
+            uploadMultiple: false,
+            maxFiles: 1,
+            maxFilesize: 2000,
+            maxThumbnailFilesize: 100,
+            thumbnailWidth: 200,
+            thumbnailHeight: 120,
+            clickable: ".dz-upload-btn",
+            addRemoveLinks: true,
+            init: function () {
+                // If adding more than 1 file, remove the old file and add the new one. So max 1 file.
+                this.on('addedfile', function (file) {
+                    if (this.files[1] != null) {
+                        this.removeFile(this.files[0]);
+                    }
+
+                    if (isImage(file.type)) {
+                        $(file.previewTemplate.querySelector('#dropzone-thumbnail-image')).show();
+                        postType = "IMAGE";
+                    } else if (isVideo(file.type)) {
+                        $(file.previewTemplate.querySelector('#dropzone-thumbnail-video')).show();
+                        postType = "VIDEO";
+                    }
+                });
+
+                this.on('sending', function (file, xhr, formData) {
+                    $('#post-button').prop('disabled', true);
+                    $(file.previewTemplate.querySelector('#dropzone-progress-bar')).show();
+                });
+
+                this.on('success', function (file, result) {
+                    if (result.success == false) {
+                        console.log('ERROR dropzone: ' + result.errorMessage);
+                    } else {
+                        if (isVideo(file.type)) {
+                            var player = file.previewTemplate.querySelector('#dropzone-thumbnail-video');
+
+
+                            var myPlayer = amp(document.getElementById("dropzone-thumbnail-video"), { /* Options */
+                                techOrder: ["azureHtml5JS", "flashSS", "html5FairPlayHLS", "silverlightSS", "html5"],
+                                "nativeControlsForTouch": false,
+                                autoplay: false,
+                                controls: true,
+                                width: "150",
+                                height: "100",
+                                poster: "",
+                                plugins: {
+                                    ga: {
+                                        'eventsToTrack': ['playerConfig', 'loaded', 'playTime', 'percentsPlayed', 'start', 'end', 'play', 'pause', 'error', 'buffering', 'fullscreen', 'seek', 'bitrate'],
+                                        'debug': false
+                                    }
+                                }
+                            }, function () {
+                                    console.log('Good to go!');
+                                    this.addEventListener('ended', function () { console.log('Finished!'); })
+                                }
+                            );
+
+                            myPlayer.src([
+                                {
+                                    "src": result.fileUrl,
+                                    "type": "video/mp4"
+                                }
+                            ]);
+                            //player.pause();
+                            //file.previewTemplate.querySelector('#dropzone-video-mp4').src = result.fileUrl;
+                            //file.previewTemplate.querySelector('#dropzone-video-ogg').src = result.fileUrl;
+                            //player.load();
+                        }
+                        $(file.previewTemplate.querySelector('#dropzone-success-status')).append('Successfully uploaded').show();
+                        fileUrls.push(result.fileUrl);
+                        fileIds.push(result.id);
+                        contentType = result.contentType;
+                        height = file.height;
+                        width = file.width;
+                    }
+                });
+
+                this.on('error', function (file, result) {
+                    var error = 'Server error: ' + result.errorMessage;
+                    console.log(error);
+                    $(file.previewTemplate.querySelector('#dropzone-fail-status')).append(error).show();
+                    $(file.previewTemplate.querySelector('#dropzone-thumbnail-image')).hide()
+                    $(file.previewTemplate.querySelector('#dropzone-thumbnail-video')).hide()
+                });
+
+                this.on('complete', function (file) {
+                    $('#post-button').prop('disabled', false);
+                    $(file.previewTemplate.querySelector('#dropzone-progress-bar')).hide();
+                });
+
+                this.on('removedfile', function () {
+                    postType = "TEXT";
+                    fileUrls.pop();
+                    fileIds.pop();
+                    contentType = "";
+                    width = 0;
+                    height = 0;
+                });
+            }
+        });
+    }
+
+    function formatDate(date) {
+        var monthNames = [
+            "January", "February", "March",
+            "April", "May", "June", "July",
+            "August", "September", "October",
+            "November", "December"
+        ];
+
+        var day = date.getDate();
+        var monthIndex = date.getMonth();
+        var year = date.getFullYear();
+
+        return parseInt(monthIndex + 1) + '/' + day + '/' + year;
+        //return day + ' ' + monthNames[monthIndex] + ' ' + year;
+    }
+</script>
+

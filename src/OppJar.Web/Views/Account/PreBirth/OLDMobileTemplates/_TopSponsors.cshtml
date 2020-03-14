@@ -1,0 +1,51 @@
+@*@model RecipientViewModel*@
+
+<div>
+    <ul class="list no-border p-b b-t b-t-2x rt-list">
+        <li class="list-item"> 
+            <h4>Top Sponsors
+            <span class="fa-stack" style="font-size:60%">
+                <i class="fa fa-circle fa-stack-2x" style="color:#6DBF13"></i>
+                <i class="fa fa-trophy fa-stack-1x fa-inverse"></i>
+            </span>
+            </h4>
+        </li>
+
+        @if (Model.TopIndividualSponsors != null && Model.TopIndividualSponsors.Count() > 0)
+        {
+            foreach (var sponsor in Model.TopIndividualSponsors)
+            {
+                var user = Model.Users[sponsor.SponsorId];
+                <li class="list-item col-xs-6 col-sm-12">
+                    <div class="list-left">
+                        @if (string.IsNullOrEmpty(user.PictureUrl))
+                        {
+                        <img src="/assets/images/user.svg" class="w-56 w-56-resp circle"/>
+                        }
+                        else
+                        {
+                        <img src="@user.PictureUrl" class="w-56 w-56-resp circle"/>
+                        }
+                    </div>
+                    <div class="list-body sponsor-info">
+                        <h6 class="_500" style="color:#4f87b8"><strong>$@sponsor.Amount</strong></h6>
+                        <strong><a href="/user/@sponsor.Slug">@(user.FirstName + " ")@user.LastName</a></strong>
+                        @if (string.IsNullOrEmpty(user.FirstName) && string.IsNullOrEmpty(user.LastName))
+                        {
+                            <i>Unnamed</i>
+                        }
+                    </div>
+                </li>
+            }
+        }
+        @if (Model.TopIndividualSponsors == null || Model.TopIndividualSponsors.Count() == 0)
+        {
+            <li class="list-item">
+                <div class="list-body">
+                    No Sponsors yet!
+                </div>
+            </li>
+        }
+    </ul>
+    
+</div>

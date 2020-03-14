@@ -1,0 +1,260 @@
+input.form-control {
+  border: 1px solid #abafb3;
+  border-radius: 24px;
+  font-size: 16px;
+  padding: 10px 16px;
+}
+
+select.form-control {
+  border-radius: 24px;
+  font-size: 16px;
+}
+
+.form-group {
+  margin-bottom: 10px;
+}
+
+.form-group label {
+  text-align: left;
+  font-size: 13px;
+  letter-spacing: 0;
+  color: #3b3d40;
+  opacity: 1;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+.input-group > .form-control:not(:last-child) {
+  border-top-right-radius: 24px;
+  border-bottom-right-radius: 24px;
+  padding-right: 40px;
+}
+
+.input-group .input-group-append {
+  position: absolute;
+  right: 15px;
+  top: 6px;
+}
+
+.btn:hover,
+.btn:focus,
+.btn:active {
+  box-shadow: none;
+  outline: none;
+}
+
+/* make sure this class name work! */
+.d-none {
+  display: none;
+}
+
+.mr-20 {
+  margin-right: 20px;
+}
+
+.ml-20 {
+  margin-left: 20px;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.form-control.input-error {
+  border-color: #db6c6c;
+}
+
+.form-group.has-error .invalid-feedback {
+  display: block;
+  text-align: right;
+  color: #db6c6c;
+}
+
+.icon-calendar {
+  background: url(../img/icon-calendar.svg);
+  background-size: cover;
+  height: 24px;
+  width: 24px;
+  z-index: 10;
+  display: inline-block;
+}
+
+.icon-eye-show {
+  background: url(../img/icon-eye-show.svg);
+  background-size: cover;
+  height: 24px;
+  width: 24px;
+  z-index: 10;
+}
+
+.icon-eye-unshow {
+  background: url(../img/icon-eye-unshow.svg);
+  background-size: cover;
+  height: 24px;
+  width: 24px;
+  z-index: 10;
+}
+
+.icon-home {
+  background: url(../img/icon-home.svg);
+  background-size: cover;
+  height: 24px;
+  width: 24px;
+  display: inline-block;
+}
+
+.icon-gift {
+  background: url(../img/icon-gift.svg);
+  background-size: cover;
+  height: 24px;
+  width: 24px;
+  display: inline-block;
+}
+
+.icon-setting {
+  background: url(../img/icon-setting.svg);
+  background-size: cover;
+  height: 24px;
+  width: 24px;
+  display: inline-block;
+}
+
+.icon-delete {
+  background: url(../img/icon-delete.svg);
+  background-size: cover;
+  height: 24px;
+  width: 24px;
+  display: inline-block;
+}
+
+.icon-edit {
+  background: url(../img/icon-edit.svg);
+  background-size: cover;
+  height: 24px;
+  width: 24px;
+  display: inline-block;
+}
+
+.icon-edit-1 {
+  background: url(../img/icon-edit-1.svg);
+  background-size: cover;
+  height: 24px;
+  width: 24px;
+  display: inline-block;
+}
+
+.icon-link {
+  background: url(../img/icon-link.svg);
+  background-size: cover;
+  height: 24px;
+  width: 24px;
+  display: inline-block;
+}
+
+.icon-link:hover {
+  background: url(../img/icon-link-clicked.svg);
+  background-size: cover;
+  height: 24px;
+  width: 24px;
+  display: inline-block;
+}
+
+.icon-back {
+  background: url(../img/icon-back.svg);
+  background-size: cover;
+  height: 24px;
+  width: 24px;
+  display: inline-block;
+}
+
+.icon-camera {
+  background: url(../img/icon-camera.svg);
+  background-size: cover;
+  height: 24px;
+  width: 24px;
+  display: inline-block;
+}
+
+.icon-search {
+  background: url(../img/icon-search.svg);
+  background-size: cover;
+  height: 24px;
+  width: 24px;
+  display: inline-block;
+}
+
+.icon-like {
+  background: url(../img/icon-like.svg);
+  background-size: cover;
+  height: 24px;
+  width: 24px;
+  display: inline-block;
+}
+
+.icon-comment {
+  background: url(../img/icon-comment.svg);
+  background-size: cover;
+  height: 24px;
+  width: 24px;
+  display: inline-block;
+}
+
+.icon-share {
+  background: url(../img/icon-share.svg);
+  background-size: cover;
+  height: 24px;
+  width: 24px;
+  display: inline-block;
+}
+
+.icon-dashboard {
+  background: url(../img/icon-dashboard.svg);
+  background-size: cover;
+  height: 24px;
+  width: 24px;
+  display: inline-block;
+}
+
+.icon-photo {
+  background: url(../img/icon-photo.svg);
+  background-size: cover;
+  height: 24px;
+  width: 24px;
+  display: inline-block;
+}
+
+.icon-video {
+  background: url(../img/icon-video.svg);
+  background-size: cover;
+  height: 24px;
+  width: 24px;
+  display: inline-block;
+}
+
+.icon-audio {
+  background: url(../img/icon-audio.svg);
+  background-size: cover;
+  height: 24px;
+  width: 24px;
+  display: inline-block;
+}
+
+.icon-school {
+  background: url(../img/icon-school.svg);
+  background-size: cover;
+  height: 24px;
+  width: 24px;
+  display: inline-block;
+}
+
+.icon-book {
+  background: url(../img/icon-book.svg);
+  background-size: cover;
+  height: 24px;
+  width: 24px;
+  display: inline-block;
+}

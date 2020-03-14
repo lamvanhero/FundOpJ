@@ -1,0 +1,35 @@
+﻿@model AddEditAdminViewModel
+
+<div class="form-row">
+    <div class="form-group col-md-6">
+        <input type="text" asp-for="FirstName" class="form-control text-sm" name="FirstName" placeholder="First Name">
+        <span asp-validation-for="FirstName" class="text-danger"></span>
+    </div>
+    <div class="form-group col-md-6">
+        <input type="text" asp-for="LastName" class="form-control text-sm" name="LastName" placeholder="Last Name">
+        <span asp-validation-for="LastName" class="text-danger"></span>
+    </div>
+</div>
+<div class="form-row">
+    <div class="form-group col-md-6">
+        <input type="date" asp-for="DOB" class="form-control text-sm" name="DOB">
+        <span asp-validation-for="DOB" class="text-danger"></span>
+    </div>
+    <div class="form-group col-md-6">
+        @if (Model.ActionMode == ActionMode.Create)
+        {
+            <input type="email" asp-for="Email" class="form-control text-sm" name="Email" placeholder="Email Address">
+        }
+        else
+        {
+            <input type="email" asp-for="Email" class="form-control text-sm" name="Email" placeholder="Email Address" readonly>
+        }
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+</div>
+<div class="form-row">
+    <div class="form-group col-md-12">
+        <input name="Location" asp-for="Location" type="text" class="form-control text-sm" placeholder="Location">
+        <span asp-validation-for="Location" class="text-danger"></span>
+    </div>
+</div>

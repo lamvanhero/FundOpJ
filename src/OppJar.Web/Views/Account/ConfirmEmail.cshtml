@@ -1,0 +1,41 @@
+﻿@model ActivateAccountResultModel
+@{
+    ViewData["Title"] = "Confirm Email";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Forgot Password Confirmation - OPPJAR</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous" />
+    <link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/custom.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/main.css" asp-append-version="true" />
+</head>
+<body>
+    <div class="verify-email-page">
+        <div class="container-fluid">
+            <img class="logo"
+                 src="~/img/oppjar-logo-white.png"
+                 alt="oppjar" />
+            <div class="verify-email-form">
+                <div class="email-icon"></div>
+                <div class="content">
+                    <p>
+                        Thank you for confirming your email. Your account has been activated. Please <a asp-controller="Account" asp-action="Signin">Click here</a> to Log in.
+                    </p>
+                </div>
+                <div class="dash-line"></div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+</body>
+</html>
+

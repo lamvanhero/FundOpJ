@@ -1,0 +1,90 @@
+﻿@model IEnumerable<UserDetailViewModel>
+
+@{
+    ViewData["Title"] = "My Children Page";
+}
+
+<div class="content-section">
+    <div class="children-page">
+        <div class="children-page-header">
+            <div>
+                <h3 class="title">My Children Pages</h3>
+                @if(!Model.Any()){
+                    <p class="sub-title">You have not created any child pages</p>
+                }
+            </div>
+            <div>
+                <a href="@Url.Action("AddEditChild","Account")" class="btn btn-create">Create</a>
+            </div>
+        </div>
+
+        <div class="children-page-body">
+            <section class="children-info">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Date of Birth</th>
+                            <th>Total Balance</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                            <th>Public Page</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var child in Model)
+                        {
+                        <tr>
+                            <td>
+                                <a href="/user/@child.Slug">
+                                    <img src="@child.Avatar"
+                                         alt="oppjar"
+                                         class="avatar-icon" />
+                                    <span class="username">@child.DisplayName</span>
+                                </a>
+                            </td>
+                            <td>@child.DOB.ToString("MM/dd/yyyy")</td>
+                            <td>$@child.TotalBalance</td>
+                            <td>
+                                <label class="switch">
+                                    <input class="chk-user-status" data-id="@child.Id" type="checkbox" @(child.Status ? "checked=\"checked\"" : "") />
+                                    <span class="slider round"></span>
+                                </label>
+                            </td>
+                            <td>
+                                <a href="@Url.Action("AddEditChild","Account",new { id= child.Id })"><span class="icon icon-edit" title="Edit profile"></span></a>
+                            </td>
+                            <td>
+                                <a href="/@child.Slug/public"><span class="icon icon-edit" title="Edit public page"></span></a>
+                                <span class="icon icon-link copy-link" title="Copy link" data-slug="@child.Slug"></span>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </section>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $('.chk-user-status').change(function () {
+            let userId = $(this).data('id');
+            let status = $(this).prop('checked') ? 'Activate' : 'Deactivate';
+            ajaxWrapper.update('/api/account/' + userId + '/status/' + status, null, function (resp, stat) {
+                notificationManage.showSuccessMessage('Updated.');
+            }, function (error) {
+                notificationManage.showErrorMessage(error);
+            });
+        });
+
+        $('.copy-link').click(function () {
+            var $temp = $("<input>");
+            $("body").append($temp);
+            $temp.val(window.location.origin + '/' + $(this).data('slug') + '/public').select();
+            document.execCommand("copy");
+            $temp.remove();
+        });
+    </script>
+}

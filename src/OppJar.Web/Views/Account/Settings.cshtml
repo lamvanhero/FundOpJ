@@ -1,0 +1,254 @@
+﻿@model UserDetailViewModel
+@{
+    ViewData["Title"] = "Setting";
+}
+
+<div class="setting-page">
+    <div class="content-section">
+        <div class="children-page">
+            <div class="children-page-header">
+                <div>
+                    <h3 class="title">Setting</h3>
+                </div>
+            </div>
+
+            <div class="children-page-body">
+                <div class="create-page d-flex">
+                    <div>
+                        <div class="photo-upload position-relative overflow-hidden mr-5">
+                            @if (Model.Avatar != null)
+                            {
+                                <img src="@Model.Avatar"
+                                     alt=""
+                                     id="upload_photo" />
+                            }
+                            else
+                            {
+                                <img src="~/img/avatar-2.jpg"
+                                     alt=""
+                                     id="upload_photo" />
+                            }
+                            <label class="photo-overlay" for="select_upload">
+                                <span class="icon icon-camera"></span>
+                            </label>
+                            <input class="d-none"
+                                   type="file"
+                                   onchange="readURL(this)"
+                                   id="select_upload" />
+                        </div>
+                        <span class="title">Upload profile picture</span>
+                    </div>
+                    <section class="setting-info">
+                        <label>Email: @ViewBag.Email</label>
+                        <div class="d-flex justify-content-between align-items-center setting-info-header">
+                            <h3>Personal information</h3>
+                        </div>
+                        <form class="d-flex" id="edit-profile-form" asp-controller="Account" asp-action="Settings" method="post" asp-antiforgery="true">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" asp-for="Id" id="user-id" />
+                            <input type="hidden" asp-for="Avatar" id="hid-profile-avatar" />
+                            <input type="hidden" asp-for="UserType" />
+                            <div class="personal-info-editable">
+                                <div class="form-row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label for="first_name">First Name</label>
+                                            <input type="text"
+                                                   asp-for="FirstName"
+                                                   id="first_name"
+                                                   class="form-control"
+                                                   placeholder="First Name"
+                                                   readonly="readonly" />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group mb-0">
+                                            <label for="last_name">Last Name</label>
+                                            <input type="text"
+                                                   asp-for="LastName"
+                                                   id="last_name"
+                                                   class="form-control"
+                                                   placeholder="Last Name"
+                                                   readonly="readonly" />
+                                        </div>
+                                    </div>
+                                    @if (User.IsInRole("Parent"))
+                                    {
+                                        <div class="col-sm-6">
+                                            <div class="form-group mb-0">
+                                                <label for="birthday">Date of Birth</label>
+                                                <div class="input-group hideOnEdge">
+                                                    <input type="date"
+                                                           class="form-control"
+                                                           asp-for="DOB"
+                                                           id="birthday"
+                                                           readonly="readonly" />
+                                                    <div class="input-group-append">
+                                                        <span class="icon-calendar" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label for="ssn">SSN</label>
+                                                <input type="text"
+                                                       class="form-control text-center"
+                                                       asp-for="SSN"
+                                                       readonly="readonly" />
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                                @if (User.IsInRole("Parent"))
+                                {
+                                    <div class="form-group">
+                                        <label for="address_">Address 1</label>
+                                        <input type="text"
+                                               asp-for="PrimaryAddress"
+                                               id="address_1"
+                                               class="form-control"
+                                               placeholder="Address 1" />
+                                        <span asp-validation-for="PrimaryAddress" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="address_2">Address 2</label>
+                                        <input type="text"
+                                               asp-for="SecondAddress"
+                                               id="address_2"
+                                               class="form-control"
+                                               placeholder="Address 2" />
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col-sm-4">
+                                            <div class="form-group mb-0">
+                                                <label for="state">State</label>
+                                                <input type="hidden" asp-for="State" id="hid-state" />
+                                                <select class="select-2-state form-control"
+                                                        id="state"
+                                                        asp-for="State"
+                                                        asp-items="ViewBag.States">
+                                                </select>
+                                                <span asp-validation-for="State" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group mb-0">
+                                                <label for="city">City</label>
+                                                <input type="hidden" asp-for="City" id="hid-city" />
+                                                <select class="select-2-city form-control"
+                                                        asp-for="City"
+                                                        asp-items="ViewBag.Cities"
+                                                        id="city">
+                                                </select>
+                                                <span asp-validation-for="City" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group mb-0">
+                                                <label for="zipcode">ZipCode</label>
+                                                <input type="text"
+                                                       asp-for="ZipCode"
+                                                       id="zipcode"
+                                                       class="form-control"
+                                                       placeholder="Zipcode" />
+                                                <span asp-validation-for="ZipCode" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group text-right mt-4">
+                                        <button type="submit" class="btn btn-create">
+                                            Save
+                                        </button>
+                                    </div>
+                                }
+                            </div>
+                        </form>
+
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script src="~/js/app/file-manage.js" asp-append-version="true"></script>
+    <script src="~/js/app/userSettings.js" asp-append-version="true"></script>
+    <script>
+        userSettings.init();
+
+        $(document).ready(function () {
+            $(".select-2-state").select2();
+            $(".select-2-city").select2();
+
+            // hide icon on edge
+            var isEdge = navigator.userAgent.indexOf("Edg") != -1;
+            if (isEdge) {
+                $(".hideOnEdge").removeClass("input-group");
+
+                $(".icon-calendar").addClass("d-none");
+            }
+
+
+        });
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $("#upload_photo").attr("src", e.target.result);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $('#state').on('change', function () {
+            $('#hid-state').val(this.value);
+            getCitiesByState(this.value);
+        });
+
+        $('#city').on('change', function () {
+            $('#hid-city').val(this.value);
+        });
+
+        function getCitiesByState(stateId) {
+            $.ajax({
+                type: "GET",
+                url: "/account/getcitiesbystate?stateId=" + stateId,
+                success: function (data, status) {
+                    if (data.length > 0) {
+                        $('#city')
+                            .find('option')
+                            .remove()
+                            .end();
+                        const select = $("#city");
+                        data.forEach(
+                            data =>
+                                select.append(
+                                    '<option value="' +
+                                    data.name +
+                                    '">'
+                                    + data.name
+                                    + '</option>'
+                                )
+                        );
+
+                        $('#hid-city').val($("#city option:first").val());
+                    }
+                },
+                error: function (error) {
+                }
+            });
+        }
+    </script>
+    @if (ViewBag.JavaScriptFunction != null)
+    {
+        <script type="text/javascript">
+            @Html.Raw(ViewBag.JavaScriptFunction)
+        </script>
+    }
+}

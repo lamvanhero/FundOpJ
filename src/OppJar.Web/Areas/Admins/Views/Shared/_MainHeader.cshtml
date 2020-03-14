@@ -1,0 +1,50 @@
+<div class="app-header box-shadow" style="background-color:#4f87b8">
+    <div class="navbar">
+        <a class="navbar-brand" href="/">
+            <img src="/assets/images/oppjar-logo.PNG" class="m-t-sm oppjar-logo">
+        </a>
+        <!-- navbar right -->
+        <ul class="nav navbar-nav pull-right">
+            @if (User.Identity.IsAuthenticated)
+            {
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false" style="color:white">
+
+                        <span class="hidden-md-down nav-text m-r-sm text-right text-white">
+                            <span>@ViewBag.DisplayName</span>
+                        </span>
+                        <span class="avatar w-30 white">
+                            <img src="@ViewBag.AvatarUrl" alt="" />
+                        </span>
+                    </a>
+                    <div class="dropdown-menu pull-right dropdown-menu-scale" style="border-bottom-left-radius: 10px; border-bottom-right-radius: 10px">
+                        <form class="navbar-right">
+                            <a class="dropdown-item p-y-sm" href="~/Account/SignOut">Sign Out</a>
+                        </form>
+                    </div>
+                </li>
+            }
+            else
+            {
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("SignIn","Account")">
+                        <span class="btn rounded btn-outline text-sm _600" style="border:1px solid white; color:white; background-color:#4f87b8">
+                            Login
+                        </span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("Register","Account")">
+                        <span class="btn rounded btn-outline text-sm _600" style="border:1px solid white; color:white; background-color:#4f87b8">
+                            Sign Up
+                        </span>
+                    </a>
+                </li>
+            }
+        </ul>
+        <!-- navbar collapse -->
+        <div class="collapse navbar-toggleable-sm" id="navbar-1">
+        </div>
+        <!-- / navbar collapse -->
+    </div>
+</div>

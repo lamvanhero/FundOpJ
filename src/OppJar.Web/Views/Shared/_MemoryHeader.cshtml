@@ -1,0 +1,34 @@
+<div class="header">
+    @if (User.Identity.IsAuthenticated)
+    {
+        <a class="dashboard" href="@Url.Action("Dashboard","Account")">
+            <span class="icon icon-dashboard"></span>Back to Dashboard
+        </a>
+    }
+    else
+    {
+        <span class="dashboard"></span>
+    }
+    <img class="logo"
+         src="~/img/oppjar-logo-white.png"
+         alt="oppjar" />
+
+    <div class="right-section">
+        @if (User.Identity.IsAuthenticated)
+        {
+            <div class="btn-group">
+                <button type="button"
+                        class="btn account-section dropdown-toggle"
+                        data-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false">
+                    <img src="@ViewBag.AvatarUrl" alt="@ViewBag.DisplayName" />
+                    <span>@ViewBag.DisplayName</span>
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a href="@Url.Action("SignOut", "Account")" class="dropdown-item btn">Log Out</a>
+                </div>
+            </div>
+        }
+    </div>
+</div>

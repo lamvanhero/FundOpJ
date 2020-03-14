@@ -1,0 +1,380 @@
+@{
+    Layout = "_SearchLayout";
+}
+
+<!--<div class="app-body" id="view" style="padding-top: 0">-->
+@Html.Partial("_Loader")
+<style>
+    .filters-list {
+        padding-top: 0px;
+        padding-bottom: 0px;
+    }
+
+    #searchElement * {
+        color: white !important
+    }
+
+    .tag.label {
+        background-color: #4f87b8 !important;
+        font-size: 0.8rem !important;
+    }
+
+    .spinner {
+        opacity: 0;
+        display: none;
+        width: 20px;
+        height: 10px;
+        -webkit-transition: opacity 0.25s, max-width 0.45s;
+        -moz-transition: opacity 0.25s, max-width 0.45s;
+        -o-transition: opacity 0.25s, max-width 0.45s;
+        transition: opacity 0.25s, max-width 0.45s;
+        /* Duration fixed since we animate additional hidden width */
+    }
+
+    .has-spinner.active {
+        cursor: progress;
+    }
+
+        .has-spinner.active .spinner {
+            display: inline-block;
+            opacity: 1;
+            max-width: 50px;
+            /* More than it will ever come, notice that this affects on animation duration */
+        }
+    .bootstrap-tagsinput{
+        padding-right: 80px !important
+    }
+    p[class=text-xs] {
+        height: 70px;
+        overflow: hidden;
+    }
+</style>
+<div id="SearchVue">
+    <div class="container-fluid" style="background: linear-gradient(to right, rgba(79,135,184, 0.8), rgba(114,235,221,0.8));">
+        <div class="row">
+            <!--<div class="item-bg">
+
+                <img src="/assets/images/easter.jpg" style="right: 0; margin-left:0; margin-top:0px; left:inherit; top:0px;">
+
+            </div>-->
+
+            <div class="col-md-8 col-md-offset-2 col-xs-12 " style="height: 320px;">
+                <!--Responsive Med + -->
+                <div class="hero-text" style="margin-top: 140px; color:white; font-weight:300">
+                    <h4 style="font-weight:300"> SEARCH</h4>
+
+                </div>
+                <div id="searchElement" class="b-a b-a-2 p-a m-b" style="border:1px solid#4f87b8; border-radius: 5px;">
+                    <div class="input-embed-btn" style="position:relative">
+                        <input v-model="searchOptions.Tags" class="form-control text-white text-sm" type="text" data-role="tagsinput" id="keyword-input" placeholder="Add Keyword to search" style="border-radius: 5px; border-color:#4f87b8; background-color:#5b415c" />
+                        <button v-on:click="Search()" id="searchButton" class="btn btn-sm text-white" style="position: absolute; right:-3px; top:-5px; background-color:#62B8CC">
+
+                            Search
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class=" white p-x">
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-col box  col-md-12 col-xs-12">
+                    <!-- NO RESULTS SECTION-->
+                    <div v-if="(searchResult.recipients == null) && (searchResult.groups == null) && (searchResult.sponsors == null)">
+                        <div class="box-header p-t-lg p-b-0  text-center">
+                            <h2><i>Use the search box above to enter one or more search terms. You can search by name for sponsors and students, as well as groups and corporate sponsors. Click the Search button to submit your search.</i></h2>
+                        </div>
+                    </div>
+                    <div v-if="(searchResult.recipients != null && searchResult.recipients.length == 0) && (searchResult.groups != null && searchResult.groups.length == 0) && (searchResult.sponsors != null && searchResult.sponsors.length == 0)">
+                        <div class="box-header p-t-lg p-b-0 text-center">
+                            <h2>No Results @*<span class="pull-right text-xs text-muted p-r"><a>+<i class="fa fa-user p-r-sm"></i>Add all to my group</span>*@</h2>
+                            <h2><i>Use the search box above to enter one or more search terms. You can search by name for sponsors and students, as well as groups and corporate sponsors. Click the Search button to submit your search.</i></h2>
+                        </div>
+                    </div>
+
+                    <div v-if="(searchResult.recipients == null || searchResult.recipients.length < 1) && ((searchResult.groups != null && searchResult.groups.length > 0)||(searchResult.sponsors != null && searchResult.sponsors.length > 0)) ">
+                        <!--No Student Results-->
+                        <div class="box-header p-t-lg p-b-0 text-muted">
+                            <h3>No Students Match Your Search Term(s)</h3>
+                        </div>
+                    </div>
+
+                    <!--Students Results-->
+                    <div v-if="searchResult.recipients != null && searchResult.recipients.length > 0">
+                        <div class="box-header p-t-lg p-b-0">
+                            <h2>Students @*<span class="pull-right text-xs text-muted p-r"><a>+<i class="fa fa-user p-r-sm"></i>Add all to my group</span>*@</h2>
+                        </div>
+                    </div>
+
+                    <div class="box-body">
+                        <div class="row p-x">
+                            <div v-for="item in searchResult.recipients">
+                                <div class="col-md-4 col-lg-3 m-b m-t p-l-xs">
+                                    <div style="min-width: 215px; min-height: 200px;">
+                                        <div class="box">
+                                            <div class="m-a-xs b-a" style="border:1px solid lightgrey;">
+                                                <div style="display:flex;">
+                                                    <div>
+                                                        <img v-bind:src="item.imageUrl" class="img-circle w-64" style="margin-left:-16px; margin-top: -12px; height:64px">
+                                                    </div>
+                                                    <div class="m-t-sm m-l-sm block">
+                                                        <!--<a href="/home/prebirth/fb4a2c53-9234-4241-bbe8-8d1e57694e42" class="font-weight-bold">Baby Kuykendall</a>-->
+                                                        <a v-bind:href="'user/'+ item.slug" class="font-weight-bold">{{item.firstName}} {{item.lastName}}</a>
+                                                        <div class="text-xs text-primary">
+                                                            <div>{{item.dateOfBirth}} - {{item.location}}</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="p-a-xs">
+                                                    <div class="row p-l p-r p-t-xs">
+                                                        <p class="text-xs">{{item.bio}}</p>
+                                                    </div>
+                                                    <div class="row p-l-sm p-r-sm p-b-sm">
+                                                        @*<a class="col-xs-6 text-xs">
+                                                                <div class="text-muted">Activity</div>
+                                                                <img src="/assets/icons/graph.png" class="m-t-xs" style="height:20px">
+                                                            </a>*@
+                                                        <div class="col-xs-12 text-right m-t-sm">
+                                                            <!--<a href="/home/prebirth/fb4a2c53-9234-4241-bbe8-8d1e57694e42" class="btn btn-sm text-sm rounded text-white" style="width: 120px; background-color:#6DBF13" >Sponsor</a>-->
+                                                            <a v-bind:href="'user/'+ item.slug" class="btn btn-sm text-xs rounded text-white" style="width: 90px; background-color:#62B8CC">Sponsor</a>
+                                                        </div>
+                                                    </div>
+                                                    <!--<div class="text-center text-muted text-xs p-t-sm p-b-xs b-t" style="border-top: 1px solid lightgrey;">
+                                                        <a>+<i class="fa fa-user p-r-sm"></i>Add to my group</span></a>
+                                                    </div>-->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div v-if="searchResult.groups != null && searchResult.groups.length > 0">
+                        <!--Groups Results-->
+                        <div class="box-header p-t-0 p-b-0">
+                            <h2>Groups</h2>
+                        </div>
+                    </div>
+                    <div v-if="(searchResult.groups == null || searchResult.groups.length < 1) && ((searchResult.recipients != null && searchResult.recipients.length > 0)||(searchResult.sponsors != null && searchResult.sponsors.length > 0)) ">
+                        <!--Groups Results-->
+                        <div class="box-header p-t-0 p-b-0 text-muted">
+                            <h3>No Groups Match Your Search Term(s)</h3>
+                        </div>
+                    </div>
+
+                    <div class="box-body">
+                        <div class="row p-x">
+
+                            <div v-for="item in searchResult.groups">
+                                <div class="col-md-4 col-lg-3 m-b m-t p-l-xs">
+                                    <div style="min-width: 215px; min-height: 200px;">
+                                        <div class="box">
+
+                                            <div class="m-a-xs b-a" style="border:1px solid lightgrey;">
+                                                <div style="display:flex;">
+
+                                                    <div>
+                                                        <img v-bind:src="item.imageUrl" class="w-64" style="margin-left:-16px; margin-top: -12px; height:64px; border-radius:5px;">
+                                                    </div>
+                                                    <div class="m-t-sm m-l-sm block">
+                                                        <!--<a href="/home/prebirth/fb4a2c53-9234-4241-bbe8-8d1e57694e42" class="font-weight-bold">Baby Kuykendall</a>-->
+                                                        <a v-bind:href="'/group/' + item.slug" class="font-weight-bold">{{item.name}}</a>
+                                                        <div class="text-xs text-primary">
+                                                            <div>{{item.location}}</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="p-a-xs">
+                                                    <div class="row p-l p-r p-t-xs">
+                                                        <p class="text-xs">{{item.about}}</p>
+
+                                                    </div>
+                                                    <div class="row p-l-sm p-r-sm p-b-sm">
+                                                        @*<a class="col-xs-6 text-xs">
+                                                                <div class="text-muted">Activity</div>
+                                                                <img src="/assets/icons/graph.png" class="m-t-xs" style="height:20px">
+                                                            </a>*@
+                                                        <div class="col-xs-12 text-right m-t-sm">
+                                                            <!--<a href="/home/prebirth/fb4a2c53-9234-4241-bbe8-8d1e57694e42" class="btn btn-sm text-sm rounded text-white" style="width: 120px; background-color:#6DBF13" >Sponsor</a>-->
+                                                            <a v-bind:href="'/group/' + item.slug" class="btn btn-sm text-xs rounded text-white" style="width: 90px; background-color:#62B8CC  ">Sponsor</a>
+                                                        </div>
+                                                    </div>
+                                                    <!--<div class="text-center text-muted text-xs p-t-sm p-b-xs b-t" style="border-top: 1px solid lightgrey;">
+                                                        <a>+<i class="fa fa-user p-r-sm"></i>Add to my group</span></a>
+                                                    </div>-->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div v-if="searchResult.sponsors != null && searchResult.sponsors.length > 0">
+                        <!--Sponsors Results-->
+                        <div class="box-header p-t-0 p-b-0">
+                            <h2>Sponsors</h2>
+                        </div>
+                    </div>
+
+                    <div v-if="(searchResult.sponsors == null || searchResult.sponsors.length < 1) && ((searchResult.recipients != null && searchResult.recipients.length > 0)||(searchResult.groups != null && searchResult.groups.length > 0)) ">
+                        <!--No Sponsors Results-->
+                        <div class="box-header p-t-0 p-b-0 text-muted">
+                            <h3>No Sponsors Match Your Search Term(s)</h3>
+                        </div>
+                    </div>
+
+                    <div class="box-body">
+                        <div class="row p-x">
+
+                            <div v-for="item in searchResult.sponsors">
+                                <div class="col-md-4 col-lg-3 m-b m-t p-l-xs">
+                                    <div style="min-width: 215px; min-height: 200px;">
+                                        <div class="box">
+
+                                            <div class="m-a-xs b-a" style="border:1px solid lightgrey;">
+                                                <div style="display:flex;">
+
+                                                    <div>
+                                                        <img v-bind:src="item.imageUrl" class="w-64" style="margin-left:-16px; margin-top: -12px; height:64px; border-radius:5px;">
+                                                    </div>
+                                                    <div class="m-t-sm m-l-sm block">
+                                                        <!--<a href="/home/prebirth/fb4a2c53-9234-4241-bbe8-8d1e57694e42" class="font-weight-bold">Baby Kuykendall</a>-->
+                                                        <a v-bind:href="'/sponsor/' + item.slug" class="font-weight-bold">{{item.firstName}} {{item.lastName}}</a>
+                                                        <div class="text-xs text-primary">
+                                                            <div>{{item.connections||0}} Connections - {{item.location}}</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="p-a-xs">
+                                                    <div class="row p-l p-r p-t-xs">
+                                                        <p class="text-xs">{{item.bio}}</p>
+
+                                                    </div>
+                                                    <div class="row p-l-sm p-r-sm p-b-sm">
+                                                        @*<a class="col-xs-6 text-xs">
+                                                                <div class="text-muted">Activity</div>
+                                                                <img src="/assets/icons/graph.png" class="m-t-xs" style="height:20px">
+                                                            </a>*@
+                                                        <div class="col-xs-12 text-right m-t-sm">
+                                                            <!--<a href="/home/prebirth/fb4a2c53-9234-4241-bbe8-8d1e57694e42" class="btn btn-sm text-sm rounded text-white" style="width: 120px; background-color:#6DBF13" >Sponsor</a>-->
+                                                            <a v-bind:href="'/sponsor/' + item.slug" class="btn btn-sm text-xs rounded text-white" style="width: 90px; background-color:#62B8CC  ">Connect</a>
+                                                        </div>
+                                                    </div>
+                                                    <!--<div class="text-center text-muted text-xs p-t-sm p-b-xs b-t" style="border-top: 1px solid lightgrey;">
+                                                        <a>+<i class="fa fa-user p-r-sm"></i>Connect</span></a>
+                                                    </div>-->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<script>
+    if ("@TempData["searchtxt"]" != "") {
+
+        setTimeout(function () {
+            $('#keyword-input').tagsinput('add', '@TempData["searchtxt"]');
+            $("#searchButton").click();
+        },1000)
+    }
+    var searchVue = new Vue({
+        el:"#SearchVue",
+        data: {
+            searchOptions: {
+                Keywords: null,
+                Filter: null,
+                SortBy: null,
+                Tags: null,
+                Location: null,
+                Interests: null,
+                GPA: 0,
+                College: null,
+                SchoolDistrict: null,
+                Age: 2000,
+                Gender: null,
+                isRecipientSearch: true,
+                isSponsorSearch: true,
+                isGroupSearch: true
+            },
+            searchResult: {
+                Recipients: [],
+                Groups: [],
+                Sponsors: []
+            },
+            testObj: {
+                1: 'Isabelle',
+                2: 'Brandon',
+                3: 'Chucky',
+                4: "D'Angelo"
+            }
+                                                        },
+        methods: {
+            randImgUrl: function(){
+                var letters = ["a", "b", "c"]
+                var letter = letters[Math.floor(Math.random() * letters.length)]
+                var numbers = [1,2,3,4,5,6,7,8,9,0]
+                var number = numbers[Math.floor(Math.random() * numbers.length)]
+                var path = "/assets/images/"+letter+number+".jpg"
+                console.log(path)
+                return path
+            },
+            Search: function () {
+                this.searchOptions.Keywords = $('#keyword-input').tagsinput("items");
+                var query = JSON.stringify(this.searchOptions);
+
+                if (this.searchOptions.Keywords != '')
+                    $("#preloader").show();
+                    $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("Search", "Search")',
+                    data: query,
+                    contentType: "application/json; charset=utf-8",
+                    success: function (result) {
+                        console.log(this);
+                        searchVue._data.searchResult = result;
+                        for (var i in result.recipients)
+                        {
+                            var ms = Date.parse(result.recipients[i].dateOfBirth);
+                            var age = Math.floor((Date.now() - ms) / 31557600000);
+                            if (age == '1')
+                                age += ' year old';
+                            else if (parseInt(age) <= 0)
+                                age = "<1 year old";
+                            searchVue._data.searchResult.recipients[i].dateOfBirth = age;
+                        }
+                        $("#preloader").hide();
+                    },
+                    error: function (result) {
+                        console.log('ERROR ajax: ' + result.errorMessage);
+                        $("#preloader").hide();
+                    }
+                });
+
+        }
+        },
+        created: function() {
+            console.log("vue Search Loaded")
+            console.log(this.searchOptions)
+            $("#search-icon").hide()
+        }
+    })
+</script>

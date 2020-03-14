@@ -1,0 +1,30 @@
+﻿<div class="sidebar">
+    @{
+        var url = User.IsInRole("Parent") ? Url.Action("Dashboard", "Account") : Url.Action("Index", "Give");
+    }
+    <a href="@url">
+        <img src="~/img/oppjar-logo-white.png"
+             alt="oopjar"
+             class="logo" />
+    </a>
+    <div class="break-line"></div>
+    <div class="menu">
+        <ul>
+            @if (User.IsInRole("Parent"))
+            {
+                var homeActiveClass = string.Empty;
+                homeActiveClass = string.IsNullOrEmpty(homeActiveClass) ? Html.IsSelected("Account", "Dashboard", "active") : homeActiveClass;
+                homeActiveClass = string.IsNullOrEmpty(homeActiveClass) ? Html.IsSelected("Account", "AddEditChild", "active") : homeActiveClass;
+                <li class="@homeActiveClass">
+                    <a href="@Url.Action("Dashboard","Account")"><span class="icon icon-home"></span>Home</a>
+                </li>
+            }
+            <li class="@Html.IsSelected("Give","Index","active")">
+                <a href="@Url.Action("Index","Give")"><span class="icon icon-gift"></span>Give</a>
+            </li>
+            <li class="@Html.IsSelected("Account","Settings","active")">
+                <a href="@Url.Action("Settings","Account", new { id = ViewBag.UserId })"><span class="icon icon-setting"></span>Setting</a>
+            </li>
+        </ul>
+    </div>
+</div>

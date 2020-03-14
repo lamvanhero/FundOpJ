@@ -1,0 +1,35 @@
+@*@model RecipientViewModel*@
+@if (Model.TopIndividualSponsors != null && Model.TopIndividualSponsors.Count() > 0)
+{
+    <div>
+        <ul class="list no-border p-b rt-list">
+            <li class="list-item">
+                <h4>
+                    <span class="fa-stack" style="font-size:60%">
+                        <i class="fa fa-circle fa-stack-2x" style="color:#6DBF13"></i>
+                        <i class="fa fa-trophy fa-stack-1x fa-inverse"></i>
+                    </span>
+                    Top Individual Sponsors
+                </h4>
+            </li>
+
+            @*@foreach (var sponsor in Model.TopIndividualSponsors)*@
+            {
+                <li class="list-item col-sm-12">
+                    <div class="list-left">
+                        @*<img src="@sponsor.ImageUrl" class="w-56 w-56-resp circle" data-pin-nopin="true">*@
+                        <img src="" class="w-56 w-56-resp circle" data-pin-nopin="true">
+                    </div>
+                    <div class="list-body sponsor-info">
+                        @*<h6 class="_500" style="color:#4f87b8"><strong>$@sponsor.Amount</strong></h6>*@
+                        <h6 class="_500" style="color:#4f87b8"><strong>000000</strong></h6>
+                        @*<strong><a href="/sponsor/@sponsor.Slug">@sponsor.FirstName @sponsor.LastName</a></strong>*@
+                        <strong><a href="">xxxxxxx</a></strong>
+                    </div>
+                </li>
+            }
+
+        </ul>
+
+    </div>
+}

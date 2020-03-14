@@ -1,0 +1,351 @@
+@*@model SponsorViewModel*@
+
+@{
+    Layout = "_SponsorsLayout";
+}
+
+<style>
+    @@media only screen and (max-width : 767px) {
+         .about {
+             top:-90px;
+         }
+         .group-item {
+             padding-left:0px;
+         }
+         #sponsor-col {
+             height: 540px;
+         }
+         .list-item {
+             margin-top:5px !important;
+         }
+         .w-56-resp {
+             width: 36px ;
+             height:36px ;
+         }
+         #share-facebook-button, #add-photo-btn {
+             font-size: 0.75rem;
+         }
+         .sponsor-grid img{
+            max-height: 50px !important;
+            max-width: 50px !important;
+         }
+         .modal-dialog {
+             margin-top: 50px !important;
+         }
+         .rt-list {
+             padding-bottom:0px !important;
+         }
+         .sponsor-info, .sponsor-info > h6 {
+             font-size: 0.8rem !important;
+             font-weight: bolder;
+         }
+    }
+    .circlePic {
+        background: white;
+        background-image: url("/assets/images/no_image.png");
+        border: 3px solid white;
+        position: relative;
+        text-align: center;
+        width: 70%;
+
+    }
+
+    .circlePic:after {
+        content: "";
+        display: block;
+        padding-bottom: 100%;
+        background-image: url("@Model.ImageUrl");
+        background-size: cover;
+        background-position: center;
+        border-radius: 50%;
+    }
+
+    .select2-choice { background-color: #f0f0f0 !important; }
+        @@media only screen and (max-width : 767px) {
+    .about{
+    display:none;
+    }
+    #sponsor-col {
+    height: 178px;
+}
+    }
+</style>
+
+<link href="//amp.azure.net/libs/amp/2.2.2/skins/amp-default/azuremediaplayer.min.css" rel="stylesheet">
+<script src="//amp.azure.net/libs/amp/2.2.2/azuremediaplayer.min.js"></script>
+
+<div class="row-col">
+    <div class="col-md-4 col-lg-3 m-b-0" id="sponsor-col" style="position: relative; padding-top: 70px;">
+
+        <!--Responsive Sm > -->
+        <div class="box white m-x-auto hidden-md-up" style="top:-70px">
+            <div style="max-width:460px; margin: 0 auto; border: gray" class="b-b">
+                <div class="row p-x p-t">
+                    <div class="col-xs-4 text-center">
+                        <img src="@Model.ImageUrl" class="img-circle avatar white" style="width: 100px; height: 100px; border: 3px solid white">
+
+                    </div>
+                    <div class="col-xs-8 text-center text-xs text-left m-t">
+                        <div>
+                            <h4>
+                                @if (Model.IsIndividual)
+                                {
+                                    <span>@Model.FirstName @Model.LastName</span>
+                                }
+                                else
+                                {
+                                    <span>@Model.BusinessName</span>
+                                }
+                                <br />
+                                @if (Model.IsAdmin)
+                                {
+                                    <a href="/sponsor/settings/@Model.Slug" class="btn btn-sm rounded white" style="color:gray">@(Model.IsCurrentSponsor ? "Edit Profile" : "Edit Sponsors")</a>
+                                }
+                            </h4>
+                        </div>
+                        @if (!Model.IsCurrentSponsor)
+                        {
+                            <div class="p-t-xs">
+                                @*<div class="btn btn-sm text-xs rounded btn-outline  _600" style="background-color:#6DBF13; color:white" data-toggle="modal" data-target="#applyForSponsorshipModal">
+                                        Apply for Sponsorship
+                                    </div>*@
+
+                                @if (!Model.IsRequistedForFriend && !Model.IsAdmin)
+                                {
+                                    <button type="button" class="btn btn-sm text-xs rounded btn-outline  _600 btnFriendRequest" style="background-color:#62B8CC  ; color:white" data-SponsorId="@Model.SponsorId" onclick="SendFriendRequest(this)">
+                                        Send Friend Request
+                                    </button>
+                                }
+                            </div>
+                        }
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="row p-x p-y-sm">
+
+                    @*<div class="col-xs-4 text-center m-t-sm">
+                            <button class="btn btn-sm circle blue-800 m-r-sm" onclick="FBPostTextClick()">
+                                <i class="fa fa-facebook-f"></i><span class="hidden-sm-down">Share</span>
+                            </button>
+                            <button class="btn btn-sm circle blue w-32 h-32 p-a-0">
+                                <i class="fa fa-twitter p-l-0 m-l-0"></i><span class="hidden-sm-down">Share</span>
+                            </button>
+                        </div>
+                        <a class="col-xs-4 text-xs">
+                            <div class="text-muted">Activity</div>
+                            <img src="/assets/icons/graph.png" class="m-t-xs">
+                        </a>*@
+                    @if (Model.IsAdmin)
+                    {
+                        <div class="col-xs-4 text-center">
+                            <a>
+                                <div class="text-muted text-xs">Total Balance</div>
+                                @*<div style="font-weight: 900 !important; font-family: roboto; font-size:18px">$@string.Format("{0:n0}", Model.CurrentSavings)</div>*@
+                                <div style="font-weight: 900 !important; font-family: roboto; font-size:18px">$@string.Format("{0:n0}", "000000")</div>
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!--<img src="@Model.ImageUrl" class="img-circle avatar white hidden-sm-down" style="z-index:500; width: 70%; height: auto; margin-top: -160px; margin-left: 15%; object-fit: contain; border: 3px solid white">-->
+        <div class="circlePic circle hidden-sm-down" style="z-index:500; margin-top: -160px; margin-left: 15%"></div>
+        @if (Model.CanViewProfile)
+        {
+            <div class="about padding pos-rlt" style="padding-left: 30px">
+                @*<div class="hidden-sm-down p-t-sm" style="display:flex; justify-content: center">
+                        <button class="btn btn-sm circle blue-800 m-r">
+                            <i class="fa fa-facebook-f p-r-sm"></i><span class="hidden-sm-down">Share</span>
+                        </button>
+                        <button class="btn btn-sm circle blue" href="">
+                            <i class="fa fa-twitter p-r-sm"></i><span class="hidden-sm-down">Share</span>
+                        </button>
+                    </div>*@
+                <div class="p-y-lg">
+                    <h6>Location</h6>
+                    <div class="list-left _500 b-b p-b-sm" style="border-bottom: solid 1px lightgrey">
+                        <div>
+                            <p class="text-muted">
+                                @Model.Location
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <p></p>
+                <div id="details">
+                    <h6>About Us</h6>
+                    <div class="list-left _500 b-b p-b-sm" style="border-bottom: solid 1px lightgrey">
+                        <div>
+
+                            <p class="text-muted">@Model.Bio</p>
+
+
+                        </div>
+                    </div>
+                    <!--<br/><br/>-->
+
+                </div>
+            </div>
+        }
+
+
+    </div>
+    <div class="col-md-4 col-lg-7 white" id="timeline-feed" style="border-right: 1px solid lightgrey; border-left: 1px solid lightgrey">
+        <!--Timeline-->
+        @*@Html.Partial("_TimelineFeed", Model)*@
+        @Html.Partial("_TimelineFeed")
+    </div>
+    <div class="col-md-4 col-lg-3">
+        <div class="hidden-sm-down">
+            @if (!Model.IsCurrentSponsor)
+            {
+                <div class="p-a-lg pos-rlt" style="padding:0 !important; height: 0; text-align: center">
+                    @*<button type="button" class="btn btn-sm rounded btn-outline  _600" style="margin-top: -1.3rem; padding-left: 25px; padding-right:25px; background-color:#6DBF13; color:white"
+                                data-toggle="modal" data-target="#applyForSponsorshipModal">
+                            Apply for Sponsorship
+                        </button>*@
+
+                    @if (!Model.IsRequistedForFriend && !Model.IsAdmin)
+                    {
+                        <button type="button" class="btn btn-sm rounded btn-outline  _600 btnFriendRequest" style="margin-top: -1.3rem; padding-left: 25px; padding-right:25px; background-color:#62B8CC  ; color:white" data-SponsorId="@Model.SponsorId" onclick="SendFriendRequest(this)">
+                            Send Friend Request
+                        </button>
+                    }
+                </div>
+            }
+            <!--Apply For Sponsorship Modal-->
+            <div class="modal fade" id="applyForSponsorshipModal" role="dialog">
+                <div class="modal-dialog" role="document" style="margin-top: 150px">
+                    <div class="modal-body box b-a padding" style="border-radius: 0; background-color:#f0f0f0">
+                        <br />
+                        <h4 class="modal-title" style="text-align:center">Ask For Sponsorship</h4>
+
+                        <br />
+                        <br />
+
+                        <center>
+                            <div class="box b-a" style="width: 70%; border-radius:5px; background-color:#f0f0f0">
+                                <div class="box-body" style="background-color:#f0f0f0">
+                                    <select id="recipients" style="width: 100%" class="form-control select2" ui-jp="select2" ui-options="{theme: 'bootstrap'}">
+                                        <option disabled selected>Choose an Account to Ask For Sponsorship</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </center>
+
+                        <br />
+
+                        <button type="button" class="close" style="position: absolute; right: 10px; top:10px" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <div class="padding no-borders" style="border:none !important; text-align:center">
+                            <a href="">
+                                <span class="btn rounded btn-outline text-xs _600 white" id="getRecipients" style="border:1px solid #4f87b8">
+                                    Ask For Sponsorship!
+                                </span>
+                                <span class="hidden-sm-up ">
+                                    <i class="fa fa-search" style="color:white">&#xe7fd;</i>
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <br /><p></p>
+            @if (Model.IsAdmin)
+            {
+                <li class="list-group-item no-b-t b-b">
+                    <div style="display:flex; justify-content: space-between;">
+                        @*<a>
+                                <h6 class="text-muted">Activity</h6>
+                                <img src="/assets/icons/graph.png" style="margin-top: 4px">
+                            </a>*@
+                        <a>
+                            <h6 class="text-muted" style="text-align:right">Total Balance</h6>
+                            <div style="font-weight: 900 !important; font-family: roboto; font-size:24px; margin-top:-5px">$@string.Format("{0:n0}", Model.CurrentSavings)</div>
+                        </a>
+                    </div>
+                </li>
+            }
+        </div>
+        @*@if (Model.CanViewProfile)
+            {
+                <!--Top Sponsors-->
+                @Html.Partial("_AffiliatedGroups")
+                <!--Recent Sponsors-->
+                @Html.Partial("_AffiliatedStudents")
+            }*@
+
+
+    </div>
+</div>
+<div class="m-y"></div>
+<script>
+
+    
+
+      var recipients = []
+
+      $(document).ready(function () {
+          $.ajax({
+              type: 'GET',
+              url: '@Url.Action("GetUserRecipients", "Recipient")',
+              async: true,
+              success: function (result) {
+                  for (var i = 0; i < result.content.length; ++i) {
+                      //recipients.push(result.content[i])
+                      $('#recipients').append(new Option(result.content[i].firstname + ' ' + result.content[i].lastname,
+                          result.content[i].slug))
+                  }
+              },
+              error: function (result) {
+                  console.log('ERROR: ' + result.message);
+              }
+          });
+      });
+
+
+       $('#getRecipients').click(function (e) {
+              $.ajax({
+                  type: 'POST',
+                  url: '/sponsor/' + $('#recipients').val() + '/request',
+                  data: JSON.stringify({ receiverId: '@Model.SponsorId', senderType: 0 }),
+                  datatype: 'json',
+                  contentType: "application/json; charset=UTF-8",
+                  async: true,
+                  success: function (result) {
+                      toastr.success('Request Sent Successfully!')
+                  },
+                  error: function (result) {
+                      console.log('ERROR ajax: ' + result.message);
+                      toastr.error('Couldn\'t Process Your Request at This Time')
+                  }
+              });
+    });
+
+    function SendFriendRequest($this) {
+        var id = $($this).attr("data-SponsorId");
+        var jsonObject = {
+            SponsorId: id
+        };
+        $.ajax({
+            type: 'Get',
+            url: '@Url.Action("SendFriendRequest", "sponsor")',
+            data: jsonObject,
+            datatype: 'json',
+            contentType: "application/json; charset=UTF-8",
+            success: function (result) {
+                $(".btnFriendRequest").hide();
+                alert("Friend Request sent successfully.");
+            },
+            error: function (result) {
+                console.log('ERROR ajax: ' + result.errorMessage);
+            }
+        });
+    }
+</script>

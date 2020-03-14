@@ -1,0 +1,8 @@
+D:\ProjectSS\OppJar\oppjar\src\OppJar.Common\bin\Debug\netcoreapp3.1\OppJar.Common.deps.json
+D:\ProjectSS\OppJar\oppjar\src\OppJar.Common\bin\Debug\netcoreapp3.1\OppJar.Common.dll
+D:\ProjectSS\OppJar\oppjar\src\OppJar.Common\bin\Debug\netcoreapp3.1\OppJar.Common.pdb
+D:\ProjectSS\OppJar\oppjar\src\OppJar.Common\obj\Debug\netcoreapp3.1\OppJar.Common.AssemblyInfoInputs.cache
+D:\ProjectSS\OppJar\oppjar\src\OppJar.Common\obj\Debug\netcoreapp3.1\OppJar.Common.AssemblyInfo.cs
+D:\ProjectSS\OppJar\oppjar\src\OppJar.Common\obj\Debug\netcoreapp3.1\OppJar.Common.dll
+D:\ProjectSS\OppJar\oppjar\src\OppJar.Common\obj\Debug\netcoreapp3.1\OppJar.Common.pdb
+D:\ProjectSS\OppJar\oppjar\src\OppJar.Common\obj\Debug\netcoreapp3.1\OppJar.Common.csprojAssemblyReference.cache

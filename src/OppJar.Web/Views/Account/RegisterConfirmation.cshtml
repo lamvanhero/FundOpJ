@@ -1,0 +1,69 @@
+﻿@{
+    var email = Context.Request.Query["Email"];
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Verify Email - OPPJAR</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous" />
+    <link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/custom.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/main.css" asp-append-version="true" />
+</head>
+<body>
+    <div class="verify-email-page">
+        <div class="container-fluid">
+            <img class="logo"
+                 src="~/img/oppjar-logo-white.png"
+                 alt="oppjar" />
+            <form method="get" asp-action="ResendEmail" asp-controller="Account">
+                <div class="verify-email-form">
+                    <div class="email-icon"></div>
+                    <h3>You're almost there!</h3>
+                    <p>
+                        We sent an email to
+                        <a href="@email">@email</a>
+                    </p>
+                    <div class="dash-line"></div>
+                    <div class="content">
+                        <p>
+                            Please click on the link in that email to complete your sign-up.
+                            If you don't see it, you may need to check your spam folder.
+                        </p>
+                        <div class="break-line"></div>
+                    </div>
+                    <div class="note">
+                        <p>
+                            Still can't find the email?
+                            <a id="sendEmail" style="cursor: pointer">Resend email</a>
+                        </p>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script>
+    $(document).ready(function() {
+        $("#sendEmail").click(function() {
+            $.ajax({
+                type: "GET",
+                url: "/account/resendemailactive?email=@Html.Raw(email)",
+                success: function (data, status) {
+
+                },
+                error: function (error) {
+
+                }
+            });
+        });
+    });
+    </script>
+</body>
+</html>

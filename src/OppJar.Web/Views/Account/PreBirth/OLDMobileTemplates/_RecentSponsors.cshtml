@@ -1,0 +1,47 @@
+@*@model RecipientViewModel*@
+
+<ul class="list no-border p-b rt-list">
+    <li class="list-item col-xs-12"> 
+    <h4>Latest Sponsors <i class="fa fa-certificate" style="color:orange; margin-left: 5px"></i></h4>
+    </li>
+    @if (1 > 0)
+    {
+        //foreach (var sponsor in Model.Sponsors)
+        //{
+        //    var user = Model.Users[sponsor.SponsorId];
+            <li class="list-item col-xs-6 col-sm-12">
+                <div class="list-left">
+                    @*@if (string.IsNullOrEmpty(user.PictureUrl))*@
+                    @if (true)
+                    {
+                        <img src="/assets/images/user.svg" class="w-56 w-56-resp circle" />
+                    }
+                    else
+                    {
+                        <img class="w-56 w-56-resp circle" />
+                    }
+                </div>
+                <div class="list-body sponsor-info">
+                    @*TODO: real amount*@
+                    <h6 class="_500" style="color:#4f87b8"><strong>Amount</strong></h6>
+                    @*<strong><a href="/user/@sponsor.Slug">@(user.FirstName + " ")@user.LastName</a></strong>*@
+                    <strong><a href="">@(" ")xxxx</a></strong>
+                    @*@if (string.IsNullOrEmpty(user.FirstName) && string.IsNullOrEmpty(user.LastName))*@
+                    @if (true)
+                    {
+                        <i>Unnamed</i>
+                    }
+                </div>
+            </li>
+        //}
+    }
+    @if (Model.Sponsors == null || Model.Sponsors.Count() == 0)
+    {
+        <li class="list-item">
+            <div class="list-body">
+                No Sponsors yet!
+            </div>
+        </li>
+    }
+    
+</ul>

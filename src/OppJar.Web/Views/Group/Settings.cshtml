@@ -1,0 +1,589 @@
+﻿@*@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+@using Newtonsoft.Json
+@model GroupSettingsViewModel*@
+@{ Layout = "_Layout"; }
+
+<div class="app center" id="vue">
+
+    <!-- ############ LAYOUT START-->
+    <!-- aside -->
+    <!-- / -->
+    <!-- content -->
+    <div id="content" class="app-content box-shadow-z0 white" role="main">
+
+
+
+        <div class="item" style="z-index:1; height: 264px">
+            <input id="coverImage" type="file" style="display: none;" />
+            <input type="button" class="btn btn-sm rounded m-l white edit-profile-btn-new" onclick="uploadCoverImg()" value="Edit Banner Image" />
+            <div class="subdivmenu">
+                <div class="p-t submenu">
+                    <div><h6 style="color:white">Main Settings</h6></div>
+                    <a v-bind:href="'/group/applications/'+model.slug"><h6 style="color: #ccc">Student Applications</h6></a>
+                    <a><h6 style="color: #ccc">Allocation</h6></a>
+                </div>
+            </div>
+            <div class="item-bg" style="line-height:264px;">
+            </div>
+
+            <div class="p-a-lg pos-rlt" style="padding-bottom:0px !important">
+                <div class="edit-profile-btn">
+                    <input id="profileImage" type="file" style="display: none;" />
+                    <input type="button" class="btn btn-sm rounded m-l white" onclick="uploadProfileImg()" style="color:gray" value="Edit Profile Image" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="app-body white p-t-0" id="view">
+        <div class="circlePic circle" style="z-index:500; margin-top: -90px; margin-left: 5%;">
+            <i id="post-load-spinner" class="fa fa-spinner fa-spin hide" style="position:absolute; left: calc(50% - 25px); top: calc(50% - 25px); font-size: 50px; color:#4f87b8"></i>
+        </div>
+        <div class="edit-dp-img">
+            <input type="button" class="btn btn-sm rounded m-l white " onclick="uploadProfileImg()" style="color:gray" value="Edit Profile Image" />
+        </div>
+        <div class="row-col">
+            <div class="padding">
+                <div class="row">
+                    <div class="col-md-4 col-md-offset-2">
+                        <div class="box b-a" style="border-radius:5px">
+                            <div class="box-header b-b">
+                                <h3>Group Name</h3>
+                            </div>
+                            <div class="box-body">
+                                <input class="p-x-sm btn-sm b-a onlyAlphNumaric" type="text" v-model="model.name" style="width:100%">
+                            </div>
+                        </div>
+                        <div class="box b-a" style="border-radius:5px">
+                            <div class="box-header b-b">
+                                <h3>Group Privacy</h3>
+                            </div>
+
+                            <div class="box-body">
+                                <select id="single" style="width: 100%" class="form-control select2" ui-jp="select2" ui-options="{theme: 'bootstrap'}">
+                                    <option value="">Viewable by Anyone</option>
+                                    <option value="">Closed</option>
+                                    </optgroup>
+                                </select>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="box b-a" style="border-radius:5px">
+                            <div class="box-header b-b">
+                                <h3>About Us</h3>
+                            </div>
+
+                            <div class="box-body">
+                                <p>
+                                    <textarea class="form-control" v-model="model.about" placeholder="No Text Entered" style="border-radius:5px"></textarea>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="box b-a" style="border-radius:5px">
+                            <div class="box-header b-b">
+                                <h3>Group Admins <span class="pull-right" style="margin-top:-7px"><a class="btn btn-sm rounded green" data-toggle="modal" data-target="#add-admin-modal">Add+</a></span></h3>
+                            </div>
+
+                            <ul v-for="admin in model.admins" class="list-group">
+                                <li v-if="admin.isOwner" class="list-group-item" style="height:64px">
+                                    <a href class="pull-left w-40 m-r"><img v-bind:src="admin.imageUrl" class="img-responsive img-circle"></a>
+                                    <div class="clear" style="">
+                                        <a class="_500 block" style="margin-top:10px; display:flex; justify-content:space-between"><p class="">{{admin.firstName}} {{admin.lastName}}</p><p class="">Owner</p></a>
+                                    </div>
+                                </li>
+                                <li v-else class="list-group-item" style="height:64px">
+                                    <a href class="pull-left w-40 m-r"><img v-bind:src="admin.imageUrl" class="img-responsive img-circle"></a>
+                                    <div class="clear" style="">
+                                        <a class="_500 block" style="margin-top:10px; display:flex; justify-content:space-between"><p class="">{{admin.firstName}} {{admin.lastName}}</p></a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="box b-a" style="border-radius:5px">
+                            <div class="box-header b-b">
+                                <h3>Add Funds <span class="pull-right" style="margin-top:-7px"><a class="btn btn-sm rounded green">Add+</a></span></h3>
+                            </div>
+
+                            <form class="box-body">
+                                <div class="m-b-sm">
+                                    From Credit card
+                                </div>
+                                <select id="single" style="width: 100%" class="form-control select2" ui-jp="select2" ui-options="{theme: 'bootstrap'}">
+                                    <option disabled selected>Populate from existing profile</option>
+                                    <option value="">Visa ending in -xxxx</option>
+                                    <option value="">Visa ending in -xxxx</option>
+                                    <option value="">Visa ending in -xxxx</option>
+                                </select>
+                                <div v-if="!newCard">
+                                    <div v-on:click="toggleNewCard" class="btn btn-default m-t-sm" style="width:100%; text-align:left">
+                                        <span>
+                                            <span class="text-sm pull-left">Add New Card</span><i class="fa fa-plus pull-right" style="color: #4f87b8"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div v-else>
+                                    <div v-on:click="toggleNewCard" class="btn btn-default m-t-sm" style="width:100%; text-align:left">
+                                        <span>
+                                            <span class="text-sm pull-left">Don't Add New Card</span><i class="fa fa-minus pull-right" style="color: #4f87b8"></i>
+                                        </span>
+                                    </div>
+                                    <div class="row m-y">
+                                        <div class="col-sm-12">
+                                            <!--CC validation TODO: custom duplicate validation (parsley)-->
+                                            <input type="text" pattern="^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\d{3})\d{11})$"
+                                                   class="form-control parsley-success has-value text-sm" required placeholder="New Credit Card">
+                                        </div>
+                                    </div>
+
+                                    <div class="row m-b">
+                                        <!--Exp-->
+                                        <div class="col-sm-3">
+                                            <input type="text" class="form-control parsley-success has-value text-sm" required placeholder="Exp. Month">
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <input type="text" class="form-control parsley-success has-value text-sm" required placeholder="Exp. Year">
+                                        </div>
+                                        <!--Zip-->
+                                        <div class="col-sm-3">
+                                            <input type="text" minlength="5" class="form-control parsley-success has-value text-sm" required placeholder="Zip Code">
+                                        </div>
+                                        <!--CCV-->
+                                        <div class="col-sm-3 ">
+                                            <input type="text" data-parsley-type="number" maxlength="4" min="3" class="form-control parsley-success has-value text-sm" required placeholder="CCV">
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="row m-y">
+                                    <div class="input-group m-b col-sm-12 text-xl" style="height: 75px">
+                                        <span class="input-group-addon white" style="color: grey; font-size: 2rem">$</span>
+                                        <input type="text" required data-parsley-min="1" data-parsley-type="integer" class="form-control parsley-success has-value onlyNumaric" value=""
+                                               class="form-control text-sm" style="height: 75px; font-size: 2rem; border-radius: 0px !important; text-align:right" placeholder="0">
+                                        <span class="input-group-addon white pos-rlt" style="color: grey; font-size: 2rem">
+                                            .00
+                                        </span>
+
+                                    </div>
+                                </div>
+                                <div class="row m-b-sm">
+                                    <div class="col-sm-12">
+                                        <button type="submit" class="pull-right btn rounded green">Add Funds</button>
+                                    </div>
+                                </div>
+
+
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row m-b-sm">
+                    <div class="col-md-11">
+                        <div v-on:click="save()" class="pull-right btn rounded green">Save Changes</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="basic" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Upload Banner Image</h4>
+            </div>
+            <div class="modal-body">
+                <div id="ModelBodyDiv">
+
+                    <div class="row">
+                        <div class="col-md-12 responsive-1024" id="divCropImage">
+                            <img src="@Model.CoverUrl" id="CropImage" alt="Banner Image" />
+                        </div>
+                    </div>
+
+                    <input type="hidden" id="crop_x" name="x" />
+                    <input type="hidden" id="crop_y" name="y" />
+                    <input type="hidden" id="crop_w" name="w" />
+                    <input type="hidden" id="crop_h" name="h" />
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <input type="file" id="FileBannerImage" />
+                <button type="button" id="btnBannerImage" class="btn green btn-outline">Upload Banner Image</button>
+                <button type="button" class="btn dark btn-outline" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<div id="add-admin-modal" class="modal fade animate" data-backdrop="true">
+    <div class="modal-dialog" id="animate">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Admin</h5>
+                <div class="row p-t">
+                    <div class="col-sm-8">
+                        <input type="text" id="admin-search" class="form-control form-control-sm rounded" placeholder="Search">
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="col pull-right btn btn-sm btn-default" onclick="searchAdmin()">Search</div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <ul class="list-group">
+                    <li v-for="admin in adminResults" class="list-group-item" style="height:64px">
+                        <div class="col-xs-10 row">
+                            <div class="row col-xs-9" style="display:flex; justify-content: left">
+                                <div class="col-xs-4">
+                                    <a href class="w-40 p-x-0">
+                                        <img v-bind:src="admin.profileImageUrl" class="img-responsive img-circle">
+                                    </a>
+                                </div>
+                                <div class="col-xs-8" style="margin-top:10px;">{{admin.firstName}} {{admin.lastName}}</div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-xs-2 text-right" style="margin-top: 10px">
+                            <button class="col pull-right btn btn-sm green add-admin-btn" onclick="addAdmin(this)" :data-admin-id="admin.id" :data-admin-first-name="admin.firstName" :data-admin-last-name="admin.lastName" :data-admin-image-url="admin.profileImageUrl">Select</button>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="modal-footer" style="border-top:none">
+                <button type="button" class="btn btn-default btn-sm p-x-md" data-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $('#footer').on('click', function () {
+            console.log('clicked footer')
+            $('#coming-soon').css('visibility', 'visible');
+            setTimeout(function () {
+                $('#coming-soon').css('visibility', 'hidden');
+            }, 1500)
+        })
+
+        $('.logo').matchHeight();
+    </script>
+
+    <script>
+
+        $(function () {
+            $(".onlyNumaric").on('keyup', function (e) {
+                e.target.value = e.target.value.replace(/[^\d]/g, '');
+                return false;
+            });
+            $(".onlyNumaric").on('keypress', function (event) {
+                var v = !event.charCode ? event.which : event.charCode;
+                if (v != 8) {
+                    var regex = new RegExp("^[0-9]+$");
+                    var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+                    if (!regex.test(key)) {
+                        event.preventDefault();
+                        return false;
+                    }
+                }
+            });
+        });
+    var model = @Json.Serialize(Model);
+    @*var user = @Json.Serialize(await UserManager.GetUserAsync(User)) || {}*@
+        var dob = new Date(model.dateOfBirth);
+    //function uploadCoverImg() {
+    //    $("#coverImage").click();
+    //}
+        function uploadCoverImg() {
+            $("#myModal").modal("show")
+        }
+        $(document).ready(function () {
+            $(window).resize();
+        })
+        $(window).resize(function () {
+            var aspectRatio = ($(window).width() * 325 / 1600) + 110;
+            if (parseInt($(window).width()) > 480)
+                $(".item").attr("style", "height:" + aspectRatio + "px !important;");
+            else
+                $(".item").attr("style", "height:110px !important;");
+        });
+        function readURL(input) {
+
+            if (input.files && input.files[0]) {
+
+                var formData = new FormData();
+                formData.append('file', input.files[0]);
+                $.ajax({
+                    url: '/sponsor/ImageOrientationChangeAsync',
+                    method: 'POST',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    async: true,
+                    success: function (result) {
+                        $("#divCropImage>.jcrop-holder").remove();
+                        var jcrop_api;
+                        jcrop_api = $.Jcrop('#CropImage');
+                        jcrop_api.setImage("data:image/jpeg;base64," + result, DemoJCrop());
+                    },
+                    error: function (err) {
+                        console.log(err)
+                        toastr.error("Couldn't use this image")
+                    }
+                })
+
+                //var reader = new FileReader();
+
+                //reader.onload = function (e) {
+
+                //    $("#divCropImage>.jcrop-holder").remove();
+                //    var jcrop_api;
+                //    jcrop_api = $.Jcrop('#CropImage');
+                //    jcrop_api.setImage(e.target.result, DemoJCrop());
+                //}
+
+                //reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function DemoJCrop() {
+            $('#CropImage').Jcrop({
+                aspectRatio: 1600 / 325,
+                onSelect: updateCoords,
+                onChange: changeCrop
+            });
+
+            function updateCoords(c) {
+                $('#crop_x').val(c.x);
+                $('#crop_y').val(c.y);
+                $('#crop_w').val(c.w);
+                $('#crop_h').val(c.h);
+            };
+            function changeCrop() {
+                $('#crop_x').val(0);
+                $('#crop_y').val(0);
+                $('#crop_w').val(0);
+                $('#crop_h').val(0);
+            }
+        }
+
+        $("#FileBannerImage").on("change", function () {
+            readURL(this);
+        });
+    function uploadProfileImg() {
+        $("#profileImage").click();
+    }
+
+        $(function () {
+            $(".onlyAlphNumaric").on('keypress', function (event) {
+                var v = !event.charCode ? event.which : event.charCode;
+                if (v != 8) {
+                    var regex = new RegExp("^[a-zA-Z0-9\d\\s]+$");
+                    var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+                    if (!regex.test(key)) {
+                        event.preventDefault();
+                        return false;
+                    }
+                }
+            });
+        });
+
+    $(document).ready(function() {
+        /*
+        Upload profile image
+        */
+        $("#profileImage").change(function () {
+            $(".fa-spinner").removeClass("hide");
+            if (this.files && this.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var formData = new FormData();
+                    formData.append('file', $('#profileImage')[0].files[0]);
+                    formData.append('slug', '@Model.Slug')
+
+                    $.ajax({
+                        url: '/api/group/profileimage',
+                        method: 'POST',
+                        data: formData,
+                        contentType: false,
+                        processData: false,
+                        async: true,
+                        success: function (result) {
+                            $(".fa-spinner").addClass("hide");
+                            if (result.success == true) {
+                                document.styleSheets[10].addRule('.circlePic::after','background-image: url("' + result.fileUrl + '")');
+                                document.styleSheets[10].insertRule('.circlePic::after { background-image: url("' + result.fileUrl + '")}', 0);
+                            } else {
+                                toastr.error(result.message);
+                            }
+                        },
+                        error: function (err) {
+                            $(".fa-spinner").addClass("hide");
+                            console.log(err)
+                        }
+                    })
+                }
+                reader.readAsDataURL(this.files[0]);
+            }
+        });
+
+        /*
+        Upload cover image
+        */
+        $("#btnBannerImage").click(function () {
+                if ($('#FileBannerImage')[0].files && $('#FileBannerImage')[0].files[0]) {
+
+                    var x = parseInt($("#crop_x").val()) || 0;
+                    var y = parseInt($("#crop_y").val()) || 0;
+                    var w = parseInt($("#crop_w").val()) || 0;
+                    var h = parseInt($("#crop_h").val()) || 0;
+                    if (w > 0 && h > 0) {
+
+                    var formData = new FormData();
+                        formData.append('file', $('#FileBannerImage')[0].files[0]);
+                        formData.append('slug', '@Model.Slug');
+                        formData.append('X', x);
+                        formData.append('Y', y);
+                        formData.append('W', w);
+                        formData.append('H', h);
+                    $("#preloader").show();
+                    $.ajax({
+                        url: '/api/group/image',
+                        method: 'POST',
+                        data: formData,
+                        contentType: false,
+                        processData: false,
+                        async: true,
+                        success: function (result) {
+                            if (result.success == true) {
+                                $("#myModal").modal("hide")
+                                $(".item").css("background", "url('" + result.fileUrl + "') no-repeat fixed");
+                                $(".item").css("background-size", "100% auto");
+                                $(".item").css("background-position-y", "110px");
+                                //$(".item").css("background-position-y", "59px");
+                                $(".item").css("background-position-x", "center");
+                                //$(".item").css("background-size", "cover");
+                            } else {
+
+                                toastr.error(result.message);
+                            }
+                            $("#preloader").hide();
+                        },
+                        error: function (result) {
+                            $("#preloader").hide();
+                        }
+                        })
+                    } else {
+                        toastr.error("Select Image area");
+                    }
+                }
+            });
+        @*$("#coverImage").change(function () {
+            if (this.files && this.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var formData = new FormData();
+                    formData.append('file', $('#coverImage')[0].files[0]);
+                    formData.append('slug', '@Model.Slug')
+                    $("#preloader").show();
+                    $.ajax({
+                        url: '/api/group/image',
+                        method: 'POST',
+                        data: formData,
+                        contentType: false,
+                        processData: false,
+                        async: true,
+                        success: function (result) {
+                            if (result.success == true) {
+                                $(".item").css("background", "url('" + result.fileUrl + "') no-repeat fixed");
+                                $(".item").css("background-size", "cover");
+                                } else {
+                                    toastr.error(result.message);
+                                }
+                            $("#preloader").hide();
+                        },
+                        error: function (result) {
+                            $("#preloader").hide();
+                        }
+                    })
+                }
+                reader.readAsDataURL(this.files[0]);
+            }
+        });*@
+    });
+        var vueAdmin = new Vue({
+            el: "#add-admin-modal",
+            data: {
+                adminResults: []
+            },
+            mounted: function () {
+                console.log('vueAdmin')
+            }
+        });
+        var vue = new Vue({
+            el: "#vue",
+            data: {
+                model: model,
+                user: user,
+                newCard: false,
+                dateOfBirthString: (dob.getMonth() + 1) + '/' + dob.getDate() + '/' + dob.getFullYear()
+            },
+            mounted: function () {
+                console.log("vue mounted, data: ", this._data)
+            },
+            methods: {
+                save: function save() {
+                    if (model.name != "") {
+                    $("#preloader").show();
+                    $.ajax({
+                        type: 'POST',
+                        @*url: '@Url.Action("UpdateSettings", "Group")',*@
+                        data: JSON.stringify(model),
+                        datatype: 'json',
+                        contentType: "application/json; charset=UTF-8",
+                        success: function (result) {
+                            toastr.success('Changes Saved!')
+                            $("#preloader").hide();
+                        },
+                        error: function (result) {
+                            console.log('ERROR ajax: ' + result.errorMessage);
+                            toastr.error('Something went wrong...');
+                            $("#preloader").hide();
+                        }
+                        });
+                    } else {
+                        toastr.error('Name is Required.');
+                    }
+                },
+                toggleNewCard: function () {
+                    this.newCard = !this.newCard
+                },
+                addAdmin: function (admin) {
+                    if (model.adminIds.indexOf(admin.userId) < 0) {
+                        model.adminIds.push(admin.userId);
+                        model.admins.push(admin);
+                        $('#add-admin-modal').modal('toggle');
+                    }
+                    else {
+                        toastr.error(admin.firstName + ' ' + admin.lastName + ' already added.', 'Oops!');
+                    }
+                }
+            }
+        });
+
+        $('[ui-jp]').uiJp();
+    </script>
+}

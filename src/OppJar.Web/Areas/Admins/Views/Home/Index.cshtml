@@ -1,0 +1,94 @@
+﻿@using OppJar.Dto
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<style>
+    #users_wrapper {
+        padding: 10px;
+    }
+</style>
+
+<div class="app-body white p-t-lg">
+    <div class="row">
+        <div class="col-md-1">
+            <button class="btn btn-link" data-target="#modal-profile" data-toggle="modal" data-id=""><i class="fa fa-plus" aria-hidden="true"></i> Create</button>
+        </div>
+    </div>
+    @(Html.Ext().Grid<UserDetailDto>().Name("users").RowId("id")
+        .PagingType(PagingType.Full_numbers)
+        .AutoWidth(true)
+        .ColumnDefs(c =>
+        {
+            c.TargetAll().Searchable(false);
+            c.TargetAll().Orderable(false);
+            c.Targets(0).ClassName("text-center");
+        })
+        .Processing(true)
+        .Dom("<'top'f>tp")
+        .Columns(cols =>
+        {
+            cols.Add(c => c.Avatar).Data("avatar").Title("").Render(() => "onRenderAvatar");
+            cols.Add(c => c.FirstName).Data("firstName").Title("First Name");
+            cols.Add(c => c.LastName).Data("lastName").Title("Last Name");
+            cols.Add(c => c.Email).Data("email").Title("Email");
+            cols.Add(c => c.Status).Data("status").Title("Status");
+            cols.Add(c => c.Id).Render(() => "onRenderAction");
+        })
+        .ServerSide(true)
+        .DataSource(c =>
+            c.Ajax().Url($"/admins/users/search").Method("GET")
+        )
+    )
+</div>
+
+<div class="modal fade in" id="modal-profile" tabindex="-1" role="dialog" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit User</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="user-id" value="" />
+                <form id="frm-profile">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="adminManage.saveChange();">Save changes</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/js/app/admin-manage.js" asp-append-version="true"></script>
+    <script>
+        function onRenderAvatar(data, type, row, meta) {
+            return "<img width='50' src='" + data + "'/>";
+        };
+
+        function onRenderAction(data, type, row, meta) {
+            let label = 'Deactivate';
+
+            if (row.status === 'Deactivate') label = 'Activate';
+
+            let role = $.cookie('role');
+
+            let statusButton = "<button type=\"button\" onClick=\"adminManage.changeUserStatus('" + label + "','" + row.id + "')\" class=\"btn btn-link\">" + label + "</button>";
+
+            let editButton = "<button type=\"button\" data-target=\"#modal-profile\" data-toggle=\"modal\" data-id=\"" + row.id + "\" class=\"btn btn-link\">Edit</button>";
+
+            if (role === "SuperAdministrator") {
+                return "<div>" + statusButton + " | " + editButton + "</div>";
+            }
+
+            return "<div>" + editButton + "</div>";
+        };
+
+        adminManage.init();
+    </script>
+}

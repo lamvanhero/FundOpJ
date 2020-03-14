@@ -1,0 +1,103 @@
+﻿@model IEnumerable<MemoryViewModel>
+@foreach (var feed in Model)
+{
+    var feedId = feed.Id;
+
+    <div class="post-list mt-1">
+        <div class="post-item d-flex flex-column">
+            <div class="post-item-profile-info d-flex">
+                <div class="col-sm-11">
+                    <div class="row">
+                        <div class="col-sm-1">
+                            <img src="@feed.AvatarUrl"
+                                 alt="oppjar"
+                                 class="post-item__avatar" />
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="meta">
+                                <div class="username">@feed.FullName</div>
+                                <a target="_blank" href="/@feed.UserSlug/posts/@feed.Id" class="datetime">@feed.TimeAgo</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-1">
+                    <span style="cursor:pointer;" onclick="memoriesManage.deletePost('@feed.Id')"><i class="fa fa-trash"></i></span>
+                </div>
+            </div>
+
+            <div class="post-item-content mt-2">
+                @{
+                    var highlightClass = feed.FeedType == FeedType.Donation ? "highlight" : "";
+                }
+                <p class="@highlightClass">
+                    @feed.Content
+                </p>
+
+                @if (!string.IsNullOrEmpty(feed.Preview))
+                {
+                    <div class="row preview-section">
+                        @Html.Raw(feed.Preview)
+                    </div>
+                }
+
+                @if ((feed.FeedType == FeedType.Image || feed.FeedType == FeedType.Donation) && !string.IsNullOrEmpty(feed.FileUrl))
+                {
+                    <img src="@feed.FileUrl" alt="" />
+                }
+
+                @if (feed.FeedType == FeedType.Video && !string.IsNullOrEmpty(feed.FileUrl))
+                {
+                    <video style="width: 100%;" controls>
+                        <source src="@feed.FileUrl" type="video/mp4" autostart="false" />
+                        <source src="@feed.FileUrl" type="video/mpeg" autostart="false" />
+                        Unsupported video type
+                    </video>
+                }
+
+                @if (feed.FeedType == FeedType.Audio && !string.IsNullOrEmpty(feed.FileUrl))
+                {
+                    <audio controls>
+                        <source src="@feed.FileUrl" type="audio/mp3" autostart="false" />
+                        Unsupported audio type
+                    </audio>
+                }
+
+            </div>
+
+            <div class="post-item-interaction d-flex mt-2">
+                <div class="post-item-reaction pointer d-flex align-items-center">
+                    <span class="icon icon-like mr-1 feed-like" data-feed-id="@feedId" id="feed-like-@feedId"></span>
+                    <span class="icon-text" id="feed-nbr-like-@feed.Id">@feed.Like</span>
+                </div>
+
+                <div class="post-item-comment pointer d-flex align-items-center ID@(feedId)"
+                     data-toggle="collapse"
+                     data-target="#ID@(feedId)"
+                     aria-expanded="false"
+                     aria-controls="ID@(feedId)"
+                     onclick="toggleComment('.commentId001')">
+                    <span class="icon icon-comment mr-1"></span>
+                    <span class="icon-text" id="feed-comment-count-@feedId">@feed.Comments.TotalRecord</span>
+                </div>
+                <div class="post-item-reaction pointer d-flex align-items-center">
+                    <span class="icon icon-share mr-1"
+                          title="Share this post" onclick="memoriesManage.shareFacebook({url: '/@feed.UserSlug/posts/@feed.Id', feedId: '@feed.Id'})"></span>
+                </div>
+            </div>
+
+            <div class="comment-section collapse" id="ID@(feedId)">
+                <textarea id="comment-text-area-@feedId" class="form-control" rows="3" placeholder="Comment..."></textarea>
+                <div class="box-body clearfix" id="autosharing-body" ui-class="show">
+                    <input id="comment-button-@feedId" type="button" class="btn btn-sm rounded w-xs pull-right btn-comment-post" style="background-color:#62B8CC; color: white; float: right" data-feed-id="@feedId" value="Post" />
+                </div>
+                <div id="comment-area-@feedId">
+                    @foreach (var comment in feed.Comments.Items)
+                    {
+                        @await Html.PartialAsync("_MemoryComment", comment)
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}

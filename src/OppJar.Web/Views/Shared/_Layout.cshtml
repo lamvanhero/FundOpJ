@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Oppjar - @ViewData["Title"]</title>
+    <link rel="icon" href="~/favicon.ico" type="image/x-icon" sizes="16x16">
+    <environment include="Staging, Production">
+        <link rel="stylesheet"
+              href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+              integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+              crossorigin="anonymous" />
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css"
+              rel="stylesheet" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+              integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    </environment>
+
+    <environment include="Development">
+        <link rel="stylesheet"
+              href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+              integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+              crossorigin="anonymous" />
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css"
+              rel="stylesheet" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+              integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+        <script src="~/lib/jquery/jquery.min.js"></script>
+    </environment>
+
+    <link href="~/lib/toast/dist/toast.min.css" />
+    <link href="~/lib/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/styles.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/css/custom.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/css/main.css" asp-append-version="true"/>
+</head>
+
+<body>
+    <div class="main-page">
+        @await Html.PartialAsync("_NavSideBar")
+
+        <div class="main-content">
+            @await Html.PartialAsync("_MainHeader")
+
+            @RenderBody()
+        </div>
+    </div>
+
+    @await Html.PartialAsync("_Loader")
+
+    <script src="https://getbootstrap.com/docs/4.1/assets/js/vendor/popper.min.js"></script>
+    <environment include="Staging, Production">
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+                integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+                crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+    </environment>
+
+    <environment include="Development">
+        <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+    </environment>
+
+    <script src="~/lib/toast/dist/toast.min.js"></script>
+    <script src="~/lib/jquery-cookie/jquery.cookie.min.js"></script>
+    <script src="~/lib/sweetalert2/dist/sweetalert2.all.min.js"></script>
+    <script src="~/lib/jquery-cookie/jquery.cookie.min.js"></script>
+    <script src="~/js/site.js" type="text/javascript" asp-append-version="true"></script>
+    <script src="~/js/app/ajaxWrapper.js" type="text/javascript" asp-append-version="true"></script>
+    <script src="~/js/app/pubsub.js" asp-append-version="true"></script>
+
+    <script>
+        appSettings.init({ apiUrl: '@ViewBag.ApiUrl', linkPreviewKey: '@ViewBag.LinkPreviewKey' });
+
+        ajaxWrapper.init({ baseUrl: '@ViewBag.ApiUrl' });
+    </script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

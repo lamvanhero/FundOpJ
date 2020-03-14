@@ -1,0 +1,15 @@
+D:\ProjectSS\OppJar\oppjar\src\OppJar.AutoMapper\bin\Debug\netcoreapp3.1\OppJar.AutoMapper.deps.json
+D:\ProjectSS\OppJar\oppjar\src\OppJar.AutoMapper\bin\Debug\netcoreapp3.1\OppJar.AutoMapper.dll
+D:\ProjectSS\OppJar\oppjar\src\OppJar.AutoMapper\bin\Debug\netcoreapp3.1\OppJar.AutoMapper.pdb
+D:\ProjectSS\OppJar\oppjar\src\OppJar.AutoMapper\bin\Debug\netcoreapp3.1\OppJar.Common.dll
+D:\ProjectSS\OppJar\oppjar\src\OppJar.AutoMapper\bin\Debug\netcoreapp3.1\OppJar.Domain.dll
+D:\ProjectSS\OppJar\oppjar\src\OppJar.AutoMapper\bin\Debug\netcoreapp3.1\OppJar.Dto.dll
+D:\ProjectSS\OppJar\oppjar\src\OppJar.AutoMapper\bin\Debug\netcoreapp3.1\OppJar.Common.pdb
+D:\ProjectSS\OppJar\oppjar\src\OppJar.AutoMapper\bin\Debug\netcoreapp3.1\OppJar.Domain.pdb
+D:\ProjectSS\OppJar\oppjar\src\OppJar.AutoMapper\bin\Debug\netcoreapp3.1\OppJar.Dto.pdb
+D:\ProjectSS\OppJar\oppjar\src\OppJar.AutoMapper\obj\Debug\netcoreapp3.1\OppJar.AutoMapper.csprojAssemblyReference.cache
+D:\ProjectSS\OppJar\oppjar\src\OppJar.AutoMapper\obj\Debug\netcoreapp3.1\OppJar.AutoMapper.AssemblyInfoInputs.cache
+D:\ProjectSS\OppJar\oppjar\src\OppJar.AutoMapper\obj\Debug\netcoreapp3.1\OppJar.AutoMapper.AssemblyInfo.cs
+D:\ProjectSS\OppJar\oppjar\src\OppJar.AutoMapper\obj\Debug\netcoreapp3.1\OppJar.AutoMapper.csproj.CopyComplete
+D:\ProjectSS\OppJar\oppjar\src\OppJar.AutoMapper\obj\Debug\netcoreapp3.1\OppJar.AutoMapper.dll
+D:\ProjectSS\OppJar\oppjar\src\OppJar.AutoMapper\obj\Debug\netcoreapp3.1\OppJar.AutoMapper.pdb

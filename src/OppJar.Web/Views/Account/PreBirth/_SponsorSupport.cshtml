@@ -1,0 +1,78 @@
+@*@model RecipientViewModel*@
+
+
+<li id="sponsor-list" class="list-group-item no-border">
+    @if (Model.TopCorporateSponsors != null && Model.TopCorporateSponsors.Count() > 0)
+    {
+        <div class="col-xs">
+            <br class="hidden-sm-down">
+            <h4>Top Corporate Sponsors</h4>
+            <br class="hidden-sm-down">
+        </div>
+        <div style="display: flex; justify-content: space-around; align-items: center;">
+
+            @foreach (var sponsor in Model.TopCorporateSponsors)
+            {
+                <img src="@sponsor.ImageUrl" alt="#" style="max-width: 170px; max-height: 100px">
+            }
+
+        </div>
+    }
+    <br>
+    @*@if (Model.LatestCorporateSponsors != null && Model.LatestCorporateSponsors.Count() > 0)*@
+    @if (true)
+    {
+        <div>
+            <br class="hidden-sm-down">
+            <h4>Latest Corporate Sponsors</h4>
+            <br class="hidden-sm-down">
+        </div>
+        <div style="display: flex; flex-wrap: wrap; justify-content: space-around; align-items: center;">
+            @foreach (var sponsor in Model.LatestCorporateSponsors)
+            {
+                <img src="@sponsor.ImageUrl" alt="#" style="max-width: 170px; max-height: 100px">
+            }
+
+        </div>
+        @*@if (Model.Sponsors != null && Model.Sponsors.Where(x => x.IsIndividual == false).Count() > 0)*@
+        @if (true)
+        {
+            <br>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div><a class="pull-right text-sm" style="color:#4f87b8" data-toggle="modal" data-target="#sponsorModal"><span style="font-weight:900">View All</span></a></div>
+                </div>
+            </div>
+        }
+    }
+    <!-- ############ Modal-->
+    <div class="modal fade" id="sponsorModal" tabindex="-1" role="dialog" aria-labelledby="sponsorModalLabel">
+        <div class="modal-dialog" role="document" style="margin-top: 150px">
+            <div class="modal-content" style="border-radius: 0">
+                <div class="col-xs-12 list-group-item no-border">
+                    <div class="col-xs">
+                        <h4> All Corporate Sponsors </h4>
+                        <br>
+                    </div>
+                    <div class="sponsor-grid" style="text-align:center">
+                        @*@foreach (var sponsor in Model.Sponsors)
+                        {
+                            if (!@sponsor.IsIndividual)
+                            {
+                                <div class="col-xs-4 logo">
+                                    <img src="@sponsor.ImageUrl" alt="#" style="max-width: 190px; max-height:100px">
+                                </div>
+                            }
+                        }*@
+                    </div>
+                </div>
+
+                <div class="row list-group-item">
+                </div>
+
+                <button type="button" class="close" style="position: absolute; right: 10px; top:10px" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+        </div>
+    </div>
+</li>
+

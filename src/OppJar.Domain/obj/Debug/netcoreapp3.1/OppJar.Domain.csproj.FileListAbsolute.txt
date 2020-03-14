@@ -1,0 +1,13 @@
+D:\ProjectSS\OppJar\oppjar\src\OppJar.Domain\bin\Debug\netcoreapp3.1\OppJar.Domain.deps.json
+D:\ProjectSS\OppJar\oppjar\src\OppJar.Domain\bin\Debug\netcoreapp3.1\OppJar.Domain.runtimeconfig.json
+D:\ProjectSS\OppJar\oppjar\src\OppJar.Domain\bin\Debug\netcoreapp3.1\OppJar.Domain.runtimeconfig.dev.json
+D:\ProjectSS\OppJar\oppjar\src\OppJar.Domain\bin\Debug\netcoreapp3.1\OppJar.Domain.dll
+D:\ProjectSS\OppJar\oppjar\src\OppJar.Domain\bin\Debug\netcoreapp3.1\OppJar.Domain.pdb
+D:\ProjectSS\OppJar\oppjar\src\OppJar.Domain\bin\Debug\netcoreapp3.1\OppJar.Common.dll
+D:\ProjectSS\OppJar\oppjar\src\OppJar.Domain\bin\Debug\netcoreapp3.1\OppJar.Common.pdb
+D:\ProjectSS\OppJar\oppjar\src\OppJar.Domain\obj\Debug\netcoreapp3.1\OppJar.Domain.csprojAssemblyReference.cache
+D:\ProjectSS\OppJar\oppjar\src\OppJar.Domain\obj\Debug\netcoreapp3.1\OppJar.Domain.AssemblyInfoInputs.cache
+D:\ProjectSS\OppJar\oppjar\src\OppJar.Domain\obj\Debug\netcoreapp3.1\OppJar.Domain.AssemblyInfo.cs
+D:\ProjectSS\OppJar\oppjar\src\OppJar.Domain\obj\Debug\netcoreapp3.1\OppJar.Domain.csproj.CopyComplete
+D:\ProjectSS\OppJar\oppjar\src\OppJar.Domain\obj\Debug\netcoreapp3.1\OppJar.Domain.dll
+D:\ProjectSS\OppJar\oppjar\src\OppJar.Domain\obj\Debug\netcoreapp3.1\OppJar.Domain.pdb

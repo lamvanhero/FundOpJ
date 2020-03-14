@@ -1,0 +1,90 @@
+@model OppJar.Web.Models.UserDetailViewModel
+@if (Model.CanViewProfile)
+{
+
+    <div class="box box-body m-t-0 m-l-2 m-r-2" id="postChatBox">
+        <div style="border-width: 2px; border-style: solid; border-color: lightgray; border-radius: 5px;">
+            <textarea id="post-text-area" class="form-control" rows="3" placeholder="Write post..."></textarea>
+            <div id="dropzone-preview-container">
+                <div id="dropzone-preview-template">
+                    <img id="dropzone-thumbnail-image" data-dz-thumbnail alt="No Preview" style="display:none" />
+                    <video id="dropzone-thumbnail-video" style="display:none" width="150" height="150" controls>
+                        <source id='dropzone-video-mp4' src="" type="video/mp4" autostart="false" />
+                        <source id='dropzone-video-ogg' src="" type="video/ogg" autostart="false" />
+                        <source id='dropzone-video-webm' src="" type="video/webm" autostart="false" />
+                        Unsupported video type
+                    </video>
+                    <div id="dropzone-progress-bar" class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" style="display:none">
+                        <div class="progress-bar progress-bar-success" style="width:0%;" data-dz-uploadprogress></div>
+                    </div>
+                    <div class="text-success"><i id="dropzone-success-status" class="fa fa-check-circle" style="display:none"></i></div>
+                    <div class="text-danger"><i id="dropzone-fail-status" class="fa fa-times-circle" style="display:none"></i></div>
+                </div>
+            </div>
+        </div>
+        <div class="box-footer clearfix">
+            <button id="post-button" class="btn rounded w-xs pull-right" style="background-color:#62B8CC; color:white">
+                <i id="post-load-spinner" class="fa fa-spinner fa-spin hide"></i>
+                Post
+            </button>
+            <ul class="nav nav-pills nav-sm text-grey input-group" style="font-weight: normal">
+                <li class="nav-item dz-clickable dz-upload-btn btn" id="add-photo-btn">
+                    <i class="fa fa-camera text-muted"></i><span class="hidden-sm-down p-l-sm text-xs">Add a photo or video</span>
+                </li>
+                @*<li class="nav-item btn" id="share-facebook-button">
+                    <input type="checkbox" hidden id="share-facebook-checkbox" name="share-facebook" /><i class="fa fa-facebook text-muted"></i><span class="hidden-sm-down p-l-sm text-xs">Share to Facebook</span><span class="text-muted"> ?</span>
+                </li>*@
+            </ul>
+        </div>
+        <div id="status"></div>
+    </div>
+    <div id="feed" class="streamline b-l m-b m-l padding">
+        @*@if (Model.Feeds == null || Model.Feeds.Count() == 0)*@
+        @if (true)
+        {
+            <div class="sl-item">
+                <div class="sl-content">
+                    <p>No Feed History</p>
+                </div>
+            </div>
+        }
+        else
+        {
+            @*@Html.Partial("PreBirth/_TimelineFeedUpdate", Model)*@
+            @*@Html.Partial("PreBirth/_TimelineFeedUpdate")*@
+        }
+    </div>
+
+
+
+}
+else
+{
+    if (Model.IsInvited == false)
+    {
+        <h4 class="p-a text-center">Connect with User to see Full Profile!</h4>
+    }
+    else
+    {
+        <h4 class="p-a text-center">User not accepted your Connection request.</h4>
+
+    }
+}
+@*<script>
+    function LoadMorePosts(index) {
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("LoadMorePosts", "Profile")' + '/' + index,
+            data: JSON.stringify(@Json.Serialize(Model)),
+            datatype: 'html',
+            contentType: "application/json; charset=UTF-8",
+            success: function (result) {
+                $('#feed').html(result);
+                loadDates();
+            },
+            error: function (result) {
+                console.log('ERROR ajax: ' + result.errorMessage);
+            }
+        });
+    }
+</script>*@

@@ -1,0 +1,248 @@
+﻿@*@inject SignInManager<User> SignInManager
+    @inject UserManager<User> UserManager
+    @model RecipientViewModel*@
+@model OppJar.Web.Models.UserDetailViewModel
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta content="text/html; charset=UTF-8" name="Content-Type" />
+    <!--Twitter related information-->
+    <meta name="twitter:card" content="summary" />
+    @*<meta name="twitter:site" content="http://@(Context.Request.Host)/user/@(Model.Slug)@(Model.FBWebMaster == null ? "" : "/" + Model.FBWebMaster.id)" />*@
+    <meta name="twitter:title" content="OppJar" />
+    <meta name="twitter:description" content="Crowdfunding Savings Accounts for Every Child" />
+    <meta name="twitter:image" content="http://leeto-production.azurewebsites.net/assets/images/NoraWesClose-min.jpg" /> <!--Change this later to be dynamic -->
+    <!--Facebook crawler related information-->
+    @*<meta property="og:url" content="http://@(Context.Request.Host)/user/@(Model.Slug)@(Model.FBWebMaster == null ? "" : "/" + Model.FBWebMaster.id)" />*@
+    <meta property="og:title" content="OppJar - Crowdfunding the next generation!" />
+
+    @*<meta property="fb:app_id" content="@Model.FBAppId" />*@
+    <meta property="og:type" content="profile" />
+
+    <meta charset="utf-8" />
+    <title>OppJar</title>
+    <meta name="author" content="" />
+    <meta name="description" content="Crowdfunding Savings Accounts for Every Child" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimal-ui" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- for ios 7 style, multi-resolution icon of 152x152 -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-barstyle" content="black-translucent">
+    <link rel="apple-touch-icon" href="/assets/images/logo.png">
+    <meta name="apple-mobile-web-app-title" content="Zeus">
+    <!-- for Chrome on Android, multi-resolution icon of 196x196 -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="shortcut icon" sizes="196x196" href="/favicon.ico">
+
+    <!-- style -->
+    <link rel="stylesheet" href="/css/animate.min.css" type="text/css" />
+    <link rel="stylesheet" href="/assets/glyphicons/glyphicons.css" type="text/css" />
+    <link rel="stylesheet" href="/assets/font-awesome/css/font-awesome.min.css" type="text/css" />
+    <link rel="stylesheet" href="/assets/material-design-icons/material-design-icons.css" type="text/css" />
+
+    <link rel="stylesheet" href="/assets/bootstrap/dist/css/bootstrap.min.css" type="text/css" />
+    <!-- build:css /assets/styles/app.min.css -->
+    <link rel="stylesheet" href="/assets/styles/app.css" type="text/css" />
+    <!-- endbuild -->
+    <link rel="stylesheet" href="/assets/styles/font.css" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <!-- jQuery -->
+    <script src="/libs/jquery/jquery/dist/jquery.js" type="text/javascript"></script>
+    <!-- Bootstrap -->
+    <script src="/libs/jquery/tether/dist/js/tether.min.js" type="text/javascript"></script>
+    <script src="/libs/jquery/bootstrap/dist/js/bootstrap.js" type="text/javascript"></script>
+    <!-- core -->
+    <script src="/libs/jquery/underscore/underscore-min.js" type="text/javascript"></script>
+    <script src="/libs/jquery/jQuery-Storage-API/jquery.storageapi.min.js" type="text/javascript"></script>
+    <script src="/libs/jquery/PACE/pace.min.js" type="text/javascript"></script>
+
+    <script src="/libs/jquery/jquery-match-height/jquery.matchHeight.js" type="text/javascript"></script>
+
+    <!-- Dropzone -->
+    <link href="~/libs/js/dropzone/dist/min/dropzone.min.css" rel="stylesheet" />
+    <!-- Moment -->
+    @*<script src="~/libs/jquery/moment/moment.js"></script>*@
+    <script src="~/libs/js/moment/moment.min.js"></script>
+    <script src="/libs/vue/vue.js" type="text/javascript"></script>
+
+    <style>
+        .bannerDisplay {
+            display: block;
+        }
+
+        #view {
+            padding-top: 0px;
+        }
+
+        @@media(max-width:767px) {
+            #view {
+                padding-top: 58px !important
+            }
+
+            .bannerDisplay {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body style=" margin:0 auto">
+    @Html.Partial("_MainHeader")
+    <div class="app center" id="app">
+
+        <!-- ############ LAYOUT START-->
+        <!-- aside -->
+        <!-- / -->
+        <!-- content -->
+        <div id="content" class="app-content box-shadow-z0 white bannerDisplay" role="main">
+
+            <div class="item" id="headerHeight" style="z-index:1; height: 320px">
+
+                <div class="item-bg" style="line-height:320px;">
+
+                    <!--<img src="/assets/images/welcomeKids.jpg" style="object-fit: cover; vertical-align:middle; margin-left:0; margin-top:6px; left:inherit; top:-230px;">-->
+
+                </div>
+                <!--Responsive Med + -->
+                <div class="hidden-sm-down p-a-lg pos-rlt" style="padding-bottom:0px !important">
+                    <div class="col col-md-offset-4 col-lg-offset-3" style="margin-top: 16%;">
+                        <h2 style="color:white">
+                            @Model.FirstName @Model.LastName
+                            @if (Model.IsAdmin)
+                            {
+                                <a href="/user/settings/@Model.Slug" class="btn btn-sm rounded m-l white" style="color:gray">Edit User</a>
+                            }
+                        </h2>
+                    </div>
+                </div>
+                <!---->
+
+            </div>
+
+        </div>
+
+        <div class="app-body" id="view">
+
+
+            <!-- ############ PAGE START-->
+            @RenderBody()
+
+
+            <!-- ############ FOOTER-->
+            @Html.Partial("_Footer")
+
+
+        </div>
+    </div>
+    <!-- / -->
+    <!-- ############ LAYOUT END-->
+
+    <style>
+        .item {
+             background: url('') no-repeat fixed;
+            /*background-size: cover;*/
+            background-size: 100% auto;
+            background-position-y: 55px;
+            background-position-x: center;
+        }
+
+
+        .item-bg {
+            background: linear-gradient(to right, rgba(79,135,184, 0.8), rgba(114,235,221,0.8) );
+        }
+
+
+        * {
+            font-weight: bold !important;
+        }
+
+        h4 {
+            font-size: 14pt;
+        }
+
+        p {
+            color: inherit;
+            opacity: 0.6;
+        }
+
+        .list-item {
+            margin-bottom: 3px;
+        }
+
+        #sponsor-col .list-left {
+            padding-right: 10px;
+        }
+
+        img {
+            object-fit: cover;
+        }
+
+        .rt-list > li {
+            margin-top: 20px;
+        }
+
+        #details * {
+            line-height: 28px;
+        }
+
+        .pagination li * {
+            margin: 0 10px;
+        }
+
+        .pagination a {
+            width: 34px;
+        }
+
+        .sponsor-grid div {
+            margin-bottom: 20px;
+        }
+
+        #sponsorModal {
+            font-family: "nunito-regular";
+        }
+    </style>
+    <script>
+        $('#footer').on('click', function () {
+            console.log('clicked footer')
+            $('#coming-soon').css('visibility', 'visible');
+            setTimeout(function () {
+                $('#coming-soon').css('visibility', 'hidden');
+            }, 1500)
+        })
+
+        $('.logo').matchHeight();
+        $(document).ready(function () {
+            $(window).resize();
+        })
+        $(window).resize(function () {
+            var aspectRatio = ($(window).width() * 325 / 1600) + 55;
+            $(".item").attr("style", "height:" + aspectRatio + "px !important;");
+        });
+    </script>
+    <!-- build:js scripts/app.html.js -->
+    <script src="~/js/site.js"></script>
+    <script src="/scripts/config.lazyload.js" type="text/javascript"></script>
+
+    <script src="/scripts/palette.js" type="text/javascript"></script>
+    <script src="/scripts/ui-load.js" type="text/javascript"></script>
+    <script src="/scripts/ui-jp.js" type="text/javascript"></script>
+    <script src="/scripts/ui-include.js" type="text/javascript"></script>
+    <script src="/scripts/ui-device.js" type="text/javascript"></script>
+    <script src="/scripts/ui-form.js" type="text/javascript"></script>
+    <script src="/scripts/ui-nav.js" type="text/javascript"></script>
+    <script src="/scripts/ui-screenfull.js" type="text/javascript"></script>
+    <script src="/scripts/ui-scroll-to.js" type="text/javascript"></script>
+    <script src="/scripts/ui-toggle-class.js" type="text/javascript"></script>
+
+    <script src="/scripts/app.js" type="text/javascript"></script>
+
+    <!-- ajax -->
+    <script src="/libs/jquery/jquery-pjax/jquery.pjax.js" type="text/javascript"></script>
+    <script src="/scripts/ajax.js" type="text/javascript"></script>
+
+    <!-- Dropzone -->
+    <script src="~/libs/js/dropzone/dist/min/dropzone.min.js"></script>
+    <!-- endbuild -->
+</body>
+</html>

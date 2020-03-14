@@ -1,0 +1,148 @@
+﻿@model AddChildViewModel
+@{
+    ViewData["Title"] = string.IsNullOrEmpty(Model.Id) ? "Create Child" : "Edit Child Page";
+}
+
+<style>
+    .disable {
+        pointer-events: none;
+    }
+</style>
+
+<div class="content-section">
+    <div class="child-page content-section">
+        <div class="children-page">
+            <div class="children-page-header">
+                <div>
+                    <h3 class="title">@ViewData["Title"]</h3>
+                </div>
+            </div>
+
+            <div class="children-page-body">
+                <div class="create-page d-flex">
+                    <form id="create_page" action="AddEditChild" method="post" enctype="multipart/form-data">
+                        <input type="hidden" asp-for="Id" />
+                        <input type="hidden" asp-for="Avatar" />
+                        <input type="hidden" asp-for="Banner" />
+                        <input type="hidden" asp-for="UserType" />
+                        @Html.AntiForgeryToken()
+                        <div class="cover-section">
+                            @{
+                                var bannerPhoto = string.IsNullOrEmpty(Model.Banner) ? "/img/default-cover.png" : Model.Banner;
+                            }
+                            <img src="@bannerPhoto"
+                                 alt="@Model.FirstName @Model.LastName"
+                                 class="cover-photo"
+                                 id="upload_cover" />
+                            <label class="upload-icon-section" for="select_cover">
+                                <input class="d-none"
+                                       type="file"
+                                       id="select_cover"
+                                       onchange="readURL(this, '#upload_cover')" asp-for="BannerFile" />
+                                <span class="icon icon-camera pointer"></span>
+                            </label>
+                        </div>
+                        <div class="d-flex">
+                            <div>
+                                <div class="photo-upload position-relative overflow-hidden mr-5">
+                                    @{
+                                        var avatar = string.IsNullOrEmpty(Model.Avatar) ? "/img/default-avatar.png" : Model.Avatar;
+                                    }
+                                    <img src="@avatar"
+                                         alt="@Model.FirstName @Model.LastName"
+                                         id="upload_photo" />
+                                    <label class="photo-overlay" for="select_upload">
+                                        <span class="icon icon-camera"></span>
+                                    </label>
+                                    <input class="d-none"
+                                           type="file"
+                                           onchange="readURL(this, '#upload_photo')"
+                                           id="select_upload" asp-for="AvatarFile" />
+                                </div>
+                                <span class="title">Upload profile picture</span>
+                            </div>
+                            <div class="page-info d-flex flex-1 flex-wrap">
+                                <div class="form-group mr-20">
+                                    <label for="firt_name">First Name</label>
+                                    @{
+                                        var disableClass = Model.DOB.Date < DateTime.Now.Date ? "form-control disable" : "form-control";
+                                    }
+                                    <input type="text"
+                                           class="@disableClass"
+                                           placeholder="First Name"
+                                           asp-for="FirstName" />
+                                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                                </div>
+                                <div class="form-group mr-20">
+                                    <label for="last_name">Last Name</label>
+                                    <input type="text"
+                                           class="@disableClass"
+                                           placeholder="Last Name"
+                                           asp-for="LastName" />
+                                    <span asp-validation-for="LastName" class="text-danger"></span>
+                                </div>
+                                <div class="form-group mr-20">
+                                    <label for="birthday">Date of Birth</label>
+                                    <div class="input-group">
+                                        <input type="date"
+                                               class="@disableClass"
+                                               asp-for="DOB" />
+                                        <div class="input-group-append">
+                                            <span class="icon-calendar" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group mr-20">
+                                    <label for="schol">School</label>
+                                    <input type="text"
+                                           class="form-control"
+                                           placeholder="School"
+                                           asp-for="School" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-right mr-md-3">
+                            <a href="@Url.Action("Dashboard","Account")" class="btn btn-cancel">Cancel</a>
+                            <button id="btn-create-edit" type="button" class="btn btn-create">
+                                @(string.IsNullOrEmpty(Model.Id) ? "Create" : "Save")
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/js/app/file-manage.js" asp-append-version="true"></script>
+    <script type="text/javascript">
+        $('#btn-create-edit').click(function () {
+            if (new Date($('#DOB').val()).getDate() > new Date().getDate()) {
+                if ($('#FirstName').val() === '' || $('#LastName').val() === '') {
+                    Swal.fire({
+                        title: 'Warning',
+                        text: "Do you want to create pre-birth child?",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes!'
+                    }).then((result) => {
+                        if (result.value) {
+                            $('#create_page').submit();
+                        }
+                    })
+                }
+                else {
+                    $('#create_page').submit();
+                }
+            }
+            else {
+                $('#create_page').submit();
+            }
+        });
+    </script>
+}

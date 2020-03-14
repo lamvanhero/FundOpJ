@@ -1,0 +1,916 @@
+
+@model OppJar.Web.Models.UserDetailViewModel
+@using System.Text.RegularExpressions;
+@{
+    Layout = "PreBirth/_PreBirthLayout";
+}
+
+
+<style>
+    @@media only screen and (max-width : 767px) {
+         .about {
+             top:-90px;
+             border-bottom: none;
+         }
+         .group-item {
+             padding-left:0px;
+         }
+         #sponsor-col {
+             height: 540px;
+         }
+         .list-item {
+             margin-top:5px !important;
+         }
+         .w-56-resp {
+             width: 36px ;
+             height:36px ;
+         }
+         #share-facebook-button, #add-photo-btn {
+             font-size: 0.75rem;
+         }
+         .sponsor-grid img{
+            max-height: 50px !important;
+            max-width: 50px !important;
+         }
+         .modal-dialog {
+             margin-top: 50px !important;
+         }
+         .rt-list {
+             padding-bottom:0px !important;
+         }
+         .sponsor-info, .sponsor-info > h6 {
+             font-size: 0.8rem !important;
+             font-weight: bolder;
+         }
+         #headerHeight {
+             height: 220px !important;
+         }
+        
+    }
+
+      .circlePic {
+          background: white;
+          background-image: url("/assets/images/no_image.png");
+            border: 3px solid white;
+            position: relative;
+            text-align: center;
+            width: 70%;
+
+        }
+
+        .circlePic:after {
+            content: "";
+            display: block;
+            padding-bottom: 100%;
+            background-image: url("");
+            background-size: cover;
+            background-position: center;
+            border-radius: 50%;
+        }
+        [v-cloak] {
+            visibility: hidden;
+        }
+
+    #details{
+    /*//word-break: break-all;*/
+    }
+
+</style>
+<script>
+    var index = 0
+</script>
+<!--Vue-->
+<div id="vue">
+    @{
+        string u = Context.Request.Headers["User-Agent"];
+        Regex b = new Regex(@"(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino", RegexOptions.IgnoreCase | RegexOptions.Multiline);
+        Regex v = new Regex(@"1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-", RegexOptions.IgnoreCase | RegexOptions.Multiline);
+        if ((b.IsMatch(u) || v.IsMatch(u.Substring(0, 4)))) // Mobile View
+        {
+            <div class="row-col">
+                <div class="col-md-4 col-lg-3 m-b-0" style="padding-top: 0px;">
+
+                    @*<button id="post-button" class="btn rounded w-xs pull-right" style="background-color:#6DBF13; color:white">*@
+                    <!--Responsive Sm > -->
+                    <div class="box white m-x-auto hidden-md-up" style="top:0px">
+                        <div style="max-width:460px; margin: 0 auto" class="b-b" style="border: gray">
+                            <div class="row p-x p-t">
+                                <div class="col-xs-4 text-center">
+                                    <img src="@Model.Avatar" class="img-circle avatar" style="width: 100px; height: 100px; border: 3px solid white">
+
+                                </div>
+                                <div class="col-xs-8 text-center text-xs text-left m-t">
+                                    <div>
+                                        <h4>
+                                            @Model.FirstName @Model.LastName
+                                            <br />
+                                            @if (Model.IsAdmin)
+                                            {
+                                                <a href="/user/settings/@Model.Slug" class="btn btn-sm rounded white" style="color:gray">Edit User</a>
+                                            }
+
+                                        </h4>
+                                    </div>
+                                    <div class="p-t-xs">
+                                        <a href="/user/donate/@Model.Slug">
+                                            <div class="btn text-xs rounded btn-outline  _600" style="background-color:#62B8CC; color:white">
+                                                Donate
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+
+                            </div>
+                            @if (Model.IsAdmin)
+                            {
+                                <div class="row p-x p-y-sm">
+
+                                   
+                                    <div class="col-xs-4 text-center">
+                                        <a>
+                                            <div class="text-muted text-xs">Total Balance</div>
+                                            <div style="font-weight: 900 !important; font-family: roboto; font-size:18px">$@string.Format("{0:n0}", Model.CurrentSavings)</div>
+                                        </a>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                   
+
+                </div>
+
+                <div class="col-md-4 col-lg-7 white b-t">
+                    @if (Model.CanViewProfile)
+                    {
+                        <div class="navbar p-x-0 h-0 hidden-md-up">
+                            <!--<div class="navbar-toggleable-sm">-->
+                            <!-- link and dropdown -->
+                            <div class="nav navbar-nav nav-active-border b-primary" style="width: 100%; display:flex; justify-content: space-around; border-top: 1px solid lightgrey;">
+
+                                <a class="nav-link col-xs-4 m-x-0 text-center" style="border-left:none; border-top: none;" id="mobile-tab1-btn" data-toggle="tab" data-target="#tab_1" aria-expanded="false">
+                                    <i class="fa fa-user m-r-sm"></i><span class="nav-text">About</span>
+                                </a>
+
+                                <a class="nav-link active col-xs-4 m-x-0 text-center" style="border-top: none; border-right: 1px solid lightgrey; border-left: 1px solid lightgrey" id="mobile-tab2-btn" data-toggle="tab" data-target="#tab_2" aria-expanded="true">
+                                    <i class="fa fa-file-o m-r-sm"></i><span class="nav-text">Update Feed</span>
+                                </a>
+                                <a class="nav-link col-xs-4 m-x-0 text-center" id="mobile-tab3-btn" style="border-top: none;" data-toggle="tab" data-target="#tab_3" aria-expanded="false">
+                                    <i class="fa fa-users m-r-sm"></i><span class="nav-text">Sponsors</span>
+                                </a>
+                            </div>
+                            <div style="height: 0px; width: 100%; border-bottom:1px solid lightgrey;"></div>
+                        </div>
+                    }
+                    <div id="mobile-tab-1" class="hidden-md-up">
+                        <div class="about b-b p-l center" style="border-color:lightgrey;">
+                            <div>
+                                @if (Model.CanViewProfile)
+                                {
+                                    <div class="padding pos-rlt">
+
+
+                                        <p></p>
+                                        <div class="row" id="details">
+                                            <div class="col-xs-12">
+                                                <div class="col-xs-6">
+                                                    @*@((DateTime.Now - Model.DateOfBirth).TotalDays > 0 ? "Birthday" : "Due Date")*@
+                                                </div><div class="col-xs-6" style="color:#4f87b8">
+                                                    @*@Model.DateOfBirth.ToString("MM/dd/yyyy")*@
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12">
+                                                <div class="col-xs-6">
+                                                    Location
+                                                </div><div class="col-xs-6" style="color:#4f87b8">
+                                                    @Model.Location
+                                                </div>
+                                            </div>
+                                            @*@if (!string.IsNullOrEmpty(Model.Parent1))
+                                            {
+                                                <div class="col-xs-12">
+                                                    <div class="col-xs-6">
+                                                        Parent
+                                                    </div><div class="col-xs-6" style="color:#4f87b8">
+                                                        @Model.Parent1
+                                                    </div>
+                                                </div>
+                                            }
+                                            @if (!string.IsNullOrEmpty(Model.Parent2))
+                                            {
+                                                <div class="col-xs-12">
+                                                    <div class="col-xs-6">
+                                                        Parent
+                                                    </div><div class="col-xs-6" style="color:#4f87b8">
+                                                        @Model.Parent2
+                                                    </div>
+                                                </div>
+                                            }*@
+
+                                        </div>
+                                        <!--<br/><br/>-->
+                                    </div>
+                                    <p class="text-muted">
+                                        @*@Model.Bio*@
+                                        BIO
+                                    </p>
+                                }
+                                @if (Model.IsInvited == false && Model.IsAdmin == false)
+                                {
+                                    <div class="text-center m-b">
+                                        <button class="btn btn-sm rounded text-center apply-to-group-btn" id="InviteToConnect" style="background-color:#62B8CC;  color:white">
+                                            Invite to Connect
+                                        </button>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        @if (Model.CanViewProfile)
+                        {
+                            <div class="about padding" style="padding-left: 55px">
+                                <div class="hidden-md-up list-left _500">Groups</div>
+                                <br>
+                                <li v-cloak v-for="group in model.groupSponsors" class=" row list-item group-item">
+                                    <a class="list-left">
+                                        <span class="w-56 circle avatar" style="font-size:42px; font-family:'Roboto'; font-weight:light; background-color:red; color:white">
+                                            G
+                                        </span>
+                                    </a>
+                                    <div class="list-body" style="margin-top: 13px">
+                                        <div><a>Group Name</a></div>
+                                        <strong class="text-muted text-ellipsis" style="color:#4f87b8">About Group</strong>
+                                    </div>
+                                </li>
+                                <div v-cloak class="list-item" v-if="!model.groupSponsors[0]">
+                                    No Groups Yet!
+                                </div>
+
+                            </div>
+                        }
+                    </div>
+                    <div class="hidden-md-up" id="mobile-tab-2">
+                        <div id="timeline-feed">
+                            @*@Html.Partial("PreBirth/_TimelineFeed", Model)*@
+                            @Html.Partial("PreBirth/_TimelineFeed")
+                        </div>
+                    </div>
+
+                    <div class="hidden-md-up" id="mobile-tab-3">
+                        <!--Sponsors / Support -->
+                        @*@Html.Partial("PreBirth/_SponsorSupport", Model)*@
+                        @*@Html.Partial("PreBirth/_SponsorSupport")*@
+                        <!--Top Sponsors-->
+                        @*@Html.Partial("PreBirth/_TopSponsors", Model)*@
+                        @*@Html.Partial("PreBirth/_TopSponsors")*@
+                        <!--Recent Sponsors-->
+                        @*@Html.Partial("PreBirth/_RecentSponsors", Model)*@
+                        @*@Html.Partial("PreBirth/_RecentSponsors")*@
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="m-y"></div>
+        }
+        else // Desktop view
+        {
+            <div class="row-col">
+                <div class="col-md-4 col-lg-3 m-b-0" id="sponsor-col" style="position: relative; padding-top: 70px; height: 310px">
+
+
+
+                    <div class="circlePic circle hidden-sm-down" style="z-index:500; margin-top: -160px; margin-left: 15%"></div>
+                    @if (@*Model.CanViewProfile*@true)
+                    {
+                        <div class="about padding pos-rlt" style="padding-left: 55px">
+                            @*<div class="hidden-sm-down p-t-sm" style="margin-left: -20px; display:flex; justify-content: center">
+                                    <a class="btn btn-sm circle blue-800 m-r" id="facebook-share-page">
+                                        <i class="fa fa-facebook-f p-r-sm"></i><span class="hidden-sm-down">Share</span>
+                                    </a>
+                                    <a class="btn btn-sm circle blue" href="https://twitter.com/intent/tweet?text=Check%20out%20this%20page%21&hashtags=leeto&url=@(Context.Request.Host.ToString().Contains("localhost") ? "http://leeto-staging.azurewebsites.net/" : "http://" + Context.Request.Host + "/user/" + Model.Slug)">
+                                        <i class="fa fa-twitter p-r-sm"></i><span class="hidden-sm-down">Share</span>
+                                    </a>
+                                </div>*@
+
+                            <p></p>
+                            <div class="row" id="details">
+                                <div class="col-xs-12">
+                                    <div class="col-xs-6">
+                                        @*@((DateTime.Now - Model.DateOfBirth).TotalDays > 0 ? "Birthday" : "Due Date")*@
+                                    </div><div class="col-xs-6" style="color:#4f87b8">
+                                        @*@Model.DateOfBirth.ToString("MM/dd/yyyy")*@
+                                    </div>
+                                </div>
+                                <div class="col-xs-12">
+                                    <div class="col-xs-6">
+                                        Location
+                                    </div><div class="col-xs-6" style="color:#4f87b8">
+                                        @*@Model.Location*@
+                                    </div>
+                                </div>
+                                @*@if (!string.IsNullOrEmpty(Model.Parent1))
+                                {
+                                    <div class="col-xs-12">
+                                        <div class="col-xs-6">
+                                            Parent
+                                        </div><div class="col-xs-6" style="color:#4f87b8">
+                                            @Model.Parent1
+                                        </div>
+                                    </div>
+                                }
+                                @if (!string.IsNullOrEmpty(Model.Parent2))
+                                {
+                                    <div class="col-xs-12">
+                                        <div class="col-xs-6">
+                                            Parent
+                                        </div><div class="col-xs-6" style="color:#4f87b8">
+                                            @Model.Parent2
+                                        </div>
+                                    </div>
+                                }*@
+                            </div>
+                            <!--<br/><br/>-->
+                        </div>
+                    }
+
+                                <!--Fullscreen About Section-->
+                                <div class="hidden-sm-down about padding pos-rlt b-b" style="padding-left: 55px; border-color:lightgrey;">
+                                    <div class="row">
+                                        @if (Model.CanViewProfile)
+                                        {
+                                            <p class="text-muted">
+                                                @*@Model.Bio*@Bio
+                                            </p>
+                                        }
+                                        @if (Model.IsInvited == false && Model.IsAdmin==false)
+                                        {
+                                            <div class="text-center m-b">
+                                                <button class="btn btn-sm rounded text-center apply-to-group-btn" id="InviteToConnect" style="background-color:#62B8CC;  color:white">
+                                                    Invite to Connect
+                                                </button>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                                @if (Model.CanViewProfile)
+                                {
+                                    <div class="hidden-sm-down about padding pos-rlt" style="padding-left: 55px">
+                                        <div class="row">
+                                            <h4 class="hidden-sm-down">Groups</h4>
+                                            <br>
+                                            <li v-cloak v-for="group in model.groupSponsors" class=" row list-item group-item">
+                                                <a class="list-left">
+                                                    <span class="w-56 circle avatar" style="font-size:42px; font-family:'Roboto'; font-weight:light; background-color:red; color:white">
+                                                        G
+                                                    </span>
+                                                </a>
+                                                <div class="list-body" style="margin-top: 13px">
+                                                    <div><a>Group Name</a></div>
+                                                    <strong class="text-muted text-ellipsis" style="color:#4f87b8">About Group</strong>
+                                                </div>
+                                            </li>
+                                            <div v-cloak class="list-item" v-if="!model.groupSponsors[0]">
+                                                No Groups Yet!
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+
+                            </div>
+
+                            <div class="col-md-4 col-lg-7 white p-t b-t" id="timeline-feed">
+                                <!--Timeline FullScreen-->
+                                @*@Html.Partial("PreBirth/_TimelineFeed", Model)*@
+                                @Html.Partial("PreBirth/_TimelineFeed")
+                            </div>
+
+                            <div class="col-md-4 col-lg-3">
+                                <div class="hidden-sm-down">
+                                    <div class="p-a-lg pos-rlt" style="padding:0 !important; height: 0; text-align: center">
+                                        <a href="/user/donate/@Model.Slug">
+                                            <span class="btn text-xs rounded btn-outline  _600" style="margin-top: -1.3rem; padding-left: 25px; padding-right:25px; background-color:#62B8CC; color:white">
+                                                Donate
+                                            </span>
+                                        </a>
+                                    </div>
+                                    @if (Model.IsAdmin)
+                                    {
+                                        <br /><p></p>
+                                        <li class="list-group-item no-b-t b-b">
+                                            <div style="display:flex; justify-content: space-between;">
+                                                @*<a>
+                                                        <h6 class="text-muted">Activity</h6>
+                                                        <img src="/assets/icons/graph.png" style="margin-top: 4px">
+                                                    </a>*@
+                                                <a>
+                                                    <h6 class="text-muted" style="text-align:right">Total Balance</h6>
+                                                    <div style="font-weight: 900 !important; font-family: roboto; font-size:24px; margin-top:-5px">$@string.Format("{0:n0}", Model.CurrentSavings)</div>
+                                                </a>
+                                            </div>
+                                        </li>
+                                    }
+                                </div>
+                                @if (Model.CanViewProfile)
+                                {
+                                    <div class="hidden-sm-down">
+                                        <!--Sponsors / Support -->
+                                        @*@Html.Partial("PreBirth/_SponsorSupport", Model)*@
+                                        @*@Html.Partial("PreBirth/_SponsorSupport")*@
+                                        <!--Top Sponsors-->
+                                        @*@Html.Partial("PreBirth/_TopSponsors", Model)*@
+                                        @*@Html.Partial("PreBirth/_TopSponsors")*@
+                                        <!--Recent Sponsors-->
+                                        @*@Html.Partial("PreBirth/_RecentSponsors", Model)*@
+                                        @*@Html.Partial("PreBirth/_RecentSponsors")*@
+                                    </div>
+                                }
+
+                            </div>
+                        </div>
+                        <div class="m-y"></div>
+                    }
+                    }
+                </div>
+                <!-- /Vue -->
+                <!--Timeline Feed-->
+                <script type="text/javascript">
+
+
+function init(){
+    console.log('in timelineinit')
+    // Global variables
+    var postType = "TEXT";
+    var fileUrls = [];
+    var fileIds = [];
+    var contentType = ""; // Mime type of the media file.
+    var height = 0;
+    var width = 0;
+
+    $(document).ready(function () {
+        loadDates();
+        loadDropzone();
+    });
+
+    $('#timeline-feed').on("click", '.DeletePost', function () {
+        // function DeletePost(id, slug) {
+        var id = $(this).attr("data-id");
+        var slug = $(this).attr("data-slug");
+        var jsonObject = JSON.stringify({
+            ActivityId: id,
+            Slug: slug,
+        });
+
+        $.ajax({
+            type: 'POST',
+            @*url: '@Url.Action("DeletePost", "Profile")',*@
+            data: jsonObject,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (result) {
+                console.log('SUCCESS ajax:');
+                $('#post-' + id).remove();
+            },
+            error: function (result) {
+                console.log('ERROR ajax: ' + result.errorMessage);
+            },
+            complete: function () {
+
+            }
+        });
+
+    });
+
+
+    $("#InviteToConnect").click(function () {
+        var jsonObject = {
+            Slug: '@Model.Slug'
+        };
+        $.ajax({
+            type: 'Get',
+            @*url: '@Url.Action("Invite", "Profile")',*@
+            data: jsonObject,
+            datatype: 'json',
+            contentType: "application/json; charset=UTF-8",
+            success: function (result) {
+                $("#InviteToConnect").hide();
+                alert("Invited successfully");
+            },
+            error: function (result) {
+                console.log('ERROR ajax: ' + result.errorMessage);
+            }
+        });
+    });
+
+    //$('#timeline-feed').on("click", '#btnLoadMorePosts', LoadMorePosts(index += 20));
+   // document.getElementById("btnLoadMorePosts").addEventListener("click", LoadMorePosts(index += 20));
+    $('#timeline-feed').on("click", '#btnLoadMorePosts', function () {
+        index += 20
+        $.ajax({
+            type: 'POST',
+            @*url: '@Url.Action("LoadMorePosts", "Profile")' + '/' + index,*@
+            data: JSON.stringify(@Json.Serialize(Model)),
+            datatype: 'html',
+            contentType: "application/json; charset=UTF-8",
+            success: function (result) {
+                $('#feed').html(result);
+                loadDates();
+            },
+            error: function (result) {
+                console.log('ERROR ajax: ' + result.errorMessage);
+            }
+        });
+    });
+
+    function loadDates() {
+        $('.feed-dates').each(function (index, element) {
+            var date = new Date(element.value + ' UTC');
+            $('#feed-date-' + element.name).text(formatDate(date));
+            //$('#feed-date-' + element.name).text(moment.utc(element.value, 'MM/DD/YYYY hh:mm:ss A').local().format('hh:mm D MMMM YYYY'));
+        });
+        $('.comment-dates').each(function (index, element) {
+            var date = new Date(element.value + ' UTC');
+            $('#comment-date-' + element.name).text(formatDate(date));
+        });
+    }
+
+    $('#timeline-feed').on("click", '.commentPosted', function () {
+        var id = $(this).attr("data-id");
+        var body = $('#comment-text-area-' + id).val();
+        if (body != "") {
+        var jsonObject = JSON.stringify({
+            ActivityId: id,
+            Slug: '@Model.Slug',
+            Body: body,
+        });
+
+        $.ajax({
+            type: 'POST',
+            @*url: '@Url.Action("AddComment", "Profile")',*@
+            data: jsonObject,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (result) {
+                var utcDate1 = new Date(result.comment.datePosted);
+                var localDate = formatDate(utcDate1);
+                var name = '';
+                if (result.user.firstName == null && result.user.lastName == null)
+                    name = result.user.userName;
+                else
+                    name = result.user.firstName + ' ' + result.user.lastName;
+                $('#comment-area-' + id).prepend('<div class="row list" style="margin-bottom: 20px; margin-left: 5px;">\
+                                                <img class="w-20 img-circle" style="margin-right: 5px;" src="' + result.user.pictureUrl + '">\
+                                                <span>' + name + '</span>\
+                                                <span class="pull-right" id="comment-date-' + result.comment.commentId + '" style="padding-right: 10px">' + localDate + '</span>\
+                                                <p>'+ result.comment.body + '</p>\
+                                            </div>')
+                $('#comment-text-area-' + id).val('');
+
+                var commentCount = parseInt($('#feed-comment-count-' + id).html());
+                if (commentCount !== NaN) {
+                    $('#feed-comment-count-' + id).html(commentCount + 1);
+                }
+            },
+            error: function (result) {
+                console.log('ERROR ajax: ' + result.errorMessage);
+            },
+            complete: function () {
+
+            }
+        });
+    }
+    });
+
+
+    $('#timeline-feed').on("click", '.feedLikeClicked', function () {
+        var id = $(this).attr("data-id");
+        var jsonObject = JSON.stringify({
+            ActivityId: id,
+            Slug: '@Model.Slug',
+        });
+
+        $.ajax({
+            type: 'POST',
+            @*url: '@Url.Action("AddReaction", "Profile")',*@
+            data: jsonObject,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (result) {
+                console.log('SUCCESS ajax:');
+                $('#feed-like-' + id).html('<i class="fa fa-thumbs-o-up" style="margin-right: 5px" ></i> ' + result.reactions.likes.length + " Likes")
+            },
+            error: function (result) {
+                console.log('ERROR ajax: ' + result.errorMessage);
+            },
+            complete: function () {
+
+            }
+        });
+    });
+
+    //$('#timeline-feed').on("click", '#add-photo-btn', function () {
+    //    loadDropzone();
+    //});
+
+    $('#timeline-feed').on("click",'#share-facebook-button',function () {
+        if ($('#share-facebook-checkbox').is(':checked')) {
+            $('#share-facebook-checkbox').prop('checked', false);
+            $('#share-facebook-button').removeClass('blue-800');
+        } else {
+            $('#share-facebook-checkbox').prop('checked', true);
+            $('#share-facebook-button').addClass('blue-800');
+        }
+    });
+
+    $('#timeline-feed').on("click", '#post-button',function () {
+        $('#post-button').prop('disabled', true);
+        $('#post-load-spinner').removeClass('hide');
+        $('#status').text('');
+
+        var jsonObject = JSON.stringify({
+            body: $('#post-text-area').val(),
+            file_urls: fileUrls,
+            file_ids: fileIds,
+            slug: '@Model.Slug',
+            post_type: postType,
+            post_to_facebook: $('#share-facebook-checkbox').is(':checked'),
+            content_type: contentType,
+            height: height,
+            width: width,
+        });
+
+        $.ajax({
+                type: 'POST',
+            @*url: '@Url.Action("PostCreate", "Profile")',*@
+            data: jsonObject,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (result) {
+                if (result.success == true) {
+                    $('#status').text('Successfully posted!');
+                    var postViewModel = JSON.stringify({
+                        post: result.post,
+                        model: @Json.Serialize(Model)
+                    });
+                    UpdateFeed(postViewModel);
+                    myDropzone.removeAllFiles();
+                    $('#post-text-area').val('');
+                    $('#share-facebook-button').removeClass('blue-800');
+                    $('#share-facebook-checkbox').prop('checked', false);
+                }
+                else {
+                    $('#status').text(result.errorMessage);
+                }
+            },
+            error: function (result) {
+                console.log('ERROR ajax: ' + result.errorMessage);
+                $('#status').text(result.errorMessage);
+            },
+            complete: function () {
+                $('#post-load-spinner').addClass('hide');
+                $('#post-button').prop('disabled', false);
+
+            }
+        });
+    });
+
+    function UpdateFeed(data) {
+        $.ajax({
+            type: 'POST',
+            @*url: '@Url.Action("UpdateFeed", "Profile")',*@
+            data: data,
+            contentType: "application/json; charset=utf-8",
+            dataType:"html",
+            success: function (result) {
+                $('#timeline-feed').html(result);
+                loadDropzone();
+            },
+            error: function (result) {
+                console.log('ERROR ajax: ' + result.errorMessage);
+                $('#status').text(result.errorMessage);
+            }
+        });
+    }
+
+    function loadDropzone() {
+        Dropzone.autoDiscover = false;
+        var previewNode = document.querySelector('#dropzone-preview-template');
+        var previewTemplate = previewNode.parentNode.innerHTML;
+        previewNode.parentNode.removeChild(previewNode);
+
+        myDropzone = new Dropzone(document.getElementById('postChatBox'), {
+            @*url: '@Url.Action("UploadFileSingle","FileApi")',*@
+            acceptedFiles: 'image/jpeg,image/jpg,image/png,image/bmp,image/x-bmp,image/gif,image/tiff,image/tiff-fx,video/mp4,video/mpeg,video/x-m4v,video/quicktime,video/ogg',
+            autoProcessQueue: true,
+            uploadMultiple: false,
+            previewsContainer: "#dropzone-preview-container",
+            previewTemplate: previewTemplate,
+            uploadMultiple: false,
+            maxFiles: 1,
+            maxFilesize: 2000,
+            maxThumbnailFilesize: 100,
+            thumbnailWidth: 200,
+            thumbnailHeight: 120,
+            clickable: ".dz-upload-btn",
+            addRemoveLinks: true,
+            init: function () {
+                // If adding more than 1 file, remove the old file and add the new one. So max 1 file.
+                this.on('addedfile', function (file) {
+                    $(file.previewTemplate.querySelector('#dropzone-success-status')).hide();
+                    $(file.previewTemplate.querySelector('#dropzone-fail-status')).hide();
+                    if (this.files[1] != null) {
+                        this.removeFile(this.files[0]);
+                    }
+
+                    if (isImage(file.type)) {
+                        $(file.previewTemplate.querySelector('#dropzone-thumbnail-image')).show();
+                        postType = "IMAGE";
+                    } else if (isVideo(file.type)) {
+                        $(file.previewTemplate.querySelector('#dropzone-thumbnail-video')).show();
+                        postType = "VIDEO";
+                    }
+                });
+
+                this.on('sending', function (file, xhr, formData) {
+                    $('#post-button').prop('disabled', true);
+                    $(file.previewTemplate.querySelector('#dropzone-progress-bar')).show();
+                });
+
+                this.on('success', function (file, result) {
+                    if (result.success == false) {
+                        console.log('ERROR dropzone: ' + result.errorMessage);
+                        $(file.previewTemplate.querySelector('#dropzone-fail-status')).append(result.errorMessage).show();
+                    } else {
+                        if (isVideo(file.type)) {
+                            var player = file.previewTemplate.querySelector('#dropzone-thumbnail-video');
+                            player.pause();
+                            file.previewTemplate.querySelector('#dropzone-video-mp4').src = result.fileUrl;
+                            file.previewTemplate.querySelector('#dropzone-video-ogg').src = result.fileUrl;
+                            player.load();
+                        }
+                        $(file.previewTemplate.querySelector('#dropzone-success-status')).append('Successfully uploaded').show();
+                        fileUrls.push(result.fileUrl);
+                        fileIds.push(result.id);
+                        contentType = result.contentType;
+                        height = file.height;
+                        width = file.width;
+                    }
+                });
+
+                this.on('error', function (file, result) {
+                    var error = 'Server error: ' + result.errorMessage;
+                    console.log(error);
+                    $(file.previewTemplate.querySelector('#dropzone-fail-status')).append(error).show();
+                });
+
+                this.on('complete', function (file) {
+                    $('#post-button').prop('disabled', false);
+                    $(file.previewTemplate.querySelector('#dropzone-progress-bar')).hide();
+                });
+
+                this.on('removedfile', function () {
+                    postType = "TEXT";
+                    fileUrls.pop();
+                    fileIds.pop();
+                    contentType = "";
+                    width = 0;
+                    height = 0;
+                });
+            }
+        });
+    }
+
+    function formatDate(date) {
+        var monthNames = [
+            "January", "February", "March",
+            "April", "May", "June", "July",
+            "August", "September", "October",
+            "November", "December"
+        ];
+
+        var day = date.getDate();
+        var monthIndex = date.getMonth();
+        var year = date.getFullYear();
+        return parseInt(monthIndex + 1) + '/' + day + '/' + year;
+        //return day + ' ' + monthNames[monthIndex] + ' ' + year;
+    }
+
+
+    window.twttr = (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0],
+            t = window.twttr || {};
+        if (d.getElementById(id)) return t;
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "https://platform.twitter.com/widgets.js";
+        fjs.parentNode.insertBefore(js, fjs);
+
+        t._e = [];
+        t.ready = function (f) {
+            t._e.push(f);
+        };
+
+        return t;
+    }(document, "script", "twitter-wjs"));
+
+    // Facebook
+    window.fbAsyncInit = function() {
+        fbLoaded = true;
+        FB.init({
+            appId: @*@Model.FBAppId,*@1,
+            cookie: true,  // enable cookies to allow the server to access the session
+            xfbml: true,  // parse social plugins on this page
+            version: 'v2.8'
+            });
+    };
+
+    (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }
+    (document, 'script', 'facebook-jssdk'));
+
+    $('#facebook-share-page').click(function (event) {
+        event.preventDefault(event);
+        FB.ui({
+            method: 'feed',
+            link: '@(Context.Request.Host.ToString().Contains("localhost") ? "http://leeto-staging.azurewebsites.net/" : Context.Request.Host + "/user/" + Model.Slug)',
+            picture: '@(String.IsNullOrEmpty(Model.Avatar) ? "/assets/images/logo_1024x1024.png" : Model.Avatar )',
+            name: "I just donated to " + "@(Model.FirstName + " ")" + "@Model.LastName",
+            description: "Free interest-bearing trust accounts for your child with the ability to choose your investment risk. Raise additional funds via donation on a crowdfunding page for your child.",
+            caption: "Crowdfunding the next generation!",
+        },
+            function (response) { }
+        );
+        return false;
+    });
+
+    $("#mobile-tab-1").hide()
+    $("#mobile-tab-3").hide()
+
+    $("#mobile-tab1-btn").on("click", function(){
+        $("#mobile-tab-1").show()
+        $("#mobile-tab-2").hide()
+        $("#mobile-tab-3").hide()
+        $(this).addClass("active")
+        $(this).siblings().removeClass("active")
+    })
+    $("#mobile-tab2-btn").on("click", function(){
+        $("#mobile-tab-1").hide()
+        $("#mobile-tab-2").show()
+        $("#mobile-tab-3").hide()
+        $(this).addClass("active")
+        $(this).siblings().removeClass("active")
+        console.log('this: ', this)
+    })
+    $("#mobile-tab3-btn").on("click", function(){
+        $("#mobile-tab-1").hide()
+        $("#mobile-tab-2").hide()
+        $("#mobile-tab-3").show()
+        $(this).addClass("active")
+        $(this).siblings().removeClass("active")
+    })
+
+    @*$('#facebook-share-page').click(function{
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("PostText", "FacebookApi")',
+            contentType: "application/json; charset=UTF-8",
+            data: JSON.stringify({
+                message: " ",
+                link: '@Context.Request.Host/user/@Model.Slug',
+                picture: '@Model.ImageUrl',
+                name: "Come support " + "@(Model.FirstName + " ")" + "@Model.LastName" + "!",
+                description: "Free interest-bearing trust accounts for your child with the ability to choose your investment risk. Raise additional funds via donation on a crowdfunding page for your child.",
+                caption: "Crowdfunding the next generation!"
+            }),
+            success: function (result) {
+                console.log(result);
+                if (result.success) {
+
+                } else {
+                }
+            },
+            error: function (result) {
+                console.log(result);
+            },
+        });
+    });*@
+
+}
+    //
+    var vue = new Vue({
+        el: "#vue",
+        data: {
+            model: @Json.Serialize(Model)
+        },
+        mounted: function(){
+            init()
+            console.log(@Json.Serialize(Model.CanViewProfile))
+            $("[v-cloak]").css("visibility", "visible")
+        }
+    })
+
+                </script>

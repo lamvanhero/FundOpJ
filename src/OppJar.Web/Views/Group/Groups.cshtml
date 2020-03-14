@@ -1,0 +1,278 @@
+@*@model GroupViewModel*@
+
+@{
+    Layout = "_GroupsLayout";
+}
+
+<style>
+    @@media only screen and (max-width : 767px) {
+         .about {
+             top:-90px;
+         }
+         .group-item {
+             padding-left:0px;
+         }
+         #sponsor-col {
+             height: 540px;
+         }
+         .list-item {
+             margin-top:5px !important;
+         }
+         .w-56-resp {
+             width: 36px ;
+             height:36px ;
+         }
+         #share-facebook-button, #add-photo-btn {
+             font-size: 0.75rem;
+         }
+         .sponsor-grid img{
+            max-height: 50px !important;
+            max-width: 50px !important;
+         }
+         .modal-dialog {
+             margin-top: 50px !important;
+         }
+         .rt-list {
+             padding-bottom:0px !important;
+         }
+         .sponsor-info, .sponsor-info > h6 {
+             font-size: 0.8rem !important;
+             font-weight: bolder;
+         }
+    }
+
+
+    .circlePic {
+        background: white;
+        background-image: url("/assets/images/no_image.png");
+        border: 3px solid white;
+        position: relative;
+        text-align: center;
+        width: 70%;
+
+    }
+
+    .circlePic::after {
+        content: "";
+        display: block;
+        padding-bottom: 100%;
+        background-image: url("@Model.ImageUrl");
+        background-size: cover;
+        background-position: center;
+        border-radius: 50%;
+        background-repeat: no-repeat;
+    }
+        @@media only screen and (max-width : 767px) {
+    .about{
+    display:none;
+    }
+    #sponsor-col {
+    height: 178px;
+}
+</style>
+
+<div class="row-col">
+    <div class="col-md-4 col-lg-3 m-b-0" id="sponsor-col" style="position: relative; padding-top: 70px;">
+
+        <!--Responsive Sm > -->
+        <div class="box white m-x-auto hidden-md-up" style="top:-70px">
+            <div style="max-width:460px; margin: 0 auto" class="b-b" style="border: gray">
+                <div class="row p-x p-t">
+                    <div class="col-xs-4 text-center">
+                        <img src="@Model.ImageUrl" class="img-circle avatar white" style="width: 100px; height: 100px; border: 3px solid white">
+
+                    </div>
+                    <div class="col-xs-8 text-center text-xs text-left m-t">
+                        <div><h4> @Model.Name</h4></div>
+                        <div class="p-t-xs">
+                            @if (Model.IsAdmin)
+                            {
+                                <a href="/group/settings/@Model.Slug" class="btn btn-sm rounded m-l white" style="color:gray; margin-bottom: 10px;">Edit Group</a>
+
+                            <a href="">
+                                <div class="btn text-xs rounded btn-outline  _600" style="background-color:#62B8CC; color:white">
+                                    Become a Sponsor
+                                </div>
+                            </a>
+                            }
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row p-x p-y-sm">
+
+                    @if (Model.IsAdmin)
+                    {
+                        <div class="col-xs-4 text-center">
+                            <a>
+                                <div class="text-muted text-xs">Total Balance</div>
+                                <div style="font-weight: 900 !important; font-family: roboto; font-size:18px">$@string.Format("{0:n0}", Model.CurrentSavings)</div>
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <!--/Responsive Sm-->
+
+        <div class="circlePic circle hidden-sm-down" style="z-index:500; margin-top: -160px; margin-left: 15%"></div>
+        @if (Model.CanViewProfile)
+        {
+            <div class="about padding pos-rlt" style="padding-left: 30px">
+                @*<div class="hidden-sm-down p-t-sm" style="display:flex; justify-content: center">
+                        <button class="btn btn-sm circle blue-800 m-r">
+                        <i class="fa fa-facebook-f p-r-sm"></i><span class="hidden-sm-down">Share</span>
+                        </button>
+                        <button class="btn btn-sm circle blue" href="">
+                            <i class="fa fa-twitter p-r-sm"></i><span class="hidden-sm-down">Share</span>
+                        </button>
+                    </div>*@
+
+                <p></p>
+                <div id="details">
+                    <h6>About Us</h6>
+                    <div class="center _500 b-b p-b-sm" style="border-bottom: solid 1px lightgrey">
+                        <div>
+
+                            <p class="text-muted">
+                                @Model.About
+
+                            </p>
+                            <div class="text-center m-b">
+                                @if (!Model.IsAdmin)
+                                {
+                                    <button class="btn btn-sm rounded text-center apply-to-group-btn" style="background-color:#62B8CC;  color:white">
+                                        Apply to join group
+                                    </button>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <!--<br/><br/>-->
+                    <ul class="list no-border p-b rt-list">
+                        <li class="list-item col-xs-12">
+                            <h4>Affiliated Students</h4>
+                        </li>
+                        @*@foreach (var m in Model.Members)
+                            {
+                                <div class="col-xs-6 col-sm-12 m-t">
+                                    <a href="/user/@m.Slug" style="cursor:pointer">
+                                    <div class="list-left">
+                                        <img src="@m.ImageUrl" class="w-56 w-56-resp circle" data-pin-nopin="true">
+                                    </div>
+                                    <h6 class="m-y m-l-sm"><a>@m.FirstName @m.LastName</a></h6>
+                                    </a>
+                                </div>
+                            }*@
+                        @foreach (var m in Model.Students)
+                        {
+                            <div class="col-xs-6 col-sm-12 m-t">
+                                <a href="/user/@m.Slug" style="cursor:pointer">
+                                    <div class="list-left">
+                                        <img src="@m.ImageUrl" class="w-56 w-56-resp circle" data-pin-nopin="true">
+                                    </div>
+                                    <h6 class="m-y m-l-sm"><a>@m.FirstName @m.LastName</a></h6>
+                                </a>
+                            </div>
+                        }
+                    </ul>
+
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="text-center m-y">
+                @if (!Model.IsAdmin)
+                {
+                    <button class="btn btn-sm rounded text-center apply-to-group-btn" style="background-color:#62B8CC;  color:white">
+                        Apply to join group
+                    </button>
+                }
+            </div>
+        }
+
+
+                            </div>
+                            <div class="col-md-4 col-lg-7 white" id="timeline-feed" style="border-right: 1px solid lightgrey; border-left: 1px solid lightgrey">
+
+                                @if (@Model.CanViewProfile)
+                                {
+                                    <!--Timeline-->
+                                    @*@Html.Partial("_TimelineFeed", Model)*@
+                                    @Html.Partial("_TimelineFeed")
+                                }
+                                else
+                                {
+                                    <h4 class="p-a text-center">Connect with group to see full profile</h4>
+                                }
+
+
+                            </div>
+                            <div class="col-md-4 col-lg-3">
+                                <div class="hidden-sm-down">
+                                    <div class="p-a-lg pos-rlt" style="padding:0 !important; height: 0; text-align: center">
+                                        <a href="">
+                                            <span class="btn btn-sm rounded btn-outline  _600" style="margin-top: -1.3rem; padding-left: 25px; padding-right:25px; background-color:#62B8CC; color:white">
+                                                Become a Sponsor
+                                            </span>
+                                        </a>
+                                    </div>
+
+                                    @if (Model.IsAdmin)
+                                    {
+                                        <br /><p></p>
+                                        <li class="list-group-item no-b-t b-b">
+                                            <div style="display:flex; justify-content: space-between;">
+                                                @*<a>
+                                                        <h6 class="text-muted">Activity</h6>
+                                                        <img src="/assets/icons/graph.png" style="margin-top: 4px">
+                                                    </a>*@
+                                                <a>
+                                                    <h6 class="text-muted" style="text-align:right">Total Balance</h6>
+                                                    <div style="font-weight: 900 !important; font-family: roboto; font-size:24px; margin-top:-5px">$@string.Format("{0:n0}", Model.CurrentSavings)</div>
+                                                </a>
+                                            </div>
+                                        </li>
+                                    }
+                                </div>
+                                @if (@Model.CanViewProfile)
+                                {
+                                    <!--Sponsors / Support -->
+                                    @Html.Partial("_SponsorSupport")
+                                    <!--Top Sponsors-->
+                                    @Html.Partial("_TopSponsors")
+                                    <!--Recent Sponsors-->
+                                    @Html.Partial("_RecentSponsors")
+                                }
+
+                            </div>
+                        </div>
+                        <div class="m-y"></div>
+
+                        <script type="text/javascript">
+console.log("model: ", @Json.Serialize(Model))
+    $('.apply-to-group-btn').click(function () {
+      $.ajax({
+            type: 'POST',
+            url: '@Url.Action("CreateStudentApplication", "Group")',
+            data: JSON.stringify({
+                ToId: "",
+
+            }),
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (result) {
+                if (result.success == false) {
+                    alert('Error: ' + result.errorMessage);
+                } else {
+                    alert('You have successfully applied to this group.');
+                }
+            },
+            error: function (result) {
+                console.log('Error applying for application: ' + result.responseJSON.errorMessage);
+                alert('Error: ' + result.responseJSON.errorMessage);
+            }
+        });
+    });
+                        </script>

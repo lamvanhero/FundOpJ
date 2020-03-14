@@ -1,0 +1,352 @@
+﻿
+@*@using Newtonsoft.Json
+@model Sponsor*@
+@{
+    Layout = "_Layout";
+}
+
+<style>
+    .item {
+        background: url('/assets/images/stemTeens.jpg') no-repeat fixed;
+        background-size: cover;
+        background-position: top -144px;
+    }
+
+    @@media (min-width: 1500px) {
+        .item {
+            background-size: cover;
+        }
+    }
+
+    .item-bg {
+        background: linear-gradient(to right, rgba(94,65,154,0.8), rgba(255,79,55,0.8));
+        height: 208px;
+    }
+
+
+    * {
+        font-weight: bold !important;
+    }
+
+    h4 {
+        font-size: 14pt;
+    }
+
+    p {
+        color: inherit;
+        opacity: 0.6;
+    }
+
+    .list-item {
+        margin-bottom: 3px;
+    }
+
+    #sponsor-col .list-left {
+        padding-right: 10px;
+    }
+
+    img {
+        object-fit: cover;
+    }
+
+    .rt-list > li {
+        margin-top: 20px;
+    }
+
+    #details * {
+        line-height: 28px;
+    }
+
+    .pagination li * {
+        margin: 0 10px;
+    }
+
+    .pagination a {
+        width: 34px;
+    }
+
+    .sponsor-grid div {
+        margin-bottom: 20px;
+    }
+
+    #sponsorModal {
+        font-family: "nunito-regular";
+    }
+
+    .green {
+        background-color: #62B8CC;
+    }
+</style>
+
+<div class="app center" id="vue">
+
+    <!-- ############ LAYOUT START-->
+    <!-- aside -->
+    <!-- / -->
+    <!-- content -->
+    <div id="content" class="app-content box-shadow-z0 white" role="main">
+
+
+
+        <div style="background-color: rgb(78, 117, 151); height: 56px; margin-top: 56px;">
+            <div class="p-t submenu" style="">
+                <a v-bind:href="'/sponsor/settings/'+ model.slug"><h6 style="color:#ccc">Main Settings</h6></a>
+                <a v-bind:href="'/sponsor/applications/'+ model.slug"><h6 style="color: #ccc">Applications</h6></a>
+                <a><h6 style="color: white">Fund Distribution</h6></a>
+            </div>
+        </div>
+
+        <div class="app-body white p-t-0" id="view">
+
+            <div class="row-col">
+                <div class="padding p-b-lg m-b-lg">
+                    <div class="row">
+                        <div class="col-md-10 col-md-offset-1">
+                            <div v-cloak>
+                                <div class="box-header p-b-sm">
+                                    <div class="nav-active-border b-primary ">
+                                        <ul class="nav nav-md" style="display:flex; justify-content:left">
+                                            <li class="nav-item p-r-xs">
+                                                <a class="nav-link active" href data-toggle="tab" data-target="#tab1">
+                                                    Students
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href data-toggle="tab" data-target="#tab2">
+                                                    Groups
+                                                </a>
+                                            </li>
+
+
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="tab-content">
+
+                                    <div class="list-group tab-pane active table-responsive" id="tab1">
+
+                                        <table class="table">
+                                            <tr v-for="student in students">
+                                                <td>
+                                                    <a v-bind:href="'/user/'+student.slug" target="_blank" class="w-40 m-r avatar">
+                                                        <img v-bind:src="student.imageUrl" class="img-responsive img-circle">
+                                                    </a>
+                                                </td>
+                                                <td><div style="margin-top:10px;">{{student.firstName}} {{student.lastName}}</div></td>
+                                                <td><p style="margin-top:10px">Age {{student.age}}</p></td>
+                                                <td><p style="margin-top:10px">GPA: {{student.gpa}}</p></td>
+                                                <td><p style="margin-top:10px">Location: {{student.location}}</p></td>
+                                                <td>
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon white" style="color: grey;">$</span>
+                                                        <input v-on:keyup="calculateSum" type="text" :data-studentId="student.recipientId" class="text-lg p-t-0 form-control text-right form-control text-sm studentAmount onlyNumaric" style="width:150px;border-left: 0px !important; border-top-right-radius: 5px; border-bottom-right-radius: 5px" placeholder="0">
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class="list-group tab-pane table-responsive" id="tab2">
+
+
+                                        <table class="table">
+                                            <tr v-for="group in groups">
+                                                <td>
+                                                    <a v-bind:href="'/group/'+group.slug" target="_blank" class="w-40 m-r avatar">
+                                                        <img v-bind:src="group.imageUrl" class="img-responsive img-circle">
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <div style="margin-top:10px;">{{group.name}}</div>
+                                                </td>
+                                                <td>
+                                                    <p style="margin-top:10px">Location: {{group.location}}</p>
+                                                </td>
+                                                <td>
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon white" style="color: grey;">$</span>
+                                                        <input v-on:keyup="calculateSum" type="text" :data-groupId="group.id" class="text-lg p-t-0 form-control text-right form-control text-sm studentAmount onlyNumaric" style="width:150px;border-left: 0px !important; border-top-right-radius: 5px; border-bottom-right-radius: 5px" placeholder="0">
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+
+                                </div>
+
+                                <div class="row m-t-sm">
+                                    <div class=" col-sm-9 col-sm-offset-3 p-t p-r-lg">
+
+                                        <div class="col-sm-3 p-t-sm">
+                                            Total to be distributed:
+                                        </div>
+                                        <div class="input-group col-sm-5">
+                                            <span class="input-group-addon white" style="color: grey;">$</span>
+                                            <div v-bind:value="sum" class="text-lg p-t-0 form-control text-right form-control text-sm" style="border-left: 0px !important; border-top-right-radius: 5px; border-bottom-right-radius: 5px">
+                                                {{sum}}
+                                            </div>
+                                        </div>
+                                        <div v-on:click="distributionAlert" class="btn rounded col-sm-4 pull-right text-white text-sm m-t-xs" style="min-width: 128px; background-color: #62B8CC ">Distribute Funds</div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+@section scripts{
+    <script>
+        $('#footer').on('click', function () {
+            console.log('clicked footer')
+            $('#coming-soon').css('visibility', 'visible');
+            setTimeout(function () {
+                $('#coming-soon').css('visibility', 'hidden');
+            }, 1500)
+        })
+
+        $('.logo').matchHeight();
+    </script>
+
+    <script>
+
+    $(function () {
+        $(".onlyNumaric").on('keyup', function (e) {
+            e.target.value = e.target.value.replace(/[^\d]/g, '');
+            return false;
+        });
+        $(".onlyNumaric").on('keypress', function (event) {
+            var v = !event.charCode ? event.which : event.charCode;
+            if (v != 8) {
+                var regex = new RegExp("^[0-9]+$");
+                var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+                if (!regex.test(key)) {
+                    event.preventDefault();
+                    return false;
+                }
+            }
+        });
+    });
+
+    var model = @Json.Serialize(Model);
+    var students = @Json.Serialize(ViewBag.students);
+    var groups = @Json.Serialize(ViewBag.groups);
+    var letters = "ab";
+    var numbers = "123456789";
+
+    var vue = new Vue({
+        el: "#vue",
+        data: {
+            model: model,
+            students: students,
+            groups: groups,
+            sum: 0
+        },
+        methods: {
+            calculateSum: function(event){
+                var newSum = 0;
+                $('.studentAmount').each(function () {
+                    var currentValue = parseFloat($(this).val())
+                    $(this).val(currentValue);
+                    if(currentValue){
+                        newSum += currentValue
+                    }
+                })
+                this.sum = newSum;
+            },
+            distributionAlert: function(){
+                toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": false,
+                "positionClass": "toast-bottom-right",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "100",
+                "hideDuration": "1000",
+                "timeOut": 0,
+                "extendedTimeOut": 0,
+                "hideEasing": "linear",
+                "hideMethod": "fadeOut",
+                "tapToDismiss": true
+                }
+                if (this.sum > 0) {
+                    toastr.success('Are you sure you want to distribute $' + this.sum + '?<br /><br /><button type="button" id="btnDistribute" class="btn clear">Yes</button>', 'distribute Funds?',
+                        {
+                            closeButton: true,
+                            allowHtml: true,
+                            onShown: function (toast) {
+                                $("#btnDistribute").click(function () {
+
+                                    var jsonArr = [];
+                                    var amt = 0;
+                                    $('.studentAmount').each(function () {
+                                        var studentId = $(this).attr("data-studentId");
+                                        var groupId = $(this).attr("data-groupId");
+                                        var currentValue = parseFloat($(this).val());
+                                        if (currentValue > 0) {
+                                            amt += currentValue
+                                            if (studentId != "" && studentId != undefined) {
+                                                jsonArr.push({
+                                                    Amount: currentValue,
+                                                    RecipientId: studentId,
+                                                    GroupId: ""
+                                                });
+                                            }
+                                            if (groupId != "" && groupId != undefined) {
+                                                jsonArr.push({
+                                                    Amount: currentValue,
+                                                    RecipientId: "",
+                                                    GroupId: groupId
+                                                });
+                                            }
+                                        }
+                                    })
+                                    var data = JSON.stringify({ Amount: amt, FundDistributionList: jsonArr });
+
+                                    $.ajax({
+                                        method: "POST",
+                                        url: "/sponsor/funddistribution/@Model.Slug",
+                                        contentType: "application/json",
+                                        dataType: "json",
+                                        data: data,
+                                        success: function (res) {
+
+                                            toastr.success("Thank you for Distributing funds.")
+
+                                            $('.studentAmount').val("");
+
+                                            vue.calculateSum();
+
+                                        },
+                                        error: function (jqXHR, textStatus, errorThrown) {
+                                            var error = JSON.parse(jqXHR.responseText);
+                                            toastr.error(error.message);
+                                        }
+                                    })
+                                });
+                            }
+                        });
+                } else {
+                    toastr.error("fill Distributing funds.");
+                }
+            }
+        },
+        created: function(){
+           // console.log("vue mounted, data: ", this._data)
+            // $("[v-cloak").css("visibility", "visible")
+
+        },
+    })
+    $('[ui-jp]').uiJp()
+    </script>
+}

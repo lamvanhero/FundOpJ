@@ -1,0 +1,143 @@
+@model IEnumerable<Leeto.Common.Models.Recipient>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Affiliations)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Bio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.College)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateOfBirth)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GPA)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Gender)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Interests)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsPreBirth)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Middlename)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Parent1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Parent1Note)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Parent2)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Parent2Note)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Photos)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SSN)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.School)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Videos)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Affiliations)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Bio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.College)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateOfBirth)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GPA)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Gender)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Interests)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsPreBirth)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Middlename)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Parent1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Parent1Note)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Parent2)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Parent2Note)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Photos)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SSN)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.School)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Videos)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.RecipientId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.RecipientId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.RecipientId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

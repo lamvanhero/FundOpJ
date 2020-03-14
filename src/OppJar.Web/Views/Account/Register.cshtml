@@ -1,0 +1,403 @@
+﻿@model OppJar.Web.Models.RegisterViewModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up - OPPJAR</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css"
+          rel="stylesheet" />
+
+    <link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/custom.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/main.css" asp-append-version="true" />
+</head>
+<body>
+    <div class="signup-page">
+        <div class="container-fluid">
+            <img class="logo"
+                 src="~/img/oppjar-logo-white.png"
+                 alt="oppjar" />
+            <div class="signup-form">
+                <form id="onboarding-form" method="POST" asp-action="Register" asp-controller="Account">
+                    <div class="signup-form-input">
+                        <h2>CREATE AN ACCOUNT</h2>
+                        <p class="note">
+                            Already have an account <a asp-action="Signin">Sign In</a>
+                        </p>
+                        <section>
+                            <h3>Sign-in information</h3>
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                            <div class="form-group has-error">
+                                <label for="email">Email</label>
+                                <input type="email"
+                                       asp-for="Email"
+                                       id="email"
+                                       class="form-control"
+                                       placeholder="Email" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-sm-6">
+                                    <div class="form-group mb-0">
+                                        <label for="password">Password</label>
+                                        <div class="input-group hideOnEdge">
+                                            <input type="password"
+                                                   asp-for="Password"
+                                                   id="password"
+                                                   class="form-control"
+                                                   placeholder="Password" />
+                                            <div class="input-group-append">
+                                                <span class="icon-eye-show pointer icon-toggle-password"
+                                                      toggle="#password"></span>
+                                            </div>
+                                        </div>
+                                        <span asp-validation-for="Password" class="text-danger"></span>
+                                    </div>
+                                    <div class="input-field-note">
+                                        <div class="form-row">
+                                            <div class="col-sm-6">
+                                                <p class="mb-0">Passwords must be at least:</p>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <p class="mb-0">
+                                                    - 6 characters<br />- 1 non alphanumeric
+                                                    character<br />- 1 lowercase ('a'-'b')<br />- 1
+                                                    uppercase ('A'-'Z')
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group mb-0">
+                                        <label for="confirm_password">Confirm Password</label>
+                                        <div class="input-group hideOnEdge">
+                                            <input type="password"
+                                                   asp-for="ConfirmPassword"
+                                                   id="confirm_password"
+                                                   class="form-control"
+                                                   placeholder="Confirm Password" />
+                                            <div class="input-group-append">
+                                                <span class="icon-eye-show pointer icon-toggle-password"
+                                                      toggle="#confirm_password"></span>
+                                            </div>
+                                        </div>
+                                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="line-break"></div>
+                        </section>
+
+                        <section>
+                            <h3>Type of Account</h3>
+                            <div class="checkbox-section">
+                                <input class="form-check-input custom-radio"
+                                       type="radio"
+                                       asp-for="UserType"
+                                       value="@UserType.Parent"
+                                       id="parent" />
+                                <label class="form-check-label" for="parent">
+                                    <strong>@UserType.Parent</strong>
+                                    <p>
+                                        A parent can create a child account and can give gifts to
+                                        other children in Oppjar
+                                    </p>
+                                </label>
+                                <input class="form-check-input custom-radio"
+                                       type="radio"
+                                       asp-for="UserType"
+                                       value="@UserType.Giver"
+                                       id="giver" />
+                                <label class="form-check-label" for="giver">
+                                    <strong>@UserType.Giver</strong>
+                                    <p>
+                                        A giver can give gifts to relative's children and others
+                                    </p>
+                                </label>
+                            </div>
+                        </section>
+
+                        <section>
+                            <h3>Personal information</h3>
+                            <div class="form-row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="first_name">First Name</label>
+                                        <input type="text"
+                                               asp-for="FirstName"
+                                               id="first_name"
+                                               class="form-control"
+                                               placeholder="First Name" />
+                                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group mb-0">
+                                        <label for="last_name">Last Name</label>
+                                        <input type="text"
+                                               asp-for="LastName"
+                                               id="last_name"
+                                               class="form-control"
+                                               placeholder="Last Name" />
+                                        <span asp-validation-for="LastName" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 giver-hide">
+                                    <div class="form-group mb-0">
+                                        <label for="birthday">Birthday</label>
+                                        <div class="input-group hideOnEdge">
+                                            <input type="date"
+                                                   asp-for="DOB"
+                                                   class="form-control"
+                                                   placeholder="02/02/2020"
+                                                   id="birthday" />
+                                            <span asp-validation-for="DOB" class="text-danger"></span>
+                                            <div class="input-group-append">
+                                                <span class="icon-calendar"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 giver-hide">
+                                    <div class="form-group">
+                                        <label for="ssn">SSN</label>
+                                        <input type="text"
+                                               asp-for="SSN"
+                                               class="form-control text-center"
+                                               id="ssn"
+                                               data-format="*** ** ****"
+                                               data-mask="*** ** ****" />
+                                        <span asp-validation-for="SSN" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group giver-hide">
+                                <label for="address_">Address 1</label>
+                                <input type="text"
+                                       asp-for="PrimaryAddress"
+                                       id="address_1"
+                                       class="form-control"
+                                       placeholder="Address 1" />
+                                <span asp-validation-for="PrimaryAddress" class="text-danger"></span>
+                            </div>
+                            <div class="form-group giver-hide">
+                                <label for="address_2">Address 2</label>
+                                <input type="text"
+                                       asp-for="SecondAddress"
+                                       id="address_2"
+                                       class="form-control"
+                                       placeholder="Address 2" />
+                            </div>
+                            <div class="form-row giver-hide">
+                                <div class="col-sm-4">
+                                    <div class="form-group mb-0">
+                                        <label for="state">State</label>
+                                        <input type="hidden" id="hid-state" asp-for="State" />
+                                        <select class="select-2-state form-control"
+                                                id="state"
+                                                asp-for="State"
+                                                asp-items="@(ViewBag.States)">
+                                            <option>Please select state</option>
+                                        </select>
+                                        <span asp-validation-for="State" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group mb-0">
+                                        <label for="state">City</label>
+                                        <input type="hidden" id="hid-city" asp-for="City" />
+                                        <select class="select-2-city form-control"
+                                                asp-for="City"
+                                                id="city"
+                                                asp-items="@ViewBag.Cities">
+                                            <option>Please select city</option>
+                                        </select>
+                                        <span asp-validation-for="City" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group mb-0">
+                                        <label for="zipcode">ZipCode</label>
+                                        <input type="text"
+                                               asp-for="ZipCode"
+                                               id="zipcode"
+                                               class="form-control"
+                                               placeholder="Zipcode" />
+                                        <span asp-validation-for="ZipCode" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="line-break"></div>
+                        </section>
+                    </div>
+
+                    <div class="signup-form-button">
+                        <div class="form-row">
+                            <div class="col-sm-6">
+                                <a href="/" class="form-btn btn btn-cancel">Cancel</a>
+                            </div>
+                            <div class="col-sm-6">
+                                <button type="submit" class="form-btn btn-submit">
+                                    Create
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $(".icon-toggle-password").click(function () {
+                if ($(this).hasClass("icon-eye-show")) {
+                    $(this).removeClass("icon-eye-show");
+                    $(this).addClass("icon-eye-unshow");
+                } else {
+                    $(this).removeClass("icon-eye-unshow");
+                    $(this).addClass("icon-eye-show");
+                }
+                var input = $($(this).attr("toggle"));
+                if (input.attr("type") == "password") {
+                    input.attr("type", "text");
+                } else {
+                    input.attr("type", "password");
+                }
+            });
+
+            document.querySelectorAll("[data-mask]").forEach(function (e) {
+                function format(elem) {
+                    const val = doFormat(elem.value, elem.getAttribute("data-format"));
+                    elem.value = doFormat(
+                        elem.value,
+                        elem.getAttribute("data-format"),
+                        elem.getAttribute("data-mask")
+                    );
+
+                    if (elem.createTextRange) {
+                        var range = elem.createTextRange();
+                        range.move("character", val.length);
+                        range.select();
+                    } else if (elem.selectionStart) {
+                        elem.focus();
+                        elem.setSelectionRange(val.length, val.length);
+                    }
+                }
+                e.addEventListener("keyup", function () {
+                    format(e);
+                });
+                e.addEventListener("keydown", function () {
+                    format(e);
+                });
+                format(e);
+            });
+
+            $(".select-2-state").select2();
+            $(".select-2-city").select2();
+            getCitiesByState($('.select-2-state option:first').val().split('-')[0]);
+            // hide icon from edge
+            var isEdge = navigator.userAgent.indexOf("Edg") != -1;
+            if (isEdge) {
+                $(".hideOnEdge").removeClass("input-group");
+                $(".icon-eye-show").addClass("d-none");
+                $(".icon-calendar").addClass("d-none");
+            }
+
+            if ($('input[name="Type"]:checked').val() === 'Giver') {
+                $('.giver-hide').addClass('collapse');
+            } else {
+                $('.giver-hide').removeClass('collapse');
+            }
+
+        });
+
+        function doFormat(x, pattern, mask) {
+            var strippedValue = x.replace(/[^0-9]/g, "");
+            var chars = strippedValue.split("");
+            var count = 0;
+
+            var formatted = "";
+            for (var i = 0; i < pattern.length; i++) {
+                const c = pattern[i];
+                if (chars[count]) {
+                    if (/\*/.test(c)) {
+                        formatted += chars[count];
+                        count++;
+                    } else {
+                        formatted += c;
+                    }
+                } else if (mask) {
+                    if (mask.split("")[i]) formatted += mask.split("")[i];
+                }
+            }
+            return formatted;
+        }
+
+        $('#state').on('change', function () {
+            $('#hid-state').val(this.value);
+            getCitiesByState(this.value);
+        });
+
+        $('#city').on('change', function () {
+            $('#hid-city').val(this.value);
+        });
+
+        $('input[type=radio][name=UserType]').change(function () {
+            if ($('input[name="UserType"]:checked').val() === 'Giver') {
+                $('.giver-hide').addClass('collapse');
+            } else {
+                $('.giver-hide').removeClass('collapse');
+            }
+        });
+
+        function getCitiesByState(stateId) {
+            $.ajax({
+                type: "GET",
+                url: "/account/getcitiesbystate?stateId=" + stateId,
+                success: function (data, status) {
+                    if (data.length > 0) {
+                        $('#city')
+                            .find('option')
+                            .remove()
+                            .end();
+                        const select = $("#city");
+                        data.forEach(
+                            data =>
+                                select.append(
+                                    '<option value="' +
+                                    data.name +
+                                    '">'
+                                    + data.name
+                                    + '</option>'
+                                )
+                        );
+                        $('#hid-city').val(data[0].name);
+                    }
+                },
+                error: function (error) {
+                }
+            });
+        }
+    </script>
+    @if (ViewBag.JavaScriptFunction != null)
+    {
+        <script type="text/javascript">
+            @Html.Raw(ViewBag.JavaScriptFunction)
+        </script>
+    }
+</body>
+</html>

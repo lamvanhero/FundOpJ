@@ -1,0 +1,83 @@
+@model Leeto.Common.ViewModels.CreateDonationWithNewCardViewModel
+
+@{
+    ViewData["Title"] = "Donate";
+}
+
+<h2>Donate</h2>
+
+<form asp-action="DonateAndAddCard">
+    <div class="form-horizontal">
+        <h4>CreateDonationViewModel</h4>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+
+        <div class="form-group">
+            <label asp-for="Amount" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Amount" class="form-control" />
+                <span asp-validation-for="Amount" class="text-danger"></span>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label asp-for="Note" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Note" class="form-control" />
+                <span asp-validation-for="Note" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Name" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Number" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Number" class="form-control" />
+                <span asp-validation-for="Number" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="ExpirationYear" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="ExpirationYear" class="form-control" />
+                <span asp-validation-for="ExpirationYear" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="ExpirationMonth" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="ExpirationMonth" class="form-control" />
+                <span asp-validation-for="ExpirationMonth" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Cvc" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Cvc" class="form-control" />
+                <span asp-validation-for="Cvc" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Donate" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

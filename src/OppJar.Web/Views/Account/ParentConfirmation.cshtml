@@ -1,0 +1,39 @@
+﻿@model ParentConfirmViewModel
+@{
+    ViewData["Title"] = "Parent Confirmation";
+    var email = @Context.Request.Query["email"];
+    var tokenEn = string.Empty;
+    var token = @Context.Request.Query["token"];
+    if (!string.IsNullOrEmpty(token))
+    {
+        tokenEn = Uri.EscapeDataString(token);
+    }
+}
+
+<div class="app center">
+    <div id="content" class="app-content box-shadow-z0 white" role="main">
+        <div class="app-body white p-t-lg" id="view">
+            <div class="row-col">
+                <div class="padding">
+                    <div class="row center m-x-auto">
+                        <form id="ParentConfirm" method="post" asp-action="ParentConfirmation" asp-controller="Account">
+                            <h2>@ViewData["Title"].</h2>
+                            <input type="hidden" asp-for="Email" value="@email" />
+                            <input type="hidden" asp-for="Token" value="@tokenEn" />
+                            <div class="col-md-5"></div>
+                            <div class="col-md-2 text-center">
+                                <div asp-validation-summary="All" class="text-danger"></div>
+                            </div>
+                            <div class="col-md-6 p-x-lg">
+                                <a href="/" class="pull-right btn btn-sm rounded grey" style="width: 100px">Cancel</a>
+                            </div>
+                            <div class="col-md-6 p-x-lg">
+                                <button type="submit" class="pull-left btn btn-sm rounded green">Confirm</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

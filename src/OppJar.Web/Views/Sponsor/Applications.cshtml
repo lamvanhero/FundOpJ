@@ -1,0 +1,290 @@
+﻿@*@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+@using Newtonsoft.Json
+@model SponsorSettingsViewModel*@
+@{
+    Layout = "_Layout";
+}
+
+<style>
+    .item {
+        background: url('/assets/images/stemTeens.jpg') no-repeat fixed;
+        background-size: cover;
+        background-position: top -144px;
+    }
+
+    @@media (min-width: 1500px) {
+        .item {
+            background-size: cover;
+        }
+    }
+
+    .item-bg {
+        background: linear-gradient(to right, rgba(94,65,154,0.8), rgba(255,79,55,0.8));
+        height: 208px;
+    }
+
+
+    * {
+        font-weight: bold !important;
+    }
+
+    h4 {
+        font-size: 14pt;
+    }
+
+    p {
+        color: inherit;
+        opacity: 0.6;
+    }
+
+    .list-item {
+        margin-bottom: 3px;
+    }
+
+    #sponsor-col .list-left {
+        padding-right: 10px;
+    }
+
+    img {
+        object-fit: cover;
+    }
+
+    .rt-list > li {
+        margin-top: 20px;
+    }
+
+    #details * {
+        line-height: 28px;
+    }
+
+    .pagination li * {
+        margin: 0 10px;
+    }
+
+    .pagination a {
+        width: 34px;
+    }
+
+    .sponsor-grid div {
+        margin-bottom: 20px;
+    }
+
+    #sponsorModal {
+        font-family: "nunito-regular";
+    }
+
+    .green {
+        background-color: #62B8CC;
+    }
+</style>
+
+<link rel="stylesheet" href="~/libs/jquery/footable/css/footable.core.standalone.min.css" />
+<link rel="stylesheet" href="~/libs/jquery/footable/css/footable.filtering.min.css" />
+<link rel="stylesheet" href="~/libs/jquery/footable/css/footable.sorting.min.css" />
+<link rel="stylesheet" href="~/libs/jquery/footable/css/footable.paging.min.css" />
+<style>
+    .footable-filtering-search .btn.dropdown-toggle {
+        display: none;
+    }
+</style>
+
+<div class="app center" id="vue">
+
+    <!-- ############ LAYOUT START-->
+    <!-- aside -->
+    <!-- / -->
+    <!-- content -->
+    <div id="content" class="app-content box-shadow-z0 white" role="main">
+
+
+
+        <div style="background-color: rgb(78, 117, 151); height: 56px; margin-top: 56px;">
+            <div class="p-t submenu" style="">
+                <a v-bind:href="'/sponsor/settings/'+ model.slug"><h6 style="color:#ccc">Main Settings</h6></a>
+                <div><h6 style="color: white">Applications</h6></div>
+                <a v-bind:href="'/sponsor/funddistribution/'+ model.slug"><h6 style="color: #ccc">Fund Distribution</h6></a>
+            </div>
+        </div>
+
+        <div class="app-body white p-t-0" id="view">
+
+            <div class="row-col">
+                <div class="m-b-lg">
+                    <div class="row">
+                        <div class="col-md-10 col-md-offset-1">
+                            <div>
+                                <div class="box-header">
+                                    <h3 class="text-primary">@(Model.FriendRequestList != null ? Model.FriendRequestList.Count() : 0) Pending Requests</h3>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-10 col-md-offset-1 table-responsive">
+                            <table class="table">
+                                <tbody>
+                                    @if (Model.FriendRequestList != null)
+                                    {
+                                        foreach (var Inv in Model.FriendRequestList)
+                                        {
+                                            <tr id="tr_@Inv.FriendRequestId">
+                                                <td>
+                                                    <a href="#" class="avatar w-30 white" style="min-width:40px;">
+                                                        <img src="@Inv.RequestedSponsor.ImageUrl" class="img-responsive img-circle">
+                                                    </a>
+
+                                                </td>
+                                                <td>@Inv.RequestedSponsor.FirstName @Inv.RequestedSponsor.LastName</td>
+                                                <td>Sponsor</td>
+                                                <td>Location: @Inv.RequestedSponsor.Location</td>
+                                                <td><a style="color: #4f87b8" data-Id="@Inv.FriendRequestId" data-Deny="True" data-Accept="False" onclick="AcceptDenyFriendRequest(this)">Deny</a></td>
+                                                <td><a style="color:#6DBF13" data-Id="@Inv.FriendRequestId" data-Deny="False" data-Accept="True" onclick="AcceptDenyFriendRequest(this)">Accept</a></td>
+                                            </tr>
+                                        }
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="row-col">
+                <div class="m-b-lg">
+                    <div class="row">
+                        <div class="col-md-10 col-md-offset-1">
+                            <div>
+                                <div class="box-header">
+                                    <h3 class="text-primary">Accepted friend Requests</h3>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-10 col-md-offset-1">
+                            <table id="RecTable" class="table m-b-none footable-loaded footable tablet breakpoint" data-paging="true" data-filtering="true" data-sorting="true" data-state="true" data-paging-size="5">
+                                <thead>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section scripts{
+    <script>
+        $('#footer').on('click', function () {
+            console.log('clicked footer')
+            $('#coming-soon').css('visibility', 'visible');
+            setTimeout(function () {
+                $('#coming-soon').css('visibility', 'hidden');
+            }, 1500)
+        })
+
+        $('.logo').matchHeight();
+    </script>
+
+    <script src="~/libs/jquery/footable/dist/footable.all.min.js"></script>
+    <script src="~/libs/jquery/footable/dist/footable.core.min.js"></script>
+    <script src="~/libs/jquery/footable/dist/footable.filtering.min.js"></script>
+    <script src="~/libs/jquery/footable/dist/footable.paging.min.js"></script>
+    <script src="~/libs/jquery/footable/dist/footable.sorting.min.js"></script>
+
+    <script>
+    var model = @Json.Serialize(Model)
+    @*var user = @Json.Serialize(await UserManager.GetUserAsync(User)) || {}*@
+
+    var vue = new Vue({
+        el: "#vue",
+        data: {
+            model: model,
+            user: user
+        },
+        mounted: function(){
+            console.log("vue mounted, data: ", this._data)
+        },
+    })
+    $('[ui-jp]').uiJp()
+
+    function AcceptDenyFriendRequest($this) {
+        var id = $($this).attr("data-Id");
+        var Deny = $($this).attr("data-Deny");
+        var Accept = $($this).attr("data-Accept");
+        var jsonObject = {
+            InvitationId: id,
+            IsAccepted: Accept,
+            IsDeny: Deny,
+        };
+        $.ajax({
+            type: 'Get',
+            @*url: '@Url.Action("AcceptDenyFriendRequest", "Sponsor")',*@
+            data: jsonObject,
+            datatype: 'json',
+            contentType: "application/json; charset=UTF-8",
+            success: function (result) {
+                $("#tr_" + id).remove();
+                if (Deny=="True")
+                    alert("Friend Request Deny successfully");
+                if (Accept == "True") {
+                    alert("Friend Request Accept successfully");
+                    GetRecGrid();
+                }
+            },
+            error: function (result) {
+                console.log('ERROR ajax: ' + result.errorMessage);
+            }
+        });
+    }
+
+
+    var RecTable = FooTable.init("#RecTable", {
+        "columns": [
+            { "name": "image", "title": "", "type": "html" },
+            { "name": "name", "title": "Name" }
+        ],
+        "paging": {
+            "size": 5
+        }
+    });
+    jQuery(function ($) {
+        GetRecGrid();
+    });
+
+    function GetRecGrid() {
+
+        $.ajax({
+            method: "GET",
+            contentType: "application/JSON",
+            data: {  },
+            url: "/sponsor/AcceptedRequests/@Model.Slug",
+            success: function (res) {
+                var resData = res;
+
+                for (var i = 0; i < resData.length; i++) {
+                    //resData[i].image = `<span class=\"avatar w-30 white\"><a target='_black' href=\"/sponsor/` + resData[i].slug + `\"><img src=\"` + (resData[i].imageUrl || '/assets/images/p0.jpg') + `\"></a></span>`;//link w/ slug
+                    resData[i].name = resData[i].firstName + ' ' + resData[i].lastName;
+
+                }
+
+
+                RecTable.rows.load(resData);
+
+
+            },
+            error: function (err) {
+                console.log("There was an error: ", err);
+            }
+        })
+    }
+
+    </script>
+}

@@ -1,0 +1,175 @@
+﻿@model PublicPageViewModel
+
+@{
+    Layout = "_MemoryLayout";
+    ViewData["Title"] = "Public Page";
+}
+
+<style type="text/css">
+    .input-group .input-group-append {
+        position: absolute;
+        right: 0px !important;
+        top: 0px !important;
+    }
+</style>
+
+@{
+    var eventImage = string.Empty;
+    var eventTitle = string.Empty;
+    var eventDesc = string.Empty;
+
+    if (Model.IsEdit)
+    {
+        eventImage = string.IsNullOrEmpty(Model.Event.UrlPhotos) ? "/img/default-cover.png" : Model.Event.UrlPhotos;
+        eventTitle = string.IsNullOrEmpty(Model.Event.Title) ? "[EVENT NAME]" : Model.Event.Title;
+        eventDesc = string.IsNullOrEmpty(Model.Event.Description) ? "[EVENT DESCRIPTION]" : Model.Event.Description;
+    }
+    else
+    {
+        eventImage = string.IsNullOrEmpty(Model.Donation.UrlPhotos) ? "/img/default-cover.png" : Model.Donation.UrlPhotos;
+        eventTitle = string.IsNullOrEmpty(Model.Donation.Title) ? "[EVENT NAME]" : Model.Donation.Title;
+        eventDesc = string.IsNullOrEmpty(Model.Donation.Description) ? "[EVENT DESCRIPTION]" : Model.Donation.Description;
+    }
+}
+
+<div class="child-page">
+    <div class="main-content col-md-8 offset-md-2">
+        <div class="timeline-section">
+            <div class="card">
+                <div class="card-body">
+                    <form id="eventForm">
+                        <input type="hidden" asp-for="Event.Id" />
+                        <input type="hidden" asp-for="Event.UserId" id="user-id" />
+                        <input type="hidden" asp-for="ReturnUrl" />
+                        @Html.AntiForgeryToken()
+                        @if (Model.IsEdit)
+                        {
+                            <div class="form-group">
+                                <input type="text" asp-for="Event.Title" class="form-control text-sm" placeholder="Type event name">
+                                <span asp-validation-for="Event.Title" class="text-danger"></span>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="row">
+                                <div class="col-md-6 offset-md-3 text-center">
+                                    <h1>@eventTitle</h1>
+                                </div>
+                            </div>
+                        }
+                        <div class="form-group">
+                            <img id="event-image" src="@eventImage" style="width: 100%;" />
+                        </div>
+                        @if (Model.IsEdit)
+                        {
+                            <div class="form-group">
+                                <input type="file" id="file-upload-event" value="Upload event photo" />
+                                <span asp-validation-for="Event.UrlPhotos" class="text-danger"></span>
+                                <input type="hidden" asp-for="Event.UrlPhotos" id="url-event-photo" />
+                            </div>
+                        }
+                        @if (!Model.IsEdit)
+                        {
+                            <div class="form-group">
+                                <input type="hidden" asp-for="Donation.CreatedBy" />
+                                <label class="form-control-label">Your Name: <strong class="text-danger">*</strong></label>
+                                <input type="text" asp-for="Donation.SenderName" class="form-control text-sm" id="senderName" placeholder="Your Name">
+                                <span asp-validation-for="Donation.SenderName"></span>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label">Email Address: <strong class="text-danger">*</strong></label>
+                                <input type="email" asp-for="Donation.Email" class="form-control text-sm" id="email" placeholder="Email Address">
+                                <span asp-validation-for="Donation.Email"></span>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label">
+                                    @eventDesc
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" asp-for="Donation.Message" class="form-control text-sm" placeholder="Your Message to ">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label">I would like to donate to: <strong class="text-danger">*</strong></label>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">$</span>
+                                            </div>
+                                            <input type="number" asp-for="Donation.Amount" id="totalBalance" class="form-control" placeholder="Amount ($)" aria-label="Amount (to the nearest dollar)">
+                                            <span asp-validation-for="Donation.Amount"></span>
+                                            <div class="input-group-append">
+                                                <span class="input-group-text">.00</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label id="totalBalance-error" style="display: none">Amount must be greater than 0.</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label">Card detail:</label>
+                                <div id="card-element">
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="form-group">
+                                <textarea asp-for="Event.Description" class="form-control text-sm" placeholder="Type event description" rows="5"></textarea>
+                                <span asp-validation-for="Event.Description" class="text-danger"></span>
+                            </div>
+                        }
+                        <div class="text-right">
+                            @if (Model.IsEdit)
+                            {
+                                <a href="@Url.Action("Dashboard","Account")" class="btn btn-secondary">Cancel</a>
+                                <button type="button" class="btn btn-primary" onclick="eventManage.saveChange()">Save</button>
+                                <a href="@Url.Action("PreviewPublicPage", "Account")" class="btn btn-success">Preview</a>
+                            }
+                            else
+                            {
+                                <button type="button" onclick="eventManage.donate();" class="btn btn-primary">Give</button>
+                            }
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer">
+                    <div class="col text-justify">
+                        <label class="form-control-label"><strong>About OppJar</strong></label>
+                        <label class="form-control-label">
+                            OppJar, short for Opportunity Jar, is an exciting startup recently founded by Danny and one of his MIT classmates as a way to help parents save for their child’s future.
+                            With OppJar, parents can instantly create a free “OppJar Fund” for their child. These funds are similar to a trust fund, but do not require an upfront cost or minimum balance.
+                        </label>
+                        <label class="form-control-label">
+                            Social media savvy parents can then utilize OppJar's patent pending technology to connect their child’s OppJar Fund to friends and family.
+                            Each posting on social media becomes yet another opportunity to receive contributions to their child’s OppJar Fund.
+                            To learn more about OppJar, please <a style="color: blue" href="https://vimeo.com/293434321" target="_blank">click here</a>.
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/js/app/file-manage.js" asp-append-version="true"></script>
+    <script src="~/js/app/event-manage.js" asp-append-version="true"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="~/js/app/stripe-manage.js" asp-append-version="true"></script>
+    <script>
+        eventManage.init();
+    </script>
+    @if (!Model.IsEdit)
+    {
+        <script>
+            stripeManage.init({ publicKey: '@ViewBag.PublishableKey'});
+        </script>
+    }
+}
+
